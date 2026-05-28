@@ -1,0 +1,2976 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculadora de Apalancamiento Inmobiliario</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f7f7f5;
+    --surface: #ffffff;
+    --surface2: #f2f2ef;
+    --surface3: #e8e8e4;
+    --border: rgba(0,0,0,0.07);
+    --border-bright: rgba(0,0,0,0.14);
+    --accent: #1a7a3c;
+    --accent-dim: rgba(26,122,60,0.08);
+    --accent-dim2: rgba(26,122,60,0.04);
+    --text: #111111;
+    --text-muted: #555;
+    --text-dim: #999;
+    --red: #c0392b;
+    --red-dim: rgba(192,57,43,0.08);
+    --blue: #1a5fa8;
+    --blue-dim: rgba(26,95,168,0.08);
+    --gold: #b07d1a;
+    --gold-dim: rgba(176,125,26,0.08);
+    --radius: 12px;
+    --radius-lg: 18px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* No background pattern */
+
+  .container {
+    position: relative;
+    z-index: 1;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 3rem 2rem 5rem;
+  }
+
+  /* Header */
+  .header {
+    margin-bottom: 3rem;
+  }
+  .header-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+  }
+  .header h1 {
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    color: var(--text);
+  }
+  .header h1 span { color: var(--accent); }
+  .header p {
+    margin-top: 0.75rem;
+    color: var(--text-muted);
+    font-size: 15px;
+    font-weight: 400;
+    max-width: 520px;
+    line-height: 1.6;
+  }
+
+  /* Layout */
+  .layout {
+    display: grid;
+    grid-template-columns: 380px 1fr;
+    gap: 1.5rem;
+    align-items: start;
+  }
+
+  @media (max-width: 860px) {
+    .layout { grid-template-columns: 1fr; }
+  }
+
+  /* Cards */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+  .card-title {
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 1.25rem;
+  }
+
+  /* Inputs */
+  .field {
+    margin-bottom: 1.25rem;
+  }
+  .field label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+  .field label .value {
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    color: var(--accent);
+    font-weight: 400;
+  }
+
+  input[type=range] {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 3px;
+    background: var(--surface3);
+    border-radius: 2px;
+    outline: none;
+    cursor: pointer;
+  }
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 3px rgba(26,122,60,0.15);
+    cursor: pointer;
+    transition: transform 0.15s;
+  }
+  input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.25); }
+  input[type=range]::-moz-range-thumb {
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: none;
+    cursor: pointer;
+  }
+
+  .track-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+    font-family: 'DM Mono', monospace;
+    color: var(--text-dim);
+    margin-top: 4px;
+  }
+
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 1.25rem 0;
+  }
+
+  /* Section label */
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+    margin-top: 0.25rem;
+  }
+  .section-label .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+  }
+  .dot-green { background: var(--accent); }
+  .dot-blue { background: var(--blue); }
+  .dot-gold { background: var(--gold); }
+  .dot-red { background: var(--red); }
+
+  /* Right panel */
+  .right-panel { display: flex; flex-direction: column; gap: 1.5rem; }
+
+  /* Summary bar */
+  .summary-bar {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1.25rem 1.5rem;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+  @media (max-width: 600px) {
+    .summary-bar { grid-template-columns: 1fr 1fr; }
+  }
+
+  .metric {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .metric-label {
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    color: var(--text-dim);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .metric-value {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1;
+  }
+  .metric-sub {
+    font-size: 11px;
+    color: var(--text-dim);
+    font-family: 'DM Mono', monospace;
+  }
+  .green { color: var(--accent); }
+  .blue { color: var(--blue); }
+  .gold { color: var(--gold); }
+  .red { color: var(--red); }
+  .white { color: var(--text); }
+
+  /* Flow diagram */
+  .flow-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+
+  .flow {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .flow-row {
+    display: grid;
+    grid-template-columns: 1fr 24px 1fr;
+    align-items: center;
+    gap: 0;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .flow-row:last-child { border-bottom: none; }
+
+  .flow-left {
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+  .flow-right {
+    font-size: 14px;
+    font-weight: 600;
+    text-align: right;
+    font-family: 'DM Mono', monospace;
+  }
+  .flow-arrow {
+    text-align: center;
+    font-size: 14px;
+    color: var(--text-dim);
+  }
+
+  /* Breakdown */
+  .breakdown-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+  @media (max-width: 600px) { .breakdown-grid { grid-template-columns: 1fr; } }
+
+  .breakdown-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.25rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .breakdown-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+  }
+  .bc-green::before { background: var(--accent); }
+  .bc-blue::before { background: var(--blue); }
+  .bc-gold::before { background: var(--gold); }
+  .bc-total::before { background: linear-gradient(90deg, var(--accent), var(--blue)); }
+
+  .bc-label {
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    color: var(--text-dim);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .bc-value {
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    margin-bottom: 4px;
+  }
+  .bc-detail {
+    font-size: 11px;
+    color: var(--text-dim);
+    font-family: 'DM Mono', monospace;
+    line-height: 1.6;
+  }
+
+  /* Return bar visual */
+  .return-bar-wrap {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+
+  .bar-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+  .bar-label {
+    font-size: 12px;
+    font-family: 'DM Mono', monospace;
+    color: var(--text-muted);
+    min-width: 120px;
+  }
+  .bar-track {
+    flex: 1;
+    height: 8px;
+    background: var(--surface3);
+    border-radius: 4px;
+    overflow: visible;
+    position: relative;
+  }
+  .bar-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.4s cubic-bezier(0.4,0,0.2,1);
+    min-width: 4px;
+  }
+  .bar-val {
+    font-size: 12px;
+    font-family: 'DM Mono', monospace;
+    min-width: 80px;
+    text-align: right;
+  }
+
+  /* Warning box */
+  .warning-box {
+    background: var(--red-dim);
+    border: 1px solid rgba(255,87,87,0.2);
+    border-radius: var(--radius);
+    padding: 1rem 1.25rem;
+    font-size: 12px;
+    color: var(--red);
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    line-height: 1.6;
+  }
+  .warning-box.hidden { display: none; }
+
+  /* Scenario tabs */
+  .tabs {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 1.25rem;
+  }
+  .tab {
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text-muted);
+    transition: all 0.2s;
+    font-family: 'Syne', sans-serif;
+    letter-spacing: 0.02em;
+  }
+  .tab:hover { border-color: var(--border-bright); color: var(--text); }
+  .tab.active {
+    background: var(--accent-dim);
+    border-color: rgba(200,255,87,0.3);
+    color: var(--accent);
+  }
+
+  .animate-in {
+    animation: fadeUp 0.5s ease both;
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .tag-pill {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-size: 10px;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.05em;
+    font-weight: 500;
+  }
+  .pill-green { background: var(--accent-dim); color: var(--accent); }
+  .pill-red   { background: var(--red-dim); color: var(--red); }
+  .pill-gold  { background: var(--gold-dim); color: var(--gold); }
+
+  /* toggle helpers */
+  .show-positive { display: block; }
+  .show-negative { display: none; }
+
+  /* Comparison section */
+  .comparison-section { margin-top: 2.5rem; }
+  .comparison-header { display: flex; align-items: center; gap: 16px; margin-bottom: 1.5rem; }
+  .comparison-header h2 { font-size: 18px; font-weight: 700; letter-spacing: -0.02em; }
+  .vs-badge {
+    background: var(--surface3); color: var(--text-muted);
+    font-family: 'DM Mono', monospace; font-size: 11px;
+    padding: 3px 10px; border-radius: 999px; letter-spacing: 0.1em;
+  }
+  .comparison-grid {
+    display: grid; grid-template-columns: 1fr 1fr 1fr;
+    gap: 1.25rem; margin-bottom: 1.25rem;
+  }
+  @media (max-width: 900px) { .comparison-grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 600px) { .comparison-grid { grid-template-columns: 1fr; } }
+
+  .scenario-card {
+    border-radius: var(--radius-lg); border: 1px solid var(--border);
+    padding: 1.5rem; box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    position: relative; overflow: hidden; background: var(--surface);
+  }
+  .scenario-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  }
+  .sc-apalancado::before { background: linear-gradient(90deg, #1a7a3c, #1a5fa8); }
+  .sc-sindeuda::before { background: #bbb; }
+  .sc-financiero::before { background: #b07d1a; }
+
+  /* CAGR expandable breakdown */
+  .cagr-row { cursor: pointer; user-select: none; }
+  .cagr-row:hover { background: var(--surface2); border-radius: 4px; }
+  .cagr-toggle { font-size: 10px; color: var(--text-dim); margin-left: 4px; transition: transform 0.2s; display: inline-block; }
+  .cagr-toggle.open { transform: rotate(90deg); }
+  .cagr-breakdown {
+    display: none; padding: 10px 0 4px;
+    border-bottom: 1px solid var(--border);
+  }
+  .cagr-breakdown.open { display: block; }
+  .cagr-formula {
+    background: var(--surface2); border-radius: 8px;
+    padding: 10px 12px; font-size: 11px;
+    font-family: 'DM Mono', monospace; line-height: 1.9;
+    color: var(--text-muted);
+  }
+  .cagr-formula .cf-line { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+  .cagr-formula .cf-label { color: var(--text-dim); font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; }
+  .cagr-formula .cf-val { font-weight: 600; font-size: 12px; }
+  .cagr-formula .cf-divider { border: none; border-top: 1px solid var(--border); margin: 6px 0; }
+  .cagr-formula .cf-formula-line {
+    font-size: 10px; color: var(--text-dim); margin-top: 6px;
+    padding-top: 6px; border-top: 1px dashed var(--border);
+    letter-spacing: 0.03em; line-height: 1.6;
+  }
+
+  .sc-title {
+    font-size: 11px; font-family: 'DM Mono', monospace;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--text-dim); margin-bottom: 1rem;
+  }
+  .sc-main { font-size: 32px; font-weight: 800; letter-spacing: -0.04em; line-height: 1; margin-bottom: 4px; }
+  .sc-sub { font-size: 12px; color: var(--text-dim); font-family: 'DM Mono', monospace; margin-bottom: 1.25rem; }
+  .sc-rows { border-top: 1px solid var(--border); padding-top: 1rem; }
+  .sc-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 6px 0; font-size: 13px; border-bottom: 1px solid var(--border);
+  }
+  .sc-row:last-child { border-bottom: none; }
+  .sc-row-label { color: var(--text-muted); }
+  .sc-row-val { font-family: 'DM Mono', monospace; font-weight: 600; font-size: 13px; }
+
+  .winner-banner {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius-lg); padding: 1.25rem 1.5rem;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 1rem; box-shadow: 0 1px 4px rgba(0,0,0,0.06); flex-wrap: wrap;
+  }
+  .winner-label { font-size: 12px; font-family: 'DM Mono', monospace; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 4px; }
+  .winner-text { font-size: 20px; font-weight: 700; letter-spacing: -0.02em; }
+  .winner-diff-val { font-size: 28px; font-weight: 800; letter-spacing: -0.04em; }
+  .winner-diff-label { font-size: 11px; font-family: 'DM Mono', monospace; color: var(--text-dim); margin-top: 2px; }
+
+  .cmp-bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+  .cmp-bar-label { font-size: 11px; font-family: 'DM Mono', monospace; color: var(--text-dim); min-width: 130px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .cmp-bar-track { flex: 1; height: 10px; background: var(--surface3); border-radius: 5px; overflow: hidden; }
+  .cmp-bar-fill { height: 100%; border-radius: 5px; transition: width 0.4s cubic-bezier(0.4,0,0.2,1); }
+  .cmp-bar-val { font-size: 13px; font-family: 'DM Mono', monospace; min-width: 80px; text-align: right; font-weight: 600; }
+
+  /* Year-by-year tables */
+  .table-section { margin-top: 2.5rem; }
+  .table-tabs { display: flex; gap: 6px; margin-bottom: 1.25rem; }
+  .table-tab {
+    padding: 7px 18px; border-radius: 999px; font-size: 12px; font-weight: 600;
+    cursor: pointer; border: 1px solid var(--border); background: transparent;
+    color: var(--text-muted); transition: all 0.18s; font-family: 'Syne', sans-serif;
+    letter-spacing: 0.02em;
+  }
+  .table-tab:hover { border-color: var(--border-bright); color: var(--text); }
+  .table-tab.active { background: var(--accent-dim); border-color: rgba(26,122,60,0.3); color: var(--accent); }
+
+  .table-wrap {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius-lg); padding: 1.5rem;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06); overflow-x: auto;
+  }
+  .table-wrap table {
+    width: 100%; border-collapse: collapse; font-size: 12px;
+    font-family: 'DM Mono', monospace;
+  }
+  .table-wrap thead th {
+    text-align: right; padding: 6px 10px 10px;
+    font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--text-dim); font-weight: 500; border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+  }
+  .table-wrap thead th:first-child { text-align: left; }
+  .table-wrap tbody tr { border-bottom: 1px solid var(--border); transition: background 0.1s; }
+  .table-wrap tbody tr:last-child { border-bottom: none; font-weight: 600; background: var(--surface2); }
+  .table-wrap tbody tr:hover { background: var(--surface2); }
+  .table-wrap tbody td {
+    padding: 7px 10px; text-align: right; color: var(--text-muted);
+    white-space: nowrap;
+  }
+  .table-wrap tbody td:first-child { text-align: left; color: var(--text-dim); font-weight: 500; }
+  .td-in { color: var(--accent) !important; }
+  .td-out { color: var(--red) !important; }
+  .td-net-pos { color: var(--accent) !important; font-weight: 600; }
+  .td-net-neg { color: var(--red) !important; font-weight: 600; }
+  .td-patrimonio { color: var(--blue) !important; font-weight: 600; }
+  .table-legend {
+    display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 1rem;
+    font-size: 11px; font-family: 'DM Mono', monospace; color: var(--text-dim);
+  }
+  .tleg { display: flex; align-items: center; gap: 5px; }
+  .tleg-dot { width: 8px; height: 8px; border-radius: 2px; }
+
+  /* Glossary */
+  .glossary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 10px;
+    margin-bottom: 0;
+  }
+  .glos-card {
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    padding: 12px 14px;
+    background: var(--surface);
+  }
+  .glos-in    { border-left: 3px solid var(--accent); }
+  .glos-out   { border-left: 3px solid var(--red); }
+  .glos-neutral { border-left: 3px solid #aaa; }
+  .glos-balance { border-left: 3px solid var(--blue); }
+  .glos-icon {
+    font-size: 16px; font-weight: 700; margin-bottom: 4px;
+    line-height: 1;
+  }
+  .glos-in .glos-icon    { color: var(--accent); }
+  .glos-out .glos-icon   { color: var(--red); }
+  .glos-neutral .glos-icon { color: #888; }
+  .glos-balance .glos-icon { color: var(--blue); }
+  .glos-name {
+    font-size: 12px; font-weight: 600; color: var(--text);
+    margin-bottom: 5px; letter-spacing: -0.01em;
+  }
+  .glos-desc {
+    font-size: 11px; color: var(--text-muted); line-height: 1.55;
+    font-family: 'Syne', sans-serif; font-weight: 400;
+  }
+
+  /* Transposed table styles */
+  .table-wrap table { min-width: 600px; }
+  .table-wrap th.row-header {
+    text-align: left; padding: 7px 12px; font-size: 11px;
+    letter-spacing: 0.05em; text-transform: uppercase;
+    color: var(--text-dim); font-weight: 500;
+    white-space: nowrap; min-width: 160px;
+    border-right: 1px solid var(--border);
+    background: var(--surface2);
+  }
+  .table-wrap td.year-header {
+    text-align: center; padding: 6px 10px 8px;
+    font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--text-dim); font-weight: 500;
+    border-bottom: 2px solid var(--border); white-space: nowrap;
+    background: var(--surface2);
+  }
+  .table-wrap td.year-header.total-col {
+    background: var(--surface3); color: var(--text-muted); font-weight: 600;
+  }
+  .table-wrap tr.section-divider td,
+  .table-wrap tr.section-divider th {
+    border-top: 2px solid var(--border); padding-top: 10px;
+  }
+  .table-wrap tr.total-row th,
+  .table-wrap tr.total-row td {
+    background: var(--surface2); font-weight: 600;
+  }
+  .table-wrap td.cell {
+    text-align: right; padding: 6px 12px; white-space: nowrap;
+    font-size: 12px; font-family: 'DM Mono', monospace; color: var(--text-muted);
+    border-bottom: 1px solid rgba(0,0,0,0.04);
+  }
+  .table-wrap td.cell.total-col { background: var(--surface2); font-weight: 600; }
+  .table-wrap tr:hover td.cell { background: rgba(0,0,0,0.02); }
+  .table-wrap tr:hover td.total-col { background: var(--surface3); }
+
+  /* Formula sub-rows */
+  .formula-row { display: none; }
+  .formula-row.open { display: table-row; }
+  .formula-row th.row-header {
+    background: var(--surface2);
+    border-right: 1px solid var(--border);
+    vertical-align: top;
+    padding: 3px 12px 8px 24px !important;
+    line-height: 1.6;
+  }
+  .formula-row td {
+    background: var(--surface2) !important;
+    border-bottom: 1px solid var(--border);
+  }
+  .row-header.has-formula { cursor: pointer; }
+  .row-header.has-formula:hover { background: rgba(0,0,0,0.03); }
+  .formula-toggle { font-size: 9px; color: var(--text-dim); margin-left: 5px; transition: transform 0.15s; display: inline-block; }
+  .formula-toggle.open { transform: rotate(90deg); }
+
+  /* Spread indicator */
+  .spread-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius-lg); padding: 1.25rem 1.5rem;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+  .spread-verdict {
+    border-radius: var(--radius); padding: 0.9rem 1.1rem;
+    border: 1px solid var(--border); margin-bottom: 1.25rem;
+  }
+  .spread-verdict-label { font-size: 10px; font-family: 'DM Mono', monospace; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 4px; color: var(--text-dim); }
+  .spread-verdict-value { font-size: 32px; font-weight: 800; letter-spacing: -0.04em; line-height: 1; }
+  .spread-verdict-sub { font-size: 11px; font-family: 'DM Mono', monospace; margin-top: 4px; color: var(--text-dim); }
+  .spread-positive { background: rgba(26,122,60,0.05); border-color: rgba(26,122,60,0.25); }
+  .spread-negative { background: rgba(192,57,43,0.05); border-color: rgba(192,57,43,0.25); }
+  .spread-neutral  { background: var(--surface2); }
+  .spread-bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+  .spread-bar-label { font-size: 11px; font-family: 'DM Mono', monospace; color: var(--text-dim); min-width: 190px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .spread-bar-track { flex: 1; height: 8px; background: var(--surface3); border-radius: 4px; overflow: hidden; }
+  .spread-bar-fill { height: 100%; border-radius: 4px; transition: width 0.4s cubic-bezier(0.4,0,0.2,1); }
+  .spread-bar-val { font-size: 12px; font-family: 'DM Mono', monospace; min-width: 50px; text-align: right; font-weight: 600; }
+  .spread-equation {
+    display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
+    font-size: 12px; font-family: 'DM Mono', monospace;
+    padding-top: 1rem; margin-top: 1rem; border-top: 1px solid var(--border);
+    color: var(--text-muted);
+  }
+  .spread-chip { padding: 2px 10px; border-radius: 999px; font-size: 12px; font-weight: 600; font-family: 'DM Mono', monospace; }
+  .spread-op { color: var(--text-dim); font-size: 16px; font-weight: 400; }
+
+  /* Optimizer */
+  .opt-metric-btn {
+    padding: 6px 16px; border-radius: 999px; font-size: 12px; font-weight: 600;
+    cursor: pointer; border: 1px solid var(--border); background: transparent;
+    color: var(--text-muted); transition: all 0.18s; font-family: 'Syne', sans-serif;
+  }
+  .opt-metric-btn:hover { border-color: var(--border-bright); color: var(--text); }
+  .opt-metric-btn.active { background: var(--accent-dim); border-color: rgba(26,122,60,0.3); color: var(--accent); }
+
+  .opt-vars-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 8px;
+  }
+  .opt-var-row {
+    display: flex; align-items: center; gap: 8px; padding: 8px 10px;
+    border-radius: 8px; font-size: 13px; color: var(--text-muted);
+    border: 1px solid var(--border); background: var(--surface2);
+    transition: background 0.15s;
+  }
+  .opt-var-row:has(input[type=checkbox]:checked) { border-color: rgba(26,122,60,0.2); background: rgba(26,122,60,0.04); }
+  .opt-var-row input[type=checkbox] { accent-color: var(--accent); width: 14px; height: 14px; cursor: pointer; flex-shrink: 0; }
+  .opt-var-name { flex: 1; font-weight: 500; font-size: 12px; }
+  .opt-range-inputs { display: flex; gap: 6px; align-items: center; }
+  .opt-range-inputs label { display: flex; align-items: center; gap: 3px; font-size: 10px; font-family: 'DM Mono', monospace; color: var(--text-dim); }
+  .opt-num {
+    width: 62px; padding: 3px 6px; border-radius: 6px; font-size: 11px;
+    font-family: 'DM Mono', monospace; border: 1px solid var(--border);
+    background: var(--surface); color: var(--text); text-align: right;
+    outline: none;
+  }
+  .opt-num:focus { border-color: rgba(26,122,60,0.4); }
+  .opt-var-row:has(input[type=checkbox]:not(:checked)) .opt-range-inputs { opacity: 0.35; pointer-events: none; }
+
+  .opt-run-btn {
+    padding: 10px 24px; border-radius: 999px; font-size: 13px; font-weight: 700;
+    cursor: pointer; border: none; background: var(--accent); color: white;
+    font-family: 'Syne', sans-serif; letter-spacing: 0.02em; transition: opacity 0.2s;
+  }
+  .opt-run-btn:hover { opacity: 0.85; }
+  .opt-run-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  .opt-result-row {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 12px 16px;
+    display: grid; grid-template-columns: 32px 1fr auto;
+    align-items: start; gap: 12px;
+  }
+  .opt-result-row.rank-1 { border-color: rgba(26,122,60,0.3); background: rgba(26,122,60,0.04); }
+  .opt-rank { font-size: 18px; font-weight: 800; font-family: 'DM Mono', monospace; color: var(--text-dim); line-height: 1; padding-top: 2px; }
+  .opt-rank-1 { color: var(--accent); }
+  .opt-result-vars { display: flex; flex-wrap: wrap; gap: 6px; }
+  .opt-chip {
+    padding: 2px 8px; border-radius: 999px; font-size: 11px;
+    font-family: 'DM Mono', monospace; background: var(--surface2);
+    border: 1px solid var(--border); color: var(--text-muted);
+  }
+  .opt-chip.changed { background: var(--accent-dim); border-color: rgba(26,122,60,0.25); color: var(--accent); }
+  .opt-result-metric { text-align: right; white-space: nowrap; }
+  .opt-metric-val { font-size: 20px; font-weight: 800; letter-spacing: -0.03em; color: var(--accent); }
+  .opt-metric-label { font-size: 10px; font-family: 'DM Mono', monospace; color: var(--text-dim); text-transform: uppercase; }
+  .opt-apply-btn {
+    margin-top: 6px; padding: 3px 10px; border-radius: 999px; font-size: 11px;
+    cursor: pointer; border: 1px solid rgba(26,122,60,0.3);
+    background: var(--accent-dim); color: var(--accent); font-family: 'Syne', sans-serif;
+    font-weight: 600; display: block; text-align: center;
+  }
+  .opt-apply-btn:hover { background: rgba(26,122,60,0.15); }
+
+  /* Scenario Analysis */
+  .sa-var-selector {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px; margin-bottom: 1.25rem;
+  }
+  .sa-var-btn {
+    padding: 8px 12px; border-radius: 8px; font-size: 12px; font-weight: 600;
+    cursor: pointer; border: 1px solid var(--border); background: var(--surface2);
+    color: var(--text-muted); transition: all 0.15s; font-family: 'Syne', sans-serif;
+    text-align: left; display: flex; justify-content: space-between; align-items: center;
+  }
+  .sa-var-btn:hover { border-color: var(--border-bright); color: var(--text); }
+  .sa-var-btn.selected-x { background: rgba(26,122,60,0.08); border-color: rgba(26,122,60,0.3); color: var(--accent); }
+  .sa-var-btn.selected-y { background: rgba(26,95,168,0.08); border-color: rgba(26,95,168,0.3); color: var(--blue); }
+  .sa-axis-badge {
+    font-size: 10px; font-family: 'DM Mono', monospace; font-weight: 700;
+    padding: 1px 6px; border-radius: 999px; letter-spacing: 0.05em;
+  }
+  .badge-x { background: rgba(26,122,60,0.12); color: var(--accent); }
+  .badge-y { background: rgba(26,95,168,0.12); color: var(--blue); }
+
+  .sa-config { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.25rem; }
+  @media (max-width: 600px) { .sa-config { grid-template-columns: 1fr; } }
+  .sa-config-box { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem; }
+  .sa-config-box h4 { font-size: 11px; font-family: 'DM Mono', monospace; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 0.75rem; }
+  .sa-config-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; font-size: 12px; color: var(--text-muted); }
+  .sa-config-row label { min-width: 45px; font-family: 'DM Mono', monospace; font-size: 11px; }
+  .sa-input {
+    padding: 4px 8px; border-radius: 6px; font-size: 12px; font-family: 'DM Mono', monospace;
+    border: 1px solid var(--border); background: var(--surface); color: var(--text); width: 90px; outline: none;
+  }
+  .sa-input:focus { border-color: rgba(26,122,60,0.4); }
+
+  /* Heatmap table */
+  .sa-heatmap-wrap { overflow-x: auto; margin-top: 1rem; }
+  .sa-heatmap { border-collapse: collapse; font-size: 11px; font-family: 'DM Mono', monospace; }
+  .sa-heatmap th {
+    padding: 5px 10px; text-align: center; font-weight: 600;
+    font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase;
+    color: var(--text-dim); background: var(--surface2); white-space: nowrap;
+  }
+  .sa-heatmap th.row-label { text-align: right; min-width: 100px; }
+  .sa-heatmap td {
+    padding: 7px 12px; text-align: center; font-size: 12px; font-weight: 600;
+    border: 1px solid rgba(255,255,255,0.6); cursor: default; white-space: nowrap;
+    transition: opacity 0.15s;
+  }
+  .sa-heatmap td:hover { opacity: 0.8; outline: 2px solid rgba(0,0,0,0.15); }
+  .sa-heatmap tr.best-row td { outline: none; }
+
+  /* 1D bar chart */
+  .sa-bar-chart { display: flex; flex-direction: column; gap: 6px; margin-top: 1rem; }
+  .sa-bar-row { display: flex; align-items: center; gap: 10px; }
+  .sa-bar-label { font-size: 11px; font-family: 'DM Mono', monospace; color: var(--text-dim); min-width: 80px; text-align: right; }
+  .sa-bar-track { flex: 1; height: 22px; background: var(--surface3); border-radius: 4px; overflow: hidden; position: relative; }
+  .sa-bar-fill { height: 100%; border-radius: 4px; transition: width 0.3s; display: flex; align-items: center; justify-content: flex-end; padding-right: 8px; }
+  .sa-bar-text { font-size: 11px; font-weight: 700; font-family: 'DM Mono', monospace; color: white; text-shadow: 0 1px 2px rgba(0,0,0,0.3); }
+  .sa-axis-labels { display: flex; justify-content: space-between; font-size: 10px; font-family: 'DM Mono', monospace; color: var(--text-dim); margin-top: 4px; }
+
+  .sa-run-btn {
+    padding: 10px 24px; border-radius: 999px; font-size: 13px; font-weight: 700;
+    cursor: pointer; border: none; background: var(--blue); color: white;
+    font-family: 'Syne', sans-serif; transition: opacity 0.2s;
+  }
+  .sa-run-btn:hover { opacity: 0.85; }
+  .sa-legend { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 8px; font-size: 11px; font-family: 'DM Mono', monospace; color: var(--text-dim); align-items: center; }
+  .sa-legend-swatch { width: 16px; height: 10px; border-radius: 2px; display: inline-block; }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- Header -->
+  <div class="header animate-in">
+    <div class="header-tag">// calculadora de apalancamiento</div>
+    <h1>Tu capital.<br><span>Multiplicado.</span></h1>
+    <p>Simula cómo el apalancamiento inmobiliario y el rendimiento de tu efectivo remanente afectan a tu retorno total.</p>
+  </div>
+
+  <div class="layout">
+
+    <!-- LEFT: Inputs -->
+    <div style="display: flex; flex-direction: column; gap: 1.25rem;">
+
+      <!-- Capital -->
+      <div class="card animate-in" style="animation-delay:0.05s">
+        <div class="card-title">// 01 — tu capital total</div>
+        <div class="field">
+          <label>Capital disponible <span class="value" id="lbl-capital">1.000.000 €</span></label>
+          <input type="range" id="r-capital" min="200000" max="5000000" step="50000" value="1000000" oninput="recalcular()">
+          <div class="track-labels"><span>200k</span><span>5M</span></div>
+        </div>
+      </div>
+
+      <!-- Propiedades -->
+      <div class="card animate-in" style="animation-delay:0.1s">
+        <div class="card-title">// 02 — propiedades</div>
+
+        <div class="section-label"><span class="dot dot-green"></span>Número de propiedades</div>
+        <div class="field">
+          <label>Propiedades a comprar <span class="value" id="lbl-nprop">2</span></label>
+          <input type="range" id="r-nprop" min="1" max="6" step="1" value="2" oninput="recalcular()">
+          <div class="track-labels"><span>1</span><span>6</span></div>
+        </div>
+
+        <div class="field">
+          <label>Valor por propiedad <span class="value" id="lbl-vprop">1.000.000 €</span></label>
+          <input type="range" id="r-vprop" min="100000" max="3000000" step="50000" value="1000000" oninput="recalcular()">
+          <div class="track-labels"><span>100k</span><span>3M</span></div>
+        </div>
+
+        <div class="field">
+          <label>Equity aportado por piso <span class="value" id="lbl-equity">30%</span></label>
+          <input type="range" id="r-equity" min="10" max="80" step="1" value="30" oninput="recalcular()">
+          <div class="track-labels"><span>10%</span><span>80%</span></div>
+        </div>
+
+        <div id="warning-equity" class="warning-box hidden">
+          <span>⚠</span>
+          <span id="warning-text">El equity total supera tu capital disponible.</span>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="section-label"><span class="dot dot-blue"></span>Hipoteca sobre deuda</div>
+        <div class="field">
+          <label>Tipo de interés hipotecario <span class="value" id="lbl-hipoteca">3.05%</span></label>
+          <input type="range" id="r-hipoteca" min="1.5" max="6" step="0.05" value="3.05" oninput="recalcular()">
+          <div class="track-labels"><span>1.5%</span><span>6%</span></div>
+        </div>
+
+        <div class="field">
+          <label>Plazo hipoteca (años) <span class="value" id="lbl-plazo">20</span></label>
+          <input type="range" id="r-plazo" min="5" max="30" step="1" value="20" oninput="recalcular()">
+          <div class="track-labels"><span>5</span><span>30</span></div>
+        </div>
+
+        <div class="field">
+          <label>Revalorización inmuebles/año <span class="value" id="lbl-revalor">3.0%</span></label>
+          <input type="range" id="r-revalor" min="-2" max="10" step="0.5" value="3.0" oninput="recalcular()">
+          <div class="track-labels"><span>-2%</span><span>+10%</span></div>
+        </div>
+
+        <div class="field">
+          <label>Rentabilidad alquiler bruta/año <span class="value" id="lbl-alquiler">5.0%</span></label>
+          <input type="range" id="r-alquiler" min="0" max="12" step="0.25" value="5.0" oninput="recalcular()">
+          <div class="track-labels"><span>0%</span><span>12%</span></div>
+        </div>
+
+        <div class="field">
+          <label>Crecimiento alquiler/año <span class="value" id="lbl-alqgrowth">2.0%</span></label>
+          <input type="range" id="r-alqgrowth" min="0" max="8" step="0.25" value="2.0" oninput="recalcular()">
+          <div class="track-labels"><span>0%</span><span>8%</span></div>
+        </div>
+        <div style="font-size:11px;color:var(--text-dim);font-family:'DM Mono',monospace;line-height:1.5;margin-top:-0.75rem;margin-bottom:0.75rem;">
+          Independiente de la revalorización. España: IPC ≈ 2–3% · Ley de vivienda limita subidas en zonas tensionadas.
+        </div>
+
+        <div class="field">
+          <label>Costes operativos + vacancia <span class="value" id="lbl-opex">25%</span></label>
+          <input type="range" id="r-opex" min="0" max="50" step="1" value="25" oninput="recalcular()">
+          <div class="track-labels"><span>0%</span><span>50%</span></div>
+        </div>
+        <div style="font-size:11px;color:var(--text-dim);font-family:'DM Mono',monospace;line-height:1.5;margin-top:-0.75rem;margin-bottom:0.75rem;">
+          % del alquiler bruto que se pierde en: IBI, comunidad, seguros, reparaciones, gestoría, meses sin inquilino.
+        </div>
+
+        <div class="field">
+          <label>IRPF sobre alquiler neto <span class="value" id="lbl-alqtax">19%</span></label>
+          <input type="range" id="r-alqtax" min="0" max="50" step="1" value="19" oninput="recalcular()">
+          <div class="track-labels"><span>0%</span><span>50%</span></div>
+        </div>
+        <div style="font-size:11px;color:var(--text-dim);font-family:'DM Mono',monospace;line-height:1.5;margin-top:-0.75rem;margin-bottom:0.5rem;">
+          Rendimiento capital inmobiliario. España 2026: 19–28% según tramo. Vivienda habitual tiene reducción del 50%.
+        </div>
+      </div>
+
+      <!-- Cash remanente -->
+      <div class="card animate-in" style="animation-delay:0.15s">
+        <div class="card-title">// 03 — efectivo remanente</div>
+        <div class="section-label"><span class="dot dot-gold"></span>Inversión del cash sobrante</div>
+        <div class="field">
+          <label>Retorno anual del cash <span class="value" id="lbl-cashreturn">7.0%</span></label>
+          <input type="range" id="r-cashreturn" min="0" max="20" step="0.25" value="7.0" oninput="recalcular()">
+          <div class="track-labels"><span>0%</span><span>20%</span></div>
+        </div>
+
+        <div class="divider"></div>
+        <div class="section-label"><span class="dot dot-red"></span>Fiscalidad sobre ganancias</div>
+        <div class="field">
+          <label>
+            Tipo impositivo sobre rendimientos
+            <span class="value" id="lbl-taxrate">19%</span>
+          </label>
+          <input type="range" id="r-taxrate" min="0" max="50" step="1" value="19" oninput="recalcular()">
+          <div class="track-labels"><span>0%</span><span>50%</span></div>
+        </div>
+        <div style="font-size:11px; color:var(--text-dim); font-family:'DM Mono',monospace; line-height:1.6; margin-top:-0.5rem; margin-bottom:0.75rem;">
+          España 2026: 19% hasta 6k€ · 21% de 6–50k€ · 23% de 50–200k€ · 27% de 200–300k€ · 28% &gt;300k€
+        </div>
+
+        <div class="field">
+          <label>Horizonte temporal <span class="value" id="lbl-horizon">10 años</span></label>
+          <input type="range" id="r-horizon" min="1" max="30" step="1" value="10" oninput="recalcular()">
+          <div class="track-labels"><span>1</span><span>30 años</span></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- RIGHT: Results -->
+    <div class="right-panel">
+
+      <!-- Summary metrics -->
+      <div class="summary-bar animate-in" style="animation-delay:0.2s">
+        <div class="metric">
+          <div class="metric-label">Capital invertido</div>
+          <div class="metric-value white" id="m-equity">600.000 €</div>
+          <div class="metric-sub" id="m-equity-sub">en propiedades</div>
+        </div>
+        <div class="metric">
+          <div class="metric-label">Cash remanente</div>
+          <div class="metric-value gold" id="m-cash">400.000 €</div>
+          <div class="metric-sub" id="m-cash-sub">disponible</div>
+        </div>
+        <div class="metric">
+          <div class="metric-label">Deuda total</div>
+          <div class="metric-value red" id="m-deuda">1.400.000 €</div>
+          <div class="metric-sub" id="m-deuda-sub">hipotecas</div>
+        </div>
+        <div class="metric">
+          <div class="metric-label">LTV medio</div>
+          <div class="metric-value blue" id="m-ltv">70%</div>
+          <div class="metric-sub" id="m-ltv-sub">loan-to-value</div>
+        </div>
+      </div>
+
+      <!-- Spread indicator -->
+      <div class="spread-card animate-in" style="animation-delay:0.22s">
+        <div class="card-title" style="margin-bottom:1rem;">// arbitraje — ¿tiene sentido usar deuda?</div>
+
+        <div id="spread-verdict" class="spread-verdict spread-neutral">
+          <div class="spread-verdict-label">Spread neto (rendimiento − coste deuda)</div>
+          <div class="spread-verdict-value" id="spread-value">—</div>
+          <div class="spread-verdict-sub" id="spread-sub">—</div>
+        </div>
+
+        <div class="spread-bar-row">
+          <div class="spread-bar-label">Rendim. activo neto</div>
+          <div class="spread-bar-track"><div class="spread-bar-fill" id="sb-asset" style="background:#1a7a3c;width:0%"></div></div>
+          <div class="spread-bar-val green" id="sbv-asset">—</div>
+        </div>
+        <div class="spread-bar-row">
+          <div class="spread-bar-label">Coste deuda (TIN)</div>
+          <div class="spread-bar-track"><div class="spread-bar-fill" id="sb-debt" style="background:#c0392b;width:0%"></div></div>
+          <div class="spread-bar-val red" id="sbv-debt">—</div>
+        </div>
+        <div class="spread-bar-row" style="margin-bottom:0">
+          <div class="spread-bar-label">Spread</div>
+          <div class="spread-bar-track"><div class="spread-bar-fill" id="sb-spread" style="background:#1a5fa8;width:0%"></div></div>
+          <div class="spread-bar-val blue" id="sbv-spread">—</div>
+        </div>
+
+        <div class="spread-equation">
+          <span>Rendim. activo neto</span>
+          <span class="spread-op">=</span>
+          <span class="spread-chip" style="background:rgba(26,122,60,0.1);color:var(--accent)" id="seq-alq">alquiler neto %</span>
+          <span class="spread-op">+</span>
+          <span class="spread-chip" style="background:rgba(26,122,60,0.08);color:var(--accent)" id="seq-reval">revalor. %</span>
+          <span class="spread-op">−</span>
+          <span class="spread-chip" style="background:rgba(192,57,43,0.08);color:var(--red)" id="seq-tin">TIN %</span>
+          <span class="spread-op">=</span>
+          <span class="spread-chip" id="seq-result" style="background:var(--surface2)">spread</span>
+        </div>
+      </div>
+
+      <!-- Flow card -->
+      <div class="flow-card animate-in" style="animation-delay:0.25s">
+        <div class="card-title">// distribución de tu capital</div>
+        <div class="flow">
+          <div class="flow-row">
+            <div class="flow-left">Capital total disponible</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-right white" id="f-capital">1.000.000 €</div>
+          </div>
+          <div class="flow-row">
+            <div class="flow-left">Equity en <span id="f-nprop2">2</span> propiedades</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-right red" id="f-equity">−600.000 €</div>
+          </div>
+          <div class="flow-row">
+            <div class="flow-left">Cash remanente invertido</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-right gold" id="f-cash">400.000 €</div>
+          </div>
+          <div class="flow-row">
+            <div class="flow-left">Valor total de activos (inicio)</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-right white" id="f-activos">2.000.000 €</div>
+          </div>
+          <div class="flow-row">
+            <div class="flow-left">Coste hipotecas / mes</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-right red" id="f-cuota">−7.780 €/mes</div>
+          </div>
+          <div class="flow-row">
+            <div class="flow-left">Ingresos alquiler brutos / mes</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-right green" id="f-alquiler">+8.333 €/mes</div>
+          </div>
+          <div class="flow-row">
+            <div class="flow-left">Cash flow neto / mes</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-right" id="f-cashflow">+553 €/mes</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Breakdown at horizon -->
+      <div class="flow-card animate-in" style="animation-delay:0.3s">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem;">
+          <div class="card-title" style="margin:0;">// proyección a <span id="bc-horizon">10</span> años</div>
+          <div id="pill-cf" class="tag-pill pill-green">CF positivo</div>
+        </div>
+
+        <div class="breakdown-grid">
+          <div class="breakdown-card bc-green">
+            <div class="bc-label">Valor inmuebles</div>
+            <div class="bc-value green" id="bc-inmuebles">2.687.833 €</div>
+            <div class="bc-detail" id="bc-inmuebles-sub">+687.833 € plusvalía</div>
+          </div>
+          <div class="breakdown-card bc-gold">
+            <div class="bc-label">Cash invertido</div>
+            <div class="bc-value gold" id="bc-cash">786.860 €</div>
+            <div class="bc-detail" id="bc-cash-sub">+386.860 € rentabilidad</div>
+          </div>
+          <div class="breakdown-card bc-blue">
+            <div class="bc-label">Deuda residual</div>
+            <div class="bc-value blue" id="bc-deuda-res">1.067.042 €</div>
+            <div class="bc-detail" id="bc-deuda-sub">amortizada parcialmente</div>
+          </div>
+          <div class="breakdown-card bc-total">
+            <div class="bc-label">Patrimonio neto total</div>
+            <div class="bc-value white" id="bc-neto">2.407.651 €</div>
+            <div class="bc-detail" id="bc-neto-sub">vs 1.000.000 € inicial</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Return bars -->
+      <div class="return-bar-wrap animate-in" style="animation-delay:0.35s">
+        <div class="card-title">// retorno anualizado sobre capital inicial</div>
+
+        <div class="bar-row">
+          <div class="bar-label">Inmuebles (equity)</div>
+          <div class="bar-track">
+            <div class="bar-fill" id="bar-inm" style="background: #1a7a3c; width:60%;"></div>
+          </div>
+          <div class="bar-val green" id="bv-inm">+8.5% / año</div>
+        </div>
+
+        <div class="bar-row">
+          <div class="bar-label">Cash remanente</div>
+          <div class="bar-track">
+            <div class="bar-fill" id="bar-cash" style="background: #b07d1a; width:40%;"></div>
+          </div>
+          <div class="bar-val gold" id="bv-cash">+7.0% / año</div>
+        </div>
+
+        <div class="bar-row" style="margin-bottom:0;">
+          <div class="bar-label">Total combinado</div>
+          <div class="bar-track">
+            <div class="bar-fill" id="bar-total" style="background: #1a5fa8; width:55%;"></div>
+          </div>
+          <div class="bar-val blue" id="bv-total">+9.1% / año</div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div style="display:flex; justify-content: space-between; align-items: center;">
+          <div>
+            <div style="font-size:12px; color: var(--text-dim); font-family:'DM Mono',monospace; margin-bottom:4px;">Multiplicador de patrimonio</div>
+            <div style="font-size:28px; font-weight:800; letter-spacing:-0.04em;" id="multiplicador">×2.41</div>
+          </div>
+          <div style="text-align:right;">
+            <div style="font-size:12px; color: var(--text-dim); font-family:'DM Mono',monospace; margin-bottom:4px;">ROE sobre capital inicial</div>
+            <div style="font-size:28px; font-weight:800; letter-spacing:-0.04em; color: var(--accent);" id="roe-total">+140.8%</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- COMPARISON SECTION -->
+  <div class="comparison-section animate-in" style="animation-delay:0.4s">
+    <div class="comparison-header">
+      <h2>Comparativa de escenarios</h2>
+      <span class="vs-badge">CON DEUDA vs SIN DEUDA</span>
+    </div>
+
+    <div class="comparison-grid">
+      <div class="scenario-card sc-apalancado">
+        <div class="sc-title">// con apalancamiento</div>
+        <div class="sc-main green" id="cmp-ap-neto">—</div>
+        <div class="sc-sub" id="cmp-ap-sub">patrimonio neto al final</div>
+        <div class="sc-rows">
+          <div class="sc-row"><span class="sc-row-label">Valor inmuebles</span><span class="sc-row-val white" id="cmp-ap-activos">—</span></div>
+          <div class="sc-row"><span class="sc-row-label">Deuda residual</span><span class="sc-row-val red" id="cmp-ap-deuda">—</span></div>
+          <div class="sc-row"><span class="sc-row-label">Cash invertido</span><span class="sc-row-val gold" id="cmp-ap-cash">—</span></div>
+          <div class="sc-row cagr-row" onclick="toggleCagr('ap')">
+            <span class="sc-row-label">CAGR sobre capital <span class="cagr-toggle" id="cagr-toggle-ap">▸</span></span>
+            <span class="sc-row-val" id="cmp-ap-cagr">—</span>
+          </div>
+          <div class="cagr-breakdown" id="cagr-breakdown-ap">
+            <div class="cagr-formula" id="cagr-formula-ap">—</div>
+          </div>
+          <div class="sc-row"><span class="sc-row-label">Multiplicador</span><span class="sc-row-val" id="cmp-ap-mult">—</span></div>
+          <div class="sc-row"><span class="sc-row-label">Cash flow / mes</span><span class="sc-row-val" id="cmp-ap-cf">—</span></div>
+          <div class="sc-row"><span class="sc-row-label">Nº propiedades</span><span class="sc-row-val white" id="cmp-ap-props">—</span></div>
+        </div>
+      </div>
+
+      <div class="scenario-card sc-sindeuda">
+        <div class="sc-title">// sin apalancamiento — 1 casa al contado</div>
+        <div class="sc-main" style="color:var(--text-muted)" id="cmp-nd-neto">—</div>
+        <div class="sc-sub" id="cmp-nd-sub">patrimonio neto al final</div>
+        <div class="sc-rows">
+          <div class="sc-row"><span class="sc-row-label">Valor de la casa</span><span class="sc-row-val white" id="cmp-nd-casa">—</span></div>
+          <div class="sc-row"><span class="sc-row-label">Deuda residual</span><span class="sc-row-val" style="color:var(--text-dim)">0 €</span></div>
+          <div class="sc-row"><span class="sc-row-label">Cash sobrante invertido</span><span class="sc-row-val gold" id="cmp-nd-cash">—</span></div>
+          <div class="sc-row cagr-row" onclick="toggleCagr('nd')">
+            <span class="sc-row-label">CAGR sobre capital <span class="cagr-toggle" id="cagr-toggle-nd">▸</span></span>
+            <span class="sc-row-val" id="cmp-nd-cagr">—</span>
+          </div>
+          <div class="cagr-breakdown" id="cagr-breakdown-nd">
+            <div class="cagr-formula" id="cagr-formula-nd">—</div>
+          </div>
+          <div class="sc-row"><span class="sc-row-label">Multiplicador</span><span class="sc-row-val" id="cmp-nd-mult">—</span></div>
+          <div class="sc-row"><span class="sc-row-label">Cash flow / mes</span><span class="sc-row-val" id="cmp-nd-cf">—</span></div>
+          <div class="sc-row"><span class="sc-row-label">Nº propiedades</span><span class="sc-row-val white">1 (al contado)</span></div>
+        </div>
+      </div>
+
+      <div class="scenario-card sc-financiero">
+        <div class="sc-title">// solo inversión financiera — sin inmuebles</div>
+        <div class="sc-main gold" id="cmp-fi-neto">—</div>
+        <div class="sc-sub" id="cmp-fi-sub">patrimonio neto al final</div>
+        <div class="sc-rows">
+          <div class="sc-row"><span class="sc-row-label">Capital inicial</span><span class="sc-row-val white" id="cmp-fi-capital">—</span></div>
+          <div class="sc-row"><span class="sc-row-label">Deuda</span><span class="sc-row-val" style="color:var(--text-dim)">0 €</span></div>
+          <div class="sc-row"><span class="sc-row-label">Valor final inversión</span><span class="sc-row-val gold" id="cmp-fi-valor">—</span></div>
+          <div class="sc-row cagr-row" onclick="toggleCagr('fi')">
+            <span class="sc-row-label">CAGR sobre capital <span class="cagr-toggle" id="cagr-toggle-fi">▸</span></span>
+            <span class="sc-row-val" id="cmp-fi-cagr">—</span>
+          </div>
+          <div class="cagr-breakdown" id="cagr-breakdown-fi">
+            <div class="cagr-formula" id="cagr-formula-fi">—</div>
+          </div>
+          <div class="sc-row"><span class="sc-row-label">Multiplicador</span><span class="sc-row-val" id="cmp-fi-mult">—</span></div>
+          <div class="sc-row"><span class="sc-row-label">Rendim. anual (bruto)</span><span class="sc-row-val gold" id="cmp-fi-rendim">—</span></div>
+          <div class="sc-row"><span class="sc-row-label">Tipo usado</span><span class="sc-row-val white" id="cmp-fi-tipo">retorno cash %</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="winner-banner">
+      <div>
+        <div class="winner-label">Mejor resultado a <span id="wb-horizon">10</span> años</div>
+        <div class="winner-text" id="wb-winner">—</div>
+      </div>
+      <div style="text-align:right">
+        <div class="winner-diff-val" id="wb-diff">—</div>
+        <div class="winner-diff-label" id="wb-diff-label">más patrimonio que la segunda mejor opción</div>
+      </div>
+    </div>
+
+    <div class="flow-card" style="margin-top:1.25rem;">
+      <div class="card-title">// retorno anualizado comparado (CAGR)</div>
+      <div class="cmp-bar-row">
+        <div class="cmp-bar-label">Con apalancamiento</div>
+        <div class="cmp-bar-track"><div class="cmp-bar-fill" id="cb-ap" style="background:#1a7a3c;width:0%"></div></div>
+        <div class="cmp-bar-val green" id="cbv-ap">—</div>
+      </div>
+      <div class="cmp-bar-row">
+        <div class="cmp-bar-label">Sin apalancamiento</div>
+        <div class="cmp-bar-track"><div class="cmp-bar-fill" id="cb-nd" style="background:#999;width:0%"></div></div>
+        <div class="cmp-bar-val" style="color:var(--text-muted)" id="cbv-nd">—</div>
+      </div>
+      <div class="cmp-bar-row" style="margin-bottom:0">
+        <div class="cmp-bar-label">Solo financiero</div>
+        <div class="cmp-bar-track"><div class="cmp-bar-fill" id="cb-fi" style="background:#b07d1a;width:0%"></div></div>
+        <div class="cmp-bar-val gold" id="cbv-fi">—</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- OPTIMIZER -->
+  <div class="comparison-section animate-in" style="animation-delay:0.42s; margin-top:2.5rem;" id="optimizer-section">
+    <div class="comparison-header">
+      <h2>Optimizador</h2>
+      <span class="vs-badge">BÚSQUEDA DE LA MEJOR COMBINACIÓN</span>
+    </div>
+
+    <div class="card" style="margin-bottom:1.25rem;">
+      <div class="card-title">// 01 — métrica a maximizar</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <button class="opt-metric-btn active" data-metric="cagr" onclick="setMetric(this)">CAGR total</button>
+        <button class="opt-metric-btn" data-metric="patrimonio" onclick="setMetric(this)">Patrimonio neto final</button>
+        <button class="opt-metric-btn" data-metric="spread" onclick="setMetric(this)">Spread arbitraje</button>
+        <button class="opt-metric-btn" data-metric="cf" onclick="setMetric(this)">CF neto acumulado</button>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:1.25rem;">
+      <div class="card-title">// 02 — variables a optimizar — desmarca para fijar, ajusta rango</div>
+      <div class="opt-vars-grid">
+
+        <div class="opt-var-row">
+          <input type="checkbox" id="opt-nprop" checked>
+          <span class="opt-var-name">Nº propiedades</span>
+          <div class="opt-range-inputs">
+            <label>mín <input type="number" id="opt-nprop-min" value="1" min="1" max="6" step="1" class="opt-num"></label>
+            <label>máx <input type="number" id="opt-nprop-max" value="6" min="1" max="6" step="1" class="opt-num"></label>
+          </div>
+        </div>
+
+        <div class="opt-var-row">
+          <input type="checkbox" id="opt-equity" checked>
+          <span class="opt-var-name">Equity %</span>
+          <div class="opt-range-inputs">
+            <label>mín <input type="number" id="opt-equity-min" value="10" min="10" max="80" step="5" class="opt-num"></label>
+            <label>máx <input type="number" id="opt-equity-max" value="80" min="10" max="80" step="5" class="opt-num"></label>
+          </div>
+        </div>
+
+        <div class="opt-var-row">
+          <input type="checkbox" id="opt-vprop" checked>
+          <span class="opt-var-name">Valor/propiedad €</span>
+          <div class="opt-range-inputs">
+            <label>mín <input type="number" id="opt-vprop-min" value="100000" min="100000" max="3000000" step="50000" class="opt-num"></label>
+            <label>máx <input type="number" id="opt-vprop-max" value="3000000" min="100000" max="3000000" step="50000" class="opt-num"></label>
+          </div>
+        </div>
+
+        <div class="opt-var-row">
+          <input type="checkbox" id="opt-revalor">
+          <span class="opt-var-name">Revalorización %</span>
+          <div class="opt-range-inputs">
+            <label>mín <input type="number" id="opt-revalor-min" value="0" min="0" max="10" step="0.5" class="opt-num"></label>
+            <label>máx <input type="number" id="opt-revalor-max" value="10" min="0" max="10" step="0.5" class="opt-num"></label>
+          </div>
+        </div>
+
+        <div class="opt-var-row">
+          <input type="checkbox" id="opt-alquiler">
+          <span class="opt-var-name">Alquiler bruto %</span>
+          <div class="opt-range-inputs">
+            <label>mín <input type="number" id="opt-alquiler-min" value="0" min="0" max="12" step="0.5" class="opt-num"></label>
+            <label>máx <input type="number" id="opt-alquiler-max" value="12" min="0" max="12" step="0.5" class="opt-num"></label>
+          </div>
+        </div>
+
+        <div class="opt-var-row">
+          <input type="checkbox" id="opt-alqgrowth">
+          <span class="opt-var-name">Crec. alquiler %</span>
+          <div class="opt-range-inputs">
+            <label>mín <input type="number" id="opt-alqgrowth-min" value="0" min="0" max="8" step="0.5" class="opt-num"></label>
+            <label>máx <input type="number" id="opt-alqgrowth-max" value="8" min="0" max="8" step="0.5" class="opt-num"></label>
+          </div>
+        </div>
+
+        <div class="opt-var-row">
+          <input type="checkbox" id="opt-opex">
+          <span class="opt-var-name">Costes operativos %</span>
+          <div class="opt-range-inputs">
+            <label>mín <input type="number" id="opt-opex-min" value="0" min="0" max="50" step="5" class="opt-num"></label>
+            <label>máx <input type="number" id="opt-opex-max" value="50" min="0" max="50" step="5" class="opt-num"></label>
+          </div>
+        </div>
+
+        <div class="opt-var-row">
+          <input type="checkbox" id="opt-hipoteca">
+          <span class="opt-var-name">TIN hipoteca %</span>
+          <div class="opt-range-inputs">
+            <label>mín <input type="number" id="opt-hipoteca-min" value="1.5" min="1.5" max="6" step="0.25" class="opt-num"></label>
+            <label>máx <input type="number" id="opt-hipoteca-max" value="6" min="1.5" max="6" step="0.25" class="opt-num"></label>
+          </div>
+        </div>
+
+        <div class="opt-var-row">
+          <input type="checkbox" id="opt-plazo">
+          <span class="opt-var-name">Plazo hipoteca años</span>
+          <div class="opt-range-inputs">
+            <label>mín <input type="number" id="opt-plazo-min" value="5" min="5" max="30" step="1" class="opt-num"></label>
+            <label>máx <input type="number" id="opt-plazo-max" value="30" min="5" max="30" step="1" class="opt-num"></label>
+          </div>
+        </div>
+
+        <div class="opt-var-row">
+          <input type="checkbox" id="opt-cashreturn" checked>
+          <span class="opt-var-name">Retorno cash %</span>
+          <div class="opt-range-inputs">
+            <label>mín <input type="number" id="opt-cashreturn-min" value="0" min="0" max="20" step="0.5" class="opt-num"></label>
+            <label>máx <input type="number" id="opt-cashreturn-max" value="20" min="0" max="20" step="0.5" class="opt-num"></label>
+          </div>
+        </div>
+
+        <div class="opt-var-row">
+          <input type="checkbox" id="opt-horizon">
+          <span class="opt-var-name">Horizonte años</span>
+          <div class="opt-range-inputs">
+            <label>mín <input type="number" id="opt-horizon-min" value="1" min="1" max="30" step="1" class="opt-num"></label>
+            <label>máx <input type="number" id="opt-horizon-max" value="30" min="1" max="30" step="1" class="opt-num"></label>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:1.25rem;flex-wrap:wrap;">
+      <button class="opt-run-btn" id="opt-run-btn" onclick="runOptimizer()">
+        <span id="opt-btn-text">▶ Ejecutar optimizador</span>
+      </button>
+      <div id="opt-status" style="font-size:12px;font-family:'DM Mono',monospace;color:var(--text-dim)"></div>
+    </div>
+
+    <div id="opt-results" style="display:none">
+      <div class="card-title" style="margin-bottom:1rem;">// top 5 combinaciones</div>
+      <div id="opt-results-grid" style="display:flex;flex-direction:column;gap:10px;"></div>
+    </div>
+  </div>
+
+  <!-- SCENARIO ANALYSIS -->
+  <div class="comparison-section animate-in" style="animation-delay:0.43s; margin-top:2.5rem;" id="scenario-section">
+    <div class="comparison-header">
+      <h2>Análisis de escenarios</h2>
+      <span class="vs-badge">SENSIBILIDAD DEL CAGR</span>
+    </div>
+
+    <div class="card" style="margin-bottom:1.25rem;">
+      <div class="card-title" style="margin-bottom:0.75rem;">// 01 — elige 1 o 2 variables a analizar</div>
+      <p style="font-size:12px;color:var(--text-dim);font-family:'DM Mono',monospace;margin-bottom:1rem;">
+        Selecciona hasta 2 variables. Con 1 → gráfico de barras. Con 2 → mapa de calor (X = primera, Y = segunda).
+      </p>
+      <div class="sa-var-selector" id="sa-var-selector"></div>
+    </div>
+
+    <div class="sa-config" id="sa-config">
+      <div class="sa-config-box" id="sa-config-x" style="display:none">
+        <h4 style="color:var(--accent)">Eje X — <span id="sa-label-x">—</span></h4>
+        <div class="sa-config-row"><label>desde</label><input type="number" class="sa-input" id="sa-xmin"> <span id="sa-xunit" style="font-size:11px;color:var(--text-dim);font-family:'DM Mono',monospace"></span></div>
+        <div class="sa-config-row"><label>hasta</label><input type="number" class="sa-input" id="sa-xmax"> <span style="font-size:11px;color:var(--text-dim);font-family:'DM Mono',monospace" id="sa-xunit2"></span></div>
+        <div class="sa-config-row"><label>pasos</label><input type="number" class="sa-input" id="sa-xsteps" value="6" min="2" max="20"></div>
+      </div>
+      <div class="sa-config-box" id="sa-config-y" style="display:none">
+        <h4 style="color:var(--blue)">Eje Y — <span id="sa-label-y">—</span></h4>
+        <div class="sa-config-row"><label>desde</label><input type="number" class="sa-input" id="sa-ymin"> <span id="sa-yunit" style="font-size:11px;color:var(--text-dim);font-family:'DM Mono',monospace"></span></div>
+        <div class="sa-config-row"><label>hasta</label><input type="number" class="sa-input" id="sa-ymax"> <span style="font-size:11px;color:var(--text-dim);font-family:'DM Mono',monospace" id="sa-yunit2"></span></div>
+        <div class="sa-config-row"><label>pasos</label><input type="number" class="sa-input" id="sa-ysteps" value="5" min="2" max="15"></div>
+      </div>
+    </div>
+
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:1.25rem;flex-wrap:wrap;">
+      <button class="sa-run-btn" onclick="runScenario()">▶ Añadir análisis</button>
+      <button class="sa-run-btn" onclick="clearScenarios()" style="background:var(--surface3);color:var(--text-muted);border:1px solid var(--border);">✕ Limpiar todo</button>
+      <div style="font-size:12px;font-family:'DM Mono',monospace;color:var(--text-dim)" id="sa-status"></div>
+    </div>
+
+    <div id="sa-results" style="display:flex;flex-direction:column;gap:1.25rem;"></div>
+  </div>
+
+  <!-- YEAR BY YEAR TABLES -->
+  <div class="table-section animate-in" style="animation-delay:0.45s">
+    <div class="comparison-header">
+      <h2>Flujos año a año</h2>
+      <span class="vs-badge">CASH IN / CASH OUT</span>
+    </div>
+
+    <div class="table-tabs">
+      <button class="table-tab active" onclick="switchTable('ap', this)">Con apalancamiento</button>
+      <button class="table-tab" onclick="switchTable('nd', this)">Sin apalancamiento</button>
+    </div>
+
+    <!-- Apalancado table -->
+    <div id="tbl-ap">
+      <!-- Glossary -->
+      <div class="glossary-grid" id="glos-ap">
+        <div class="glos-card glos-in">
+          <div class="glos-icon">↑</div>
+          <div class="glos-name">Alquiler bruto</div>
+          <div class="glos-desc">Ingresos totales por arrendamiento antes de cualquier gasto. Se calcula como valor de los inmuebles × rentabilidad bruta configurada.</div>
+        </div>
+        <div class="glos-card glos-in">
+          <div class="glos-icon">↑</div>
+          <div class="glos-name">Rendim. cash</div>
+          <div class="glos-desc">Intereses o plusvalías generados por el dinero que no pusiste en las casas y tienes invertido en otro activo (bolsa, fondo, etc.).</div>
+        </div>
+        <div class="glos-card glos-out">
+          <div class="glos-icon">↓</div>
+          <div class="glos-name">Cuota hipoteca (total)</div>
+          <div class="glos-desc">Lo que pagas al banco cada año. Calculada con el sistema francés: <strong>Cuota = Deuda × [r×(1+r)^n] / [(1+r)^n−1]</strong>, donde r = TIN/12 y n = meses. La cuota es fija, pero por dentro cambia: al principio casi todo son intereses, al final casi todo es capital.</div>
+        </div>
+        <div class="glos-card glos-out">
+          <div class="glos-icon">↓</div>
+          <div class="glos-name">Intereses hipoteca</div>
+          <div class="glos-desc">La parte de la cuota que se queda el banco. Cada mes = Deuda viva × (TIN/12). Baja progresivamente conforme reduces la deuda.</div>
+        </div>
+        <div class="glos-card glos-neutral">
+          <div class="glos-icon">⇄</div>
+          <div class="glos-name">Capital amortizado</div>
+          <div class="glos-desc">La parte de la cuota que reduce tu deuda: Cuota − Intereses del mes. No es un gasto perdido — aumenta tu equity en el inmueble. Sube cada año progresivamente.</div>
+        </div>
+        <div class="glos-card glos-out">
+          <div class="glos-icon">↓</div>
+          <div class="glos-name">Impuestos rendim. cash</div>
+          <div class="glos-desc">Lo que pagas a Hacienda sobre las ganancias del cash invertido. En España: 19% hasta 6k€, 21% de 6–50k€, 23% de 50–200k€, 27% de 200–300k€, 28% &gt;300k€. El rendimiento neto es lo que realmente te queda y se reinvierte.</div>
+        </div>
+        <div class="glos-card glos-out">
+          <div class="glos-icon">↓</div>
+          <div class="glos-name">Inyección de capital ⚠</div>
+          <div class="glos-desc">Dinero extra que tienes que poner de tu bolsillo ese año porque el cash acumulado no cubre el déficit entre hipoteca y alquiler. Como la hipoteca se paga mensualmente, el déficit se acumula a lo largo del año — se modela como si llegara a <strong>mitad del año</strong>. En los escenarios alternativos, ese mismo importe se invierte desde ese momento generando medio año de rendimiento en el año de llegada.</div>
+        </div>
+        <div class="glos-card glos-neutral">
+          <div class="glos-icon">⇄</div>
+          <div class="glos-name">CF neto anual</div>
+          <div class="glos-desc">Cash flow neto del año: alquiler + rendimiento neto del cash − cuota hipoteca total. Si es positivo, el año genera liquidez; si es negativo, necesitas aportarla.</div>
+        </div>
+        <div class="glos-card glos-balance">
+          <div class="glos-icon">=</div>
+          <div class="glos-name">Deuda pendiente</div>
+          <div class="glos-desc">Capital vivo de las hipotecas al final de ese año. Va bajando cada año según el sistema francés de amortización.</div>
+        </div>
+        <div class="glos-card glos-balance">
+          <div class="glos-icon">=</div>
+          <div class="glos-name">Patrimonio neto</div>
+          <div class="glos-desc">Valor total de lo que posees (inmuebles + cash acumulado) menos la deuda que aún debes. Es tu riqueza real en ese momento.</div>
+        </div>
+      </div>
+      <div class="table-wrap" style="margin-top:1rem">
+        <div class="table-legend">
+          <div class="tleg"><div class="tleg-dot" style="background:var(--accent)"></div>Cash in</div>
+          <div class="tleg"><div class="tleg-dot" style="background:var(--red)"></div>Cash out</div>
+          <div class="tleg"><div class="tleg-dot" style="background:#888"></div>Neutro / balance</div>
+          <div class="tleg"><div class="tleg-dot" style="background:var(--blue)"></div>Patrimonio</div>
+        </div>
+        <div style="overflow-x:auto">
+          <table id="table-ap" style="width:100%;border-collapse:collapse;font-size:12px;font-family:'DM Mono',monospace;"></table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sin deuda table -->
+    <div id="tbl-nd" style="display:none">
+      <!-- Glossary -->
+      <div class="glossary-grid">
+        <div class="glos-card glos-in">
+          <div class="glos-icon">↑</div>
+          <div class="glos-name">Alquiler bruto</div>
+          <div class="glos-desc">Ingresos por arrendamiento de la única casa comprada al contado. Al no tener hipoteca, todo este dinero queda libre.</div>
+        </div>
+        <div class="glos-card glos-in">
+          <div class="glos-icon">↑</div>
+          <div class="glos-name">Rendim. cash</div>
+          <div class="glos-desc">Lo que genera el dinero sobrante (capital − precio casa) invertido en otro activo. Si compraste la casa por menos que tu capital, el resto trabaja aquí.</div>
+        </div>
+        <div class="glos-card glos-out">
+          <div class="glos-icon">↓</div>
+          <div class="glos-name">Impuestos rendim. cash</div>
+          <div class="glos-desc">Impuesto sobre las ganancias del capital invertido. Se aplica sobre el rendimiento bruto de cada año. El importe restante (neto) es el que se reinvierte y acumula.</div>
+        </div>
+        <div class="glos-card glos-neutral">
+          <div class="glos-icon">⇄</div>
+          <div class="glos-name">CF neto anual</div>
+          <div class="glos-desc">Alquiler + rendimiento neto del cash (ya descontados impuestos). Sin hipoteca no hay outflow fijo, así que este número siempre es positivo o cero.</div>
+        </div>
+        <div class="glos-card glos-balance">
+          <div class="glos-icon">=</div>
+          <div class="glos-name">Valor de la casa</div>
+          <div class="glos-desc">Precio de mercado estimado de la propiedad cada año, aplicando la tasa de revalorización configurada sobre el precio de compra original.</div>
+        </div>
+        <div class="glos-card glos-balance">
+          <div class="glos-icon">=</div>
+          <div class="glos-name">Cash acumulado</div>
+          <div class="glos-desc">Valor final del dinero que no metiste en la casa, con todos los rendimientos compuestos acumulados hasta ese año.</div>
+        </div>
+        <div class="glos-card glos-balance">
+          <div class="glos-icon">=</div>
+          <div class="glos-name">Patrimonio neto</div>
+          <div class="glos-desc">Valor casa + cash acumulado. Sin deuda, todo el activo es patrimonio puro. No hay deuda que restar.</div>
+        </div>
+        <div class="glos-card glos-balance" style="border-left-color: var(--blue)">
+          <div class="glos-icon" style="color:var(--blue)">↓</div>
+          <div class="glos-name">Capital extra (AP→ND)</div>
+          <div class="glos-desc">El mismo dinero que en el escenario apalancado se inyectó para cubrir el déficit mensual, aquí se invierte en su lugar. Como el déficit se acumula mes a mes, se asume que el dinero llega a <strong>mitad del año</strong> — generando medio año de rendimiento en el año de llegada y rendimiento completo en los años siguientes.</div>
+        </div>
+      </div>
+      <div class="table-wrap" style="margin-top:1rem">
+        <div class="table-legend">
+          <div class="tleg"><div class="tleg-dot" style="background:var(--accent)"></div>Cash in</div>
+          <div class="tleg"><div class="tleg-dot" style="background:#888"></div>Neutro / balance</div>
+          <div class="tleg"><div class="tleg-dot" style="background:var(--blue)"></div>Patrimonio</div>
+        </div>
+        <div style="overflow-x:auto">
+          <table id="table-nd" style="width:100%;border-collapse:collapse;font-size:12px;font-family:'DM Mono',monospace;"></table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function fmt(n, decimals=0) {
+  return new Intl.NumberFormat('es-ES', {
+    minimumFractionDigits: decimals,
+    maximumFractionDigits: decimals
+  }).format(Math.round(n * Math.pow(10, decimals)) / Math.pow(10, decimals));
+}
+function fmtEur(n) { return fmt(n) + ' €'; }
+function fmtPct(n, d=1) { return (n >= 0 ? '+' : '') + fmt(n, d).replace(',','__COMMA__').replace('.',',').replace('__COMMA__', '.') + '%'; }
+
+function recalcular() {
+  const capital   = parseFloat(document.getElementById('r-capital').value);
+  const nprop     = parseInt(document.getElementById('r-nprop').value);
+  const vprop     = parseFloat(document.getElementById('r-vprop').value);
+  const equityPct = parseFloat(document.getElementById('r-equity').value) / 100;
+  const hipTIN    = parseFloat(document.getElementById('r-hipoteca').value) / 100;
+  const plazo     = parseInt(document.getElementById('r-plazo').value);
+  const revalor   = parseFloat(document.getElementById('r-revalor').value) / 100;
+  const alqPct    = parseFloat(document.getElementById('r-alquiler').value) / 100;
+  const alqGrowth = parseFloat(document.getElementById('r-alqgrowth').value) / 100;
+  const opexPct   = parseFloat(document.getElementById('r-opex').value) / 100;
+  const alqTax    = parseFloat(document.getElementById('r-alqtax').value) / 100;
+  const cashRet   = parseFloat(document.getElementById('r-cashreturn').value) / 100;
+  const taxRate   = parseFloat(document.getElementById('r-taxrate').value) / 100;
+  const horizon   = parseInt(document.getElementById('r-horizon').value);
+
+  // Update labels
+  document.getElementById('lbl-capital').textContent = fmtEur(capital);
+  document.getElementById('lbl-nprop').textContent = nprop;
+  document.getElementById('lbl-vprop').textContent = fmtEur(vprop);
+  document.getElementById('lbl-equity').textContent = fmt(equityPct * 100, 0) + '%';
+  document.getElementById('lbl-hipoteca').textContent = fmt(hipTIN * 100, 2) + '%';
+  document.getElementById('lbl-plazo').textContent = plazo;
+  document.getElementById('lbl-revalor').textContent = fmtPct(revalor * 100, 1).replace('+','');
+  document.getElementById('lbl-alquiler').textContent = fmt(alqPct * 100, 2) + '%';
+  document.getElementById('lbl-alqgrowth').textContent = fmt(alqGrowth * 100, 2) + '%';
+  document.getElementById('lbl-opex').textContent = fmt(opexPct * 100, 0) + '%';
+  document.getElementById('lbl-alqtax').textContent = fmt(alqTax * 100, 0) + '%';
+  document.getElementById('lbl-cashreturn').textContent = fmt(cashRet * 100, 2) + '%';
+  document.getElementById('lbl-taxrate').textContent = fmt(taxRate * 100, 0) + '%';
+  document.getElementById('lbl-horizon').textContent = horizon + ' años';
+
+  // Core calcs
+  const equityTotal = nprop * vprop * equityPct;
+  const deudaTotal  = nprop * vprop * (1 - equityPct);
+  const cashRem     = capital - equityTotal;
+  const ltv         = (1 - equityPct) * 100;
+  const totalActivos = nprop * vprop;
+
+  // Hipoteca mensual (sistema francés)
+  const r = hipTIN / 12;
+  const n = plazo * 12;
+  const cuotaMes = deudaTotal > 0
+    ? deudaTotal * r * Math.pow(1+r,n) / (Math.pow(1+r,n) - 1)
+    : 0;
+
+  // Alquiler mensual bruto
+  const alqMes = nprop * vprop * alqPct / 12;
+  const cashflowMes = alqMes - cuotaMes;
+
+  // Warning
+  const warningEl = document.getElementById('warning-equity');
+  if (equityTotal > capital) {
+    warningEl.classList.remove('hidden');
+    document.getElementById('warning-text').textContent =
+      'El equity total (' + fmtEur(equityTotal) + ') supera tu capital disponible (' + fmtEur(capital) + '). Reduce el número de propiedades o el porcentaje de equity.';
+  } else {
+    warningEl.classList.add('hidden');
+  }
+
+  // --- Summary metrics ---
+  document.getElementById('m-equity').textContent = fmtEur(equityTotal);
+  document.getElementById('m-equity-sub').textContent = 'en ' + nprop + ' propiedad' + (nprop > 1 ? 'es' : '');
+  document.getElementById('m-cash').textContent = cashRem >= 0 ? fmtEur(cashRem) : '−' + fmtEur(-cashRem);
+  document.getElementById('m-cash-sub').textContent = cashRem >= 0 ? 'disponible' : 'déficit';
+  document.getElementById('m-deuda').textContent = fmtEur(deudaTotal);
+  document.getElementById('m-deuda-sub').textContent = nprop + ' hipoteca' + (nprop > 1 ? 's' : '');
+  document.getElementById('m-ltv').textContent = fmt(ltv, 0) + '%';
+
+  // --- Spread indicator ---
+  // Rendimiento neto del activo = alquiler neto sobre valor activo + revalorización
+  // Alquiler neto % = alqPct × (1 - opexPct) × (1 - alqTax)   (año 1, sobre valor compra)
+  const alqNetoYield = alqPct * (1 - opexPct) * (1 - alqTax);
+  const assetReturn  = alqNetoYield + revalor;   // total annual return on asset value
+  const debtCost     = hipTIN;                    // cost of debt (TIN)
+  const spread       = assetReturn - debtCost;
+
+  const spreadPct    = spread * 100;
+  const assetPct     = assetReturn * 100;
+  const debtPct      = debtCost * 100;
+
+  const verdictEl  = document.getElementById('spread-verdict');
+  const spreadValEl= document.getElementById('spread-value');
+  const spreadSubEl= document.getElementById('spread-sub');
+
+  spreadValEl.textContent = (spreadPct >= 0 ? '+' : '') + fmt(spreadPct, 2) + '%';
+
+  if (spreadPct > 1) {
+    verdictEl.className = 'spread-verdict spread-positive';
+    spreadValEl.style.color = 'var(--accent)';
+    spreadSubEl.textContent = 'La deuda crea valor — el activo rinde más de lo que cuesta financiarlo.';
+  } else if (spreadPct > 0) {
+    verdictEl.className = 'spread-verdict spread-neutral';
+    spreadValEl.style.color = 'var(--gold)';
+    spreadSubEl.textContent = 'Spread positivo pero ajustado — cualquier bajada de rentas o subida de tipos lo anula.';
+  } else {
+    verdictEl.className = 'spread-verdict spread-negative';
+    spreadValEl.style.color = 'var(--red)';
+    spreadSubEl.textContent = 'La deuda destruye valor — el coste de financiación supera el rendimiento del activo.';
+  }
+
+  const maxBar2 = Math.max(assetPct, debtPct, 0.1);
+  document.getElementById('sb-asset').style.width  = Math.min(assetPct / maxBar2 * 100, 100) + '%';
+  document.getElementById('sb-debt').style.width   = Math.min(debtPct  / maxBar2 * 100, 100) + '%';
+  const spreadWidth = Math.max(0, spreadPct) / maxBar2 * 100;
+  document.getElementById('sb-spread').style.width = Math.min(spreadWidth, 100) + '%';
+  document.getElementById('sb-spread').style.background = spreadPct >= 0 ? '#1a5fa8' : '#c0392b';
+
+  document.getElementById('sbv-asset').textContent  = '+' + fmt(assetPct, 2) + '%';
+  document.getElementById('sbv-asset').style.color  = 'var(--accent)';
+  document.getElementById('sbv-debt').textContent   = fmt(debtPct, 2) + '%';
+  document.getElementById('sbv-spread').textContent = (spreadPct >= 0 ? '+' : '') + fmt(spreadPct, 2) + '%';
+  document.getElementById('sbv-spread').style.color = spreadPct >= 0 ? 'var(--blue)' : 'var(--red)';
+
+  document.getElementById('seq-alq').textContent   = fmt(alqNetoYield * 100, 2) + '% alq. neto';
+  document.getElementById('seq-reval').textContent = fmt(revalor * 100, 1) + '% revalor.';
+  document.getElementById('seq-tin').textContent   = fmt(hipTIN * 100, 2) + '% TIN';
+  document.getElementById('seq-result').textContent = (spreadPct >= 0 ? '+' : '') + fmt(spreadPct, 2) + '%';
+  document.getElementById('seq-result').style.background = spreadPct > 1 ? 'rgba(26,122,60,0.1)' : spreadPct > 0 ? 'rgba(176,125,26,0.1)' : 'rgba(192,57,43,0.1)';
+  document.getElementById('seq-result').style.color = spreadPct > 1 ? 'var(--accent)' : spreadPct > 0 ? 'var(--gold)' : 'var(--red)';
+
+  // --- Flow ---
+  document.getElementById('f-capital').textContent = fmtEur(capital);
+  document.getElementById('f-nprop2').textContent = nprop;
+  document.getElementById('f-equity').textContent = '−' + fmtEur(equityTotal);
+  document.getElementById('f-cash').textContent = cashRem >= 0 ? fmtEur(cashRem) : '−' + fmtEur(-cashRem);
+  document.getElementById('f-activos').textContent = fmtEur(totalActivos);
+  document.getElementById('f-cuota').textContent = '−' + fmtEur(cuotaMes) + '/mes';
+  // Year-1 rent for display in flow card (fix 1: yr-1 so year 1 = base alqPct, no prior growth)
+  const alqBrutoAnio1 = totalActivos * alqPct * Math.pow(1 + alqGrowth, 0);  // yr-1 = 0
+  const alqNetoAnio1  = alqBrutoAnio1 * (1 - opexPct) * (1 - alqTax);
+  const alqMesAnio1   = alqNetoAnio1 / 12;
+  const cashflowMesAnio1 = alqMesAnio1 - cuotaMes;
+
+  document.getElementById('f-alquiler').textContent = '+' + fmtEur(alqMesAnio1) + '/mes';
+  document.getElementById('f-alquiler').title = 'Crece cada año con la revalorización del inmueble';
+
+  const cfEl = document.getElementById('f-cashflow');
+  cfEl.textContent = (cashflowMesAnio1 >= 0 ? '+' : '−') + fmtEur(Math.abs(cashflowMesAnio1)) + '/mes';
+  cfEl.style.color = cashflowMesAnio1 >= 0 ? 'var(--accent)' : 'var(--red)';
+
+  const pillCf = document.getElementById('pill-cf');
+  pillCf.textContent = cashflowMesAnio1 >= 0 ? 'CF positivo' : 'CF negativo';
+  pillCf.className = 'tag-pill ' + (cashflowMesAnio1 >= 0 ? 'pill-green' : 'pill-red');
+
+  // --- Horizon projection ---
+  const inmFinal = totalActivos * Math.pow(1 + revalor, horizon);
+  const plusvalia = inmFinal - totalActivos;
+
+  // Debt remaining at horizon
+  let deudaRes = 0;
+  if (r > 0) {
+    const nHorizon = horizon * 12;
+    if (nHorizon < n) {
+      deudaRes = deudaTotal * Math.pow(1+r, nHorizon) - cuotaMes * (Math.pow(1+r, nHorizon) - 1) / r;
+    } else {
+      deudaRes = 0;
+    }
+  }
+  deudaRes = Math.max(0, deudaRes);
+
+  // Cash at horizon
+  // 1. Alquiler uses yr-1 growth (year 1 = base alqPct, no prior growth)
+  // 2. Return applied to START-of-year balance
+  // Injections are tracked by year so ND and FI scenarios receive the same cash at the same time
+  const cashRetNet = cashRet * (1 - taxRate);
+  let cashAccAp = cashRem;
+  let totalInjectedAp = 0;
+  const injectionsByYear = [];
+
+  for (let yr = 1; yr <= horizon; yr++) {
+    const alqBrutoYr = totalActivos * alqPct * Math.pow(1 + alqGrowth, yr - 1);
+    const alqNetoYr  = alqBrutoYr * (1 - opexPct) * (1 - alqTax);
+    const startBalance = cashAccAp;
+    const retThisYr = Math.max(0, startBalance) * cashRetNet;
+    const cfThisYr  = alqNetoYr - cuotaMes * 12;
+    cashAccAp = startBalance + retThisYr + cfThisYr;
+
+    if (cashAccAp < 0) {
+      const inj = -cashAccAp;
+      totalInjectedAp += inj;
+      injectionsByYear.push({ yr, inj });
+      cashAccAp = 0;
+    } else {
+      injectionsByYear.push({ yr, inj: 0 });
+    }
+  }
+
+  const cashFinal = cashAccAp;
+  const cashGain  = cashFinal - Math.max(0, cashRem);
+
+  const capitalComprometido = capital + totalInjectedAp;
+  const patrimonioNeto      = Math.max(0, inmFinal - deudaRes) + cashFinal;
+  const roe = ((patrimonioNeto / capitalComprometido) - 1) * 100;
+  const multiplicador = patrimonioNeto / capitalComprometido;
+
+  const cagr = capitalComprometido > 0
+    ? (Math.pow(Math.max(0.0001, patrimonioNeto) / capitalComprometido, 1 / horizon) - 1) * 100
+    : 0;
+
+  // Inmuebles CAGR on equity invested
+  const equityGain = inmFinal - deudaRes - equityTotal;
+  const inmCagr = equityTotal > 0
+    ? (Math.pow((inmFinal - deudaRes) / Math.max(equityTotal, 1), 1/horizon) - 1) * 100
+    : 0;
+  const cashCagr = cashRem > 0 ? cashRetNet * 100 : 0;
+
+  document.getElementById('bc-horizon').textContent = horizon;
+  document.getElementById('bc-inmuebles').textContent = fmtEur(inmFinal);
+  document.getElementById('bc-inmuebles-sub').textContent = (plusvalia >= 0 ? '+' : '') + fmtEur(plusvalia) + ' plusvalía';
+
+  document.getElementById('bc-cash').textContent = fmtEur(cashFinal);
+  document.getElementById('bc-cash-sub').textContent = (cashGain >= 0 ? '+' : '') + fmtEur(cashGain) + ' rentabilidad';
+
+  document.getElementById('bc-deuda-res').textContent = fmtEur(deudaRes);
+  document.getElementById('bc-deuda-sub').textContent = 'de ' + fmtEur(deudaTotal) + ' original';
+
+  document.getElementById('bc-neto').textContent = fmtEur(patrimonioNeto);
+  document.getElementById('bc-neto-sub').textContent = totalInjectedAp > 0
+    ? 'capital comprometido: ' + fmtEur(capitalComprometido) + ' (incl. ' + fmtEur(totalInjectedAp) + ' inyectado)'
+    : 'vs ' + fmtEur(capital) + ' inicial';
+
+  // ROE
+  document.getElementById('multiplicador').textContent = '×' + fmt(multiplicador, 2);
+  const roeEl = document.getElementById('roe-total');
+  roeEl.textContent = fmtPct(roe, 1);
+  roeEl.style.color = roe >= 0 ? 'var(--accent)' : 'var(--red)';
+
+  // Bars — normalize to max 20% for bar width
+  const maxBar = 20;
+  const pctInm = Math.min(Math.max(inmCagr / maxBar * 100, 0), 100);
+  const pctCash = Math.min(Math.max(cashCagr / maxBar * 100, 0), 100);
+  const pctTotal = Math.min(Math.max(cagr / maxBar * 100, 0), 100);
+
+        document.getElementById('bar-inm').style.width = pctInm + '%';
+  document.getElementById('bar-cash').style.width = pctCash + '%';
+  document.getElementById('bar-total').style.width = pctTotal + '%';
+
+  document.getElementById('bar-inm').style.background = 'var(--accent)';
+  document.getElementById('bar-cash').style.background = 'var(--gold)';
+  document.getElementById('bar-total').style.background = 'var(--blue)';
+
+  document.getElementById('bv-inm').textContent = fmtPct(inmCagr, 1) + ' / año';
+  document.getElementById('bv-inm').style.color = inmCagr >= 0 ? 'var(--accent)' : 'var(--red)';
+  document.getElementById('bv-cash').textContent = fmtPct(cashCagr, 1) + ' / año';
+  document.getElementById('bv-total').textContent = fmtPct(cagr, 1) + ' / año';
+  document.getElementById('bv-total').style.color = cagr >= 0 ? 'var(--blue)' : 'var(--red)';
+
+  // ---- COMPARISON: Sin apalancamiento ----
+  // Fix 4: cap house value at vprop (single property), not capitalComprometido
+  // If capitalComprometido > vprop, extra goes into cash investment
+  const casaND = Math.min(capitalComprometido, vprop);
+  const cashRemND = capitalComprometido - casaND;
+  // Fix 6: cfMesND uses net rent (after opex and tax), not gross
+  const alqMesNDnet = casaND * alqPct * (1 - opexPct) * (1 - alqTax) / 12;
+  const cfMesND = alqMesNDnet;  // no mortgage, full net rent is CF
+
+  // Rent + initial cash in unified pool, plus injections added at the year they occur
+  let cashPoolNDcmp = cashRemND >= 0 ? cashRemND : 0;
+  for (let yr = 1; yr <= horizon; yr++) {
+    const alqBrutoNDyr = casaND * alqPct * Math.pow(1 + alqGrowth, yr - 1);
+    const alqNetoNDyr  = alqBrutoNDyr * (1 - opexPct) * (1 - alqTax);
+    // Return on start-of-year balance
+    cashPoolNDcmp = cashPoolNDcmp * (1 + cashRetNet) + alqNetoNDyr;
+    // Injection arrives mid-year — earns half a year of return
+    const injThisYr2 = (injectionsByYear.find(i => i.yr === yr) || { inj: 0 }).inj;
+    if (injThisYr2 > 0) cashPoolNDcmp += injThisYr2 * (1 + cashRetNet * 0.5);
+  }
+  const casaFinalND = casaND * Math.pow(1 + revalor, horizon);
+  const patrimonioND = casaFinalND + cashPoolNDcmp;
+  const cagrND = capitalComprometido > 0
+    ? (Math.pow(Math.max(0.0001, patrimonioND) / capitalComprometido, 1 / horizon) - 1) * 100
+    : 0;
+  const multND = patrimonioND / capitalComprometido;
+  const cashFinalND = cashPoolNDcmp;
+
+  // Populate sin-deuda card
+  document.getElementById('cmp-nd-neto').textContent = fmtEur(patrimonioND);
+  document.getElementById('cmp-nd-sub').textContent = totalInjectedAp > 0
+    ? 'mismo capital comprometido: ' + fmtEur(capitalComprometido)
+    : 'patrimonio neto a ' + horizon + ' años';
+  document.getElementById('cmp-nd-casa').textContent = fmtEur(casaFinalND);
+  document.getElementById('cmp-nd-cash').textContent = fmtEur(cashFinalND)
+    + (cashRemND > 0 ? ' (' + fmtEur(cashRemND) + ' inicial)' : '');
+  document.getElementById('cmp-nd-cagr').textContent = fmtPct(cagrND, 1) + ' / año';
+  document.getElementById('cmp-nd-cagr').style.color = cagrND >= 0 ? 'var(--accent)' : 'var(--red)';
+  document.getElementById('cagr-formula-nd').innerHTML =
+    cagrLine('Patrimonio final', fmtEur(patrimonioND)) +
+    cagrLine('Capital comprometido', fmtEur(capitalComprometido)) +
+    cagrLine('Horizonte', horizon + ' años') +
+    '<hr class="cf-divider">' +
+    cagrLine('Multiplicador (P/C)', '×' + fmt(multND, 2)) +
+    '<div class="cf-formula-line">CAGR = (Patrimonio ÷ Capital)<sup>1/n</sup> − 1<br>' +
+    '= (' + fmtEur(patrimonioND) + ' ÷ ' + fmtEur(capitalComprometido) + ')<sup>1/' + horizon + '</sup> − 1<br>' +
+    '= ' + fmtPct(cagrND, 2) + ' / año</div>';
+  document.getElementById('cmp-nd-mult').textContent = '×' + fmt(multND, 2);
+  document.getElementById('cmp-nd-cf').textContent = '+' + fmtEur(cfMesND) + '/mes (neto)';
+  document.getElementById('cmp-nd-cf').style.color = 'var(--accent)';
+
+  // Populate apalancado card (mirrors main results)
+  document.getElementById('cmp-ap-neto').textContent = fmtEur(patrimonioNeto);
+  document.getElementById('cmp-ap-sub').textContent = totalInjectedAp > 0
+    ? 'capital comprometido: ' + fmtEur(capitalComprometido)
+    : 'patrimonio neto a ' + horizon + ' años';
+  document.getElementById('cmp-ap-activos').textContent = fmtEur(inmFinal);
+  document.getElementById('cmp-ap-deuda').textContent = fmtEur(deudaRes);
+  document.getElementById('cmp-ap-cash').textContent = fmtEur(cashFinal);
+  document.getElementById('cmp-ap-cagr').textContent = fmtPct(cagr, 1) + ' / año';
+  document.getElementById('cmp-ap-cagr').style.color = cagr >= 0 ? 'var(--accent)' : 'var(--red)';
+  document.getElementById('cagr-formula-ap').innerHTML =
+    cagrLine('Patrimonio final', fmtEur(patrimonioNeto)) +
+    cagrLine('Capital comprometido', fmtEur(capitalComprometido) + (totalInjectedAp > 0 ? ' (incl. ' + fmtEur(totalInjectedAp) + ' inyectado)' : '')) +
+    cagrLine('Horizonte', horizon + ' años') +
+    '<hr class="cf-divider">' +
+    cagrLine('Multiplicador (P/C)', '×' + fmt(multiplicador, 2)) +
+    '<div class="cf-formula-line">CAGR = (Patrimonio ÷ Capital)<sup>1/n</sup> − 1<br>' +
+    '= (' + fmtEur(patrimonioNeto) + ' ÷ ' + fmtEur(capitalComprometido) + ')<sup>1/' + horizon + '</sup> − 1<br>' +
+    '= ' + fmtPct(cagr, 2) + ' / año</div>';
+  document.getElementById('cmp-ap-mult').textContent = '×' + fmt(multiplicador, 2);
+  document.getElementById('cmp-ap-cf').textContent = (cashflowMes >= 0 ? '+' : '') + fmtEur(Math.abs(cashflowMes)) + '/mes';
+  document.getElementById('cmp-ap-cf').style.color = cashflowMes >= 0 ? 'var(--accent)' : 'var(--red)';
+  document.getElementById('cmp-ap-props').textContent = nprop + ' propiedad' + (nprop > 1 ? 'es' : '')
+    + (totalInjectedAp > 0 ? ' · inyectado: ' + fmtEur(totalInjectedAp) : '');
+
+  // ---- Escenario 3: Solo inversión financiera ----
+  // FI: invest initial capital from year 0, add each injection at mid-year (half-year return that year)
+  let patrimonioFI = capital * Math.pow(1 + cashRetNet, horizon);
+  for (const { yr, inj } of injectionsByYear) {
+    if (inj > 0) {
+      // Mid-year: half year of return in arrival year, then full years for remaining (horizon - yr)
+      patrimonioFI += inj * (1 + cashRetNet * 0.5) * Math.pow(1 + cashRetNet, horizon - yr);
+    }
+  }
+  const cagrFI = capitalComprometido > 0
+    ? (Math.pow(Math.max(0.0001, patrimonioFI) / capitalComprometido, 1 / horizon) - 1) * 100
+    : 0;
+  const multFI = patrimonioFI / capitalComprometido;
+  const rendimAnualFI = capitalComprometido * cashRet;
+
+  document.getElementById('cmp-fi-neto').textContent = fmtEur(patrimonioFI);
+  document.getElementById('cmp-fi-sub').textContent = totalInjectedAp > 0
+    ? 'mismo capital comprometido: ' + fmtEur(capitalComprometido)
+    : 'patrimonio neto a ' + horizon + ' años';
+  document.getElementById('cmp-fi-capital').textContent = fmtEur(capitalComprometido);
+  document.getElementById('cmp-fi-valor').textContent = fmtEur(patrimonioFI);
+  document.getElementById('cmp-fi-cagr').textContent = fmtPct(cagrFI, 1) + ' / año';
+  document.getElementById('cmp-fi-cagr').style.color = cagrFI >= 0 ? 'var(--gold)' : 'var(--red)';
+  document.getElementById('cagr-formula-fi').innerHTML =
+    cagrLine('Patrimonio final', fmtEur(patrimonioFI)) +
+    cagrLine('Capital comprometido', fmtEur(capitalComprometido)) +
+    cagrLine('Retorno neto anual', fmt(cashRetNet * 100, 2) + '%') +
+    cagrLine('Horizonte', horizon + ' años') +
+    '<hr class="cf-divider">' +
+    cagrLine('Multiplicador (P/C)', '×' + fmt(multFI, 2)) +
+    '<div class="cf-formula-line">CAGR = retorno neto (tipo fijo compuesto)<br>' +
+    '= ' + fmtEur(capitalComprometido) + ' × (1 + ' + fmt(cashRetNet*100,2) + '%)<sup>' + horizon + '</sup><br>' +
+    '= ' + fmtEur(patrimonioFI) + ' → ' + fmtPct(cagrFI, 2) + ' / año</div>';
+  document.getElementById('cmp-fi-mult').textContent = '×' + fmt(multFI, 2);
+  document.getElementById('cmp-fi-rendim').textContent = '+' + fmtEur(rendimAnualFI) + '/año';
+  document.getElementById('cmp-fi-tipo').textContent = fmt(cashRet * 100, 2) + '% bruto · ' + fmt(cashRetNet * 100, 2) + '% neto';
+
+  // Winner banner — pick best of 3
+  document.getElementById('wb-horizon').textContent = horizon;
+  const patrimonios = [
+    { name: 'Con apalancamiento', val: patrimonioNeto, color: 'var(--accent)' },
+    { name: 'Sin apalancamiento', val: patrimonioND,   color: 'var(--text-muted)' },
+    { name: 'Solo financiero',    val: patrimonioFI,   color: 'var(--gold)' },
+  ];
+  patrimonios.sort((a, b) => b.val - a.val);
+  const winner = patrimonios[0];
+  const second = patrimonios[1];
+  const winnerEl = document.getElementById('wb-winner');
+  winnerEl.textContent = winner.name;
+  winnerEl.style.color = winner.color;
+  const diffEl = document.getElementById('wb-diff');
+  diffEl.textContent = '+' + fmtEur(winner.val - second.val);
+  diffEl.style.color = winner.color;
+
+  // Compare bars — normalize all 3
+  const maxCagr = Math.max(Math.abs(cagr), Math.abs(cagrND), Math.abs(cagrFI), 0.1);
+  document.getElementById('cb-ap').style.width = Math.max(0, cagr   / maxCagr * 100) + '%';
+  document.getElementById('cb-nd').style.width = Math.max(0, cagrND / maxCagr * 100) + '%';
+  document.getElementById('cb-fi').style.width = Math.max(0, cagrFI / maxCagr * 100) + '%';
+  document.getElementById('cbv-ap').textContent = fmtPct(cagr,   1) + ' / año';
+  document.getElementById('cbv-ap').style.color = cagr   >= 0 ? 'var(--accent)'     : 'var(--red)';
+  document.getElementById('cbv-nd').textContent = fmtPct(cagrND, 1) + ' / año';
+  document.getElementById('cbv-nd').style.color = cagrND >= 0 ? 'var(--text-muted)' : 'var(--red)';
+  document.getElementById('cbv-fi').textContent = fmtPct(cagrFI, 1) + ' / año';
+  document.getElementById('cbv-fi').style.color = cagrFI >= 0 ? 'var(--gold)'       : 'var(--red)';
+
+  // ---- YEAR BY YEAR TABLES (transposed: rows = metrics, cols = years) ----
+
+  // Build data arrays
+  const apRows = { alq:[], alqOpex:[], alqTaxRow:[], alqNeto:[], hip:[], int:[], cap:[], cashRetBruto:[], taxCash:[], cashRetNeto:[], inject:[], cfNet:[], cfAcum:[], deudaViv:[], inmVal:[], cashAcum:[], patrim:[] };
+  const ndRows = { alq:[], alqOpex:[], alqTaxRow:[], alqNeto:[], inject:[], cashRetBruto:[], taxCash:[], cashRetNeto:[], cfNet:[], cfAcum:[], casaVal:[], cashAcum:[], patrim:[] };
+
+  let deudaViva2 = deudaTotal;
+  let cashAcumAp = cashRem;
+  let cfAcumAp = 0;
+  let cumInjectAp = 0;
+  let totalAlqAp=0, totalHipAp=0, totalInteresAp=0, totalCapAp=0, totalCashRetAp=0, totalTaxAp=0, totalInjectAp=0, totalCfAp=0;
+
+  for (let yr = 1; yr <= horizon; yr++) {
+    const inmValAp = totalActivos * Math.pow(1 + revalor, yr);
+    const hipAnual = cuotaMes * 12;
+    let interesAnual = 0, capAnual = 0;
+    let dv = deudaTotal;
+    if (r > 0) {
+      const mStart = (yr - 1) * 12 + 1;
+      const mEnd = yr * 12;
+      for (let m = 1; m < mStart; m++) { const i2 = dv*r; dv -= (cuotaMes-i2); if(dv<0)dv=0; }
+      for (let m = mStart; m <= Math.min(mEnd, plazo*12); m++) {
+        const intM = dv*r; const capM = Math.min(cuotaMes-intM, dv);
+        interesAnual += intM; capAnual += capM; dv -= capM; if(dv<0)dv=0;
+      }
+    }
+    deudaViva2 = Math.max(0, dv);
+
+    const alqBrutoAp  = totalActivos * alqPct * Math.pow(1 + alqGrowth, yr - 1);  // fix 1: yr-1
+    const opexAp      = alqBrutoAp * opexPct;
+    const alqPostOpex = alqBrutoAp - opexAp;
+    const alqTaxAp    = alqPostOpex * alqTax;
+    const alqNetoAp   = alqPostOpex - alqTaxAp;
+
+    // Fix 2: return on start-of-year balance
+    const startBalAp     = cashAcumAp;
+    const cashRetBrutoAp = Math.max(0, startBalAp) * cashRet;
+    const taxAnualAp     = cashRetBrutoAp * taxRate;
+    const cashRetNetoAp  = cashRetBrutoAp - taxAnualAp;
+    cashAcumAp = startBalAp + cashRetNetoAp + (alqNetoAp - hipAnual);
+
+    let injectYr = 0;
+    if (cashAcumAp < 0) { injectYr = -cashAcumAp; cashAcumAp = 0; }
+    cumInjectAp += injectYr;
+
+    const cfNetAnual = alqNetoAp - hipAnual + cashRetNetoAp;
+    cfAcumAp += cfNetAnual;
+    // Patrimony uses total committed capital as the cost basis — injections reduce the net gain
+    const capitalCommittedSoFar = capital + cumInjectAp;
+    const patrimonioYr = Math.max(0, inmValAp - deudaViva2) + cashAcumAp;
+
+    totalAlqAp += alqBrutoAp; totalHipAp += hipAnual; totalInteresAp += interesAnual;
+    totalCapAp += capAnual; totalCashRetAp += cashRetBrutoAp; totalTaxAp += taxAnualAp;
+    totalInjectAp += injectYr; totalCfAp += cfNetAnual;
+
+    apRows.alq.push(alqBrutoAp); apRows.alqOpex.push(opexAp); apRows.alqTaxRow.push(alqTaxAp);
+    apRows.alqNeto.push(alqNetoAp); apRows.hip.push(hipAnual); apRows.int.push(interesAnual);
+    apRows.cap.push(capAnual); apRows.cashRetBruto.push(cashRetBrutoAp);
+    apRows.taxCash.push(taxAnualAp); apRows.cashRetNeto.push(cashRetNetoAp);
+    apRows.inject.push(injectYr); apRows.cfNet.push(cfNetAnual);
+    apRows.cfAcum.push(cfAcumAp); apRows.deudaViv.push(deudaViva2); apRows.inmVal.push(inmValAp);
+    apRows.cashAcum.push(cashAcumAp); apRows.patrim.push(patrimonioYr);
+  }
+
+  let cashPoolNd = cashRemND >= 0 ? cashRemND : 0;
+  let cfAcumNd2 = 0;
+  let totalAlqNd=0, totalCashRetNd=0, totalTaxNd=0, totalCfNd=0;
+  for (let yr = 1; yr <= horizon; yr++) {
+    const casaValNd    = casaND * Math.pow(1 + revalor, yr);
+    const alqBrutoNd   = casaND * alqPct * Math.pow(1 + alqGrowth, yr - 1);
+    const opexNd       = alqBrutoNd * opexPct;
+    const alqPostOpexNd= alqBrutoNd - opexNd;
+    const alqTaxNd2    = alqPostOpexNd * alqTax;
+    const alqNetoNd2   = alqPostOpexNd - alqTaxNd2;
+
+    // Return on start-of-year pool
+    const startBalNd     = cashPoolNd;
+    const cashRetBrutoNd = startBalNd * cashRet;
+    const taxAnualNd2    = cashRetBrutoNd * taxRate;
+    const cashRetNetoNd2 = cashRetBrutoNd - taxAnualNd2;
+    cashPoolNd = startBalNd + cashRetNetoNd2 + alqNetoNd2;
+
+    // Injection arrives mid-year (deficit accumulates monthly, avg = mid-year)
+    // So it earns half a year of return in the year it arrives
+    const injThisYr = (injectionsByYear.find(i => i.yr === yr) || { inj: 0 }).inj;
+    if (injThisYr > 0) {
+      const injHalfYearReturn = injThisYr * cashRetNet * 0.5;
+      cashPoolNd += injThisYr + injHalfYearReturn;
+    }
+
+    const cfNetNd = alqNetoNd2 + cashRetNetoNd2 + injThisYr;
+    cfAcumNd2 += cfNetNd;
+    totalAlqNd += alqBrutoNd; totalCashRetNd += cashRetBrutoNd; totalTaxNd += taxAnualNd2; totalCfNd += cfNetNd;
+    ndRows.alq.push(alqBrutoNd); ndRows.alqOpex.push(opexNd); ndRows.alqTaxRow.push(alqTaxNd2);
+    ndRows.alqNeto.push(alqNetoNd2); ndRows.cashRetBruto.push(cashRetBrutoNd);
+    ndRows.taxCash.push(taxAnualNd2); ndRows.cashRetNeto.push(cashRetNetoNd2);
+    ndRows.inject.push(injThisYr);
+    ndRows.cfNet.push(cfNetNd);
+    ndRows.cfAcum.push(cfAcumNd2); ndRows.casaVal.push(casaValNd);
+    ndRows.cashAcum.push(cashPoolNd); ndRows.patrim.push(casaValNd + cashPoolNd);
+  }
+
+  // Render transposed table helper
+  let _formulaRowCounter = 0;
+  function buildTransposedTable(tableEl, rowDefs, horizon) {
+    tableEl.innerHTML = '';
+    const thead = document.createElement('thead');
+    const headRow = document.createElement('tr');
+    const thBlank = document.createElement('th');
+    thBlank.className = 'row-header';
+    thBlank.style.background = 'var(--surface2)';
+    headRow.appendChild(thBlank);
+    for (let yr = 1; yr <= horizon; yr++) {
+      const td2 = document.createElement('td');
+      td2.className = 'year-header';
+      td2.textContent = 'Año ' + yr;
+      headRow.appendChild(td2);
+    }
+    const tdTot = document.createElement('td');
+    tdTot.className = 'year-header total-col';
+    tdTot.textContent = 'TOTAL';
+    headRow.appendChild(tdTot);
+    thead.appendChild(headRow);
+    tableEl.appendChild(thead);
+
+    const tbody = document.createElement('tbody');
+    rowDefs.forEach(def => {
+      const fid = def.formula ? ('fr' + (_formulaRowCounter++)) : null;
+
+      // Main data row
+      const tr = document.createElement('tr');
+      if (def.divider) tr.classList.add('section-divider');
+      if (def.totalRow) tr.classList.add('total-row');
+
+      const th = document.createElement('th');
+      th.className = 'row-header' + (def.formula ? ' has-formula' : '');
+      const dot = def.bold ? '' : '<span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:' + def.color + ';margin-right:7px;vertical-align:middle"></span>';
+      const toggleSpan = def.formula ? '<span class="formula-toggle" id="ft-' + fid + '">▸</span>' : '';
+      th.innerHTML = dot + (def.bold ? '<strong>' + def.label + '</strong>' : def.label) + toggleSpan;
+      if (def.bold) { th.style.color = def.color; th.style.borderTop = '1px solid var(--border)'; }
+      if (def.formula) {
+        th.onclick = () => {
+          const fr = document.getElementById('fr-' + fid);
+          const ft = document.getElementById('ft-' + fid);
+          const isOpen = fr.classList.contains('open');
+          fr.classList.toggle('open', !isOpen);
+          ft.classList.toggle('open', !isOpen);
+        };
+      }
+      tr.appendChild(th);
+
+      let runningTotal = 0;
+      def.values.forEach((v, i) => {
+        const td2 = document.createElement('td');
+        td2.className = 'cell';
+        if (!def.isTotal) runningTotal += (def.noSum ? 0 : v);
+        td2.textContent = def.fmt(v);
+        td2.style.color = def.color;
+        tr.appendChild(td2);
+      });
+
+      const tdTotal = document.createElement('td');
+      tdTotal.className = 'cell total-col';
+      tdTotal.style.color = def.color;
+      if (def.isTotal) tdTotal.textContent = def.fmt(def.values[def.values.length - 1]);
+      else if (def.noSum) tdTotal.textContent = '—';
+      else tdTotal.textContent = def.fmtTotal ? def.fmtTotal(runningTotal) : def.fmt(runningTotal);
+      tr.appendChild(tdTotal);
+      tbody.appendChild(tr);
+
+      // Formula sub-row — label col shows template, each year col shows numeric calc
+      if (def.formula) {
+        const ftr = document.createElement('tr');
+        ftr.className = 'formula-row';
+        ftr.id = 'fr-' + fid;
+
+        const fth = document.createElement('th');
+        fth.className = 'row-header';
+        fth.style.cssText = 'font-style:italic;color:var(--text-dim);font-size:10px;font-family:"DM Mono",monospace;padding:3px 8px 8px 20px;background:var(--surface2);border-right:1px solid var(--border);vertical-align:top;line-height:1.6;';
+        fth.textContent = def.formula;
+        ftr.appendChild(fth);
+
+        // Per-year numeric breakdown
+        def.values.forEach((v, i) => {
+          const ftd = document.createElement('td');
+          ftd.className = 'cell';
+          ftd.style.cssText = 'background:var(--surface2);font-size:10px;font-family:"DM Mono",monospace;color:var(--text-dim);font-style:italic;padding:3px 10px 8px;text-align:right;vertical-align:top;line-height:1.6;white-space:pre-wrap;min-width:120px;';
+          ftd.textContent = def.formulaFn ? def.formulaFn(i) : '';
+          ftr.appendChild(ftd);
+        });
+
+        const ftdTot = document.createElement('td');
+        ftdTot.className = 'cell total-col';
+        ftdTot.style.cssText = 'background:var(--surface3);border-bottom:1px solid var(--border);';
+        ftr.appendChild(ftdTot);
+        tbody.appendChild(ftr);
+      }
+    });
+    tableEl.appendChild(tbody);
+  }
+
+  const fmtIn  = v => '+' + fmtEur(v);
+  const fmtOut = v => '−' + fmtEur(v);
+  const fmtNeutral = v => fmtEur(v);
+  const fmtCF = v => (v >= 0 ? '+' : '−') + fmtEur(Math.abs(v));
+  const GREEN = 'var(--accent)', RED = 'var(--red)', GREY = '#888', BLUE = 'var(--blue)', GOLD = 'var(--gold)', TEXT = 'var(--text)';
+
+  const fmtN = v => new Intl.NumberFormat('es-ES', {maximumFractionDigits:0}).format(Math.round(v));
+  const pct = v => (v*100).toFixed(2) + '%';
+
+  buildTransposedTable(document.getElementById('table-ap'), [
+    { label: 'CASH IN (total)',          color: GREEN, values: apRows.alqNeto.map((v,i) => v + apRows.cashRetNeto[i]), fmt: fmtIn, noSum: false, bold: true,
+      formula: 'Alquiler neto + Rendim. cash neto',
+      formulaFn: i => fmtN(apRows.alqNeto[i]) + ' + ' + fmtN(apRows.cashRetNeto[i]) + '\n= ' + fmtN(apRows.alqNeto[i]+apRows.cashRetNeto[i]) + ' €' },
+    { label: '  Alquiler bruto',         color: GREEN, values: apRows.alq, fmt: fmtIn, noSum: false,
+      formula: 'Valor inmuebles × Alquiler% × (1+CrecAlq%)^(año−1)',
+      formulaFn: i => fmtN(totalActivos) + ' × ' + pct(alqPct) + ' × (1+' + pct(alqGrowth) + ')^' + i + '\n= ' + fmtN(apRows.alq[i]) + ' €' },
+    { label: '  › Costes + vacancia',    color: RED,   values: apRows.alqOpex, fmt: fmtOut, noSum: false,
+      formula: 'Alquiler bruto × Costes operativos%',
+      formulaFn: i => fmtN(apRows.alq[i]) + ' × ' + pct(opexPct) + '\n= ' + fmtN(apRows.alqOpex[i]) + ' €' },
+    { label: '  › IRPF alquiler',        color: RED,   values: apRows.alqTaxRow, fmt: fmtOut, noSum: false,
+      formula: '(Alquiler bruto − Costes) × IRPF%',
+      formulaFn: i => '(' + fmtN(apRows.alq[i]) + ' − ' + fmtN(apRows.alqOpex[i]) + ') × ' + pct(alqTax) + '\n= ' + fmtN(apRows.alqTaxRow[i]) + ' €' },
+    { label: '  › Alquiler neto',        color: GREEN, values: apRows.alqNeto, fmt: fmtIn, noSum: false,
+      formula: 'Alquiler bruto × (1−Costes%) × (1−IRPF%)',
+      formulaFn: i => fmtN(apRows.alq[i]) + ' × ' + (1-opexPct).toFixed(2) + ' × ' + (1-alqTax).toFixed(2) + '\n= ' + fmtN(apRows.alqNeto[i]) + ' €' },
+    { label: '  Rendim. cash bruto',     color: GOLD,  values: apRows.cashRetBruto, fmt: fmtIn, noSum: false,
+      formula: 'Cash pool (inicio año) × Retorno cash%',
+      formulaFn: i => fmtN(apRows.cashAcum[i] - apRows.cashRetNeto[i] - (apRows.alqNeto[i] - apRows.hip[i])) + ' × ' + pct(cashRet) + '\n= ' + fmtN(apRows.cashRetBruto[i]) + ' €' },
+    { label: '  › Impuestos rendim.',    color: RED,   values: apRows.taxCash, fmt: fmtOut, noSum: false,
+      formula: 'Rendim. bruto × Tipo impositivo%',
+      formulaFn: i => fmtN(apRows.cashRetBruto[i]) + ' × ' + pct(taxRate) + '\n= ' + fmtN(apRows.taxCash[i]) + ' €' },
+    { label: '  › Rendim. cash neto',    color: GOLD,  values: apRows.cashRetNeto, fmt: fmtIn, noSum: false,
+      formula: 'Rendim. bruto × (1−Tipo impositivo%)',
+      formulaFn: i => fmtN(apRows.cashRetBruto[i]) + ' × ' + (1-taxRate).toFixed(2) + '\n= ' + fmtN(apRows.cashRetNeto[i]) + ' €' },
+    { label: 'CASH OUT (total)',          color: RED,   values: apRows.hip, fmt: fmtOut, noSum: false, divider: true, bold: true,
+      formula: 'Cuota mensual × 12  [Deuda × r×(1+r)^n / ((1+r)^n−1), r=TIN/12]',
+      formulaFn: i => fmtN(cuotaMes) + ' €/mes × 12\n= ' + fmtN(apRows.hip[i]) + ' €' },
+    { label: '  › Intereses (coste)',    color: RED,   values: apRows.int, fmt: fmtOut, noSum: false,
+      formula: 'Σ 12 meses: Deuda viva × (TIN/12)',
+      formulaFn: i => 'Deuda viva año ' + (i+1) + ' × ' + (hipTIN/12*100).toFixed(3) + '%/mes\n= ' + fmtN(apRows.int[i]) + ' €' },
+    { label: '  › Capital amortizado',   color: GREY,  values: apRows.cap, fmt: fmtNeutral, noSum: false,
+      formula: 'Σ 12 meses: Cuota − Intereses del mes',
+      formulaFn: i => fmtN(apRows.hip[i]) + ' − ' + fmtN(apRows.int[i]) + '\n= ' + fmtN(apRows.cap[i]) + ' €' },
+    { label: '  › Inyección de capital', color: RED,   values: apRows.inject, fmt: v => v > 0 ? '−'+fmtEur(v)+' ⚠' : '0 €', noSum: false,
+      formula: 'Max(0, −Cash pool) — cuando alquiler neto < hipoteca y pool agotado',
+      formulaFn: i => apRows.inject[i] > 0 ? 'Déficit cubierto:\n' + fmtN(apRows.inject[i]) + ' €' : '0 € (pool suficiente)' },
+    { label: 'CF NETO ANUAL',            color: GREEN, values: apRows.cfNet, fmt: fmtCF, noSum: false, divider: true, bold: true, fmtTotal: v => fmtCF(v),
+      formula: 'Alquiler neto + Rendim. cash neto − Hipoteca anual',
+      formulaFn: i => fmtN(apRows.alqNeto[i]) + ' + ' + fmtN(apRows.cashRetNeto[i]) + '\n− ' + fmtN(apRows.hip[i]) + '\n= ' + fmtN(apRows.cfNet[i]) + ' €' },
+    { label: 'CF acumulado',             color: GREEN, values: apRows.cfAcum, fmt: fmtCF, noSum: true, isTotal: true,
+      formula: 'Σ CF neto hasta este año',
+      formulaFn: i => 'Σ años 1→' + (i+1) + '\n= ' + fmtN(apRows.cfAcum[i]) + ' €' },
+    { label: 'BALANCE',                  color: BLUE,  values: apRows.deudaViv, fmt: fmtNeutral, noSum: true, divider: true, bold: true },
+    { label: '  Deuda pendiente',        color: RED,   values: apRows.deudaViv, fmt: v => '−'+fmtEur(v), noSum: true, isTotal: true,
+      formula: 'Deuda × (1+r)^m − Cuota×((1+r)^m−1)/r',
+      formulaFn: i => 'Tras ' + ((i+1)*12) + ' meses\n= ' + fmtN(apRows.deudaViv[i]) + ' €' },
+    { label: '  Valor inmuebles',        color: TEXT,  values: apRows.inmVal, fmt: fmtNeutral, noSum: true, isTotal: true,
+      formula: 'Valor compra × (1+Revalorización%)^año',
+      formulaFn: i => fmtN(totalActivos) + ' × (1+' + pct(revalor) + ')^' + (i+1) + '\n= ' + fmtN(apRows.inmVal[i]) + ' €' },
+    { label: '  Cash acumulado (neto)',  color: GOLD,  values: apRows.cashAcum, fmt: fmtNeutral, noSum: true, isTotal: true,
+      formula: 'Pool ant. × (1+RetNet%) + AlqNeto − Hipoteca  [si <0 → inyección]',
+      formulaFn: i => fmtN(apRows.cashAcum[i]) + ' €' },
+    { label: 'PATRIMONIO NETO',          color: BLUE,  values: apRows.patrim, fmt: fmtNeutral, noSum: true, isTotal: true, totalRow: true,
+      formula: 'Valor inmuebles − Deuda pendiente + Cash acumulado',
+      formulaFn: i => fmtN(apRows.inmVal[i]) + ' − ' + fmtN(apRows.deudaViv[i]) + '\n+ ' + fmtN(apRows.cashAcum[i]) + '\n= ' + fmtN(apRows.patrim[i]) + ' €' },
+  ], horizon);
+
+  buildTransposedTable(document.getElementById('table-nd'), [
+    { label: 'CASH IN (total)',          color: GREEN, values: ndRows.alqNeto.map((v,i) => v + ndRows.cashRetNeto[i] + (ndRows.inject[i]||0)), fmt: fmtIn, noSum: false, bold: true,
+      formula: 'Alquiler neto + Rendim. cash neto + Capital extra',
+      formulaFn: i => fmtN(ndRows.alqNeto[i]) + ' + ' + fmtN(ndRows.cashRetNeto[i]) + (ndRows.inject[i]>0 ? ' + ' + fmtN(ndRows.inject[i]) : '') + '\n= ' + fmtN(ndRows.alqNeto[i]+ndRows.cashRetNeto[i]+(ndRows.inject[i]||0)) + ' €' },
+    { label: '  Alquiler bruto',         color: GREEN, values: ndRows.alq, fmt: fmtIn, noSum: false,
+      formula: 'Valor casa × Alquiler% × (1+CrecAlq%)^(año−1)',
+      formulaFn: i => fmtN(casaND) + ' × ' + pct(alqPct) + ' × (1+' + pct(alqGrowth) + ')^' + i + '\n= ' + fmtN(ndRows.alq[i]) + ' €' },
+    { label: '  › Costes + vacancia',    color: RED,   values: ndRows.alqOpex, fmt: fmtOut, noSum: false,
+      formula: 'Alquiler bruto × Costes operativos%',
+      formulaFn: i => fmtN(ndRows.alq[i]) + ' × ' + pct(opexPct) + '\n= ' + fmtN(ndRows.alqOpex[i]) + ' €' },
+    { label: '  › IRPF alquiler',        color: RED,   values: ndRows.alqTaxRow, fmt: fmtOut, noSum: false,
+      formula: '(Alquiler bruto − Costes) × IRPF%',
+      formulaFn: i => '(' + fmtN(ndRows.alq[i]) + ' − ' + fmtN(ndRows.alqOpex[i]) + ') × ' + pct(alqTax) + '\n= ' + fmtN(ndRows.alqTaxRow[i]) + ' €' },
+    { label: '  › Alquiler neto',        color: GREEN, values: ndRows.alqNeto, fmt: fmtIn, noSum: false,
+      formula: 'Alquiler bruto × (1−Costes%) × (1−IRPF%)',
+      formulaFn: i => fmtN(ndRows.alq[i]) + ' × ' + (1-opexPct).toFixed(2) + ' × ' + (1-alqTax).toFixed(2) + '\n= ' + fmtN(ndRows.alqNeto[i]) + ' €' },
+    { label: '  Rendim. cash bruto',     color: GOLD,  values: ndRows.cashRetBruto, fmt: fmtIn, noSum: false,
+      formula: 'Cash pool (inicio año) × Retorno cash%',
+      formulaFn: i => fmtN(ndRows.cashRetBruto[i] / cashRet) + ' × ' + pct(cashRet) + '\n= ' + fmtN(ndRows.cashRetBruto[i]) + ' €' },
+    { label: '  › Impuestos rendim.',    color: RED,   values: ndRows.taxCash, fmt: fmtOut, noSum: false,
+      formula: 'Rendim. bruto × Tipo impositivo%',
+      formulaFn: i => fmtN(ndRows.cashRetBruto[i]) + ' × ' + pct(taxRate) + '\n= ' + fmtN(ndRows.taxCash[i]) + ' €' },
+    { label: '  › Rendim. cash neto',    color: GOLD,  values: ndRows.cashRetNeto, fmt: fmtIn, noSum: false,
+      formula: 'Rendim. bruto × (1−Tipo impositivo%)',
+      formulaFn: i => fmtN(ndRows.cashRetBruto[i]) + ' × ' + (1-taxRate).toFixed(2) + '\n= ' + fmtN(ndRows.cashRetNeto[i]) + ' €' },
+    { label: '  + Capital extra (AP→ND)',color: BLUE,  values: ndRows.inject, fmt: v => v > 0 ? '+'+fmtEur(v)+' ↓' : '—', noSum: false,
+      formula: 'Inyección del escenario AP ese año. Llega a mitad de año → RetNet%×0.5 ese año.',
+      formulaFn: i => ndRows.inject[i] > 0 ? fmtN(ndRows.inject[i]) + ' × (1 + ' + pct(cashRetNet) + '×0.5)\n= ' + fmtN(ndRows.inject[i]*(1+cashRetNet*0.5)) + ' €' : '—' },
+    { label: 'CASH OUT (total)',          color: RED,   values: Array(horizon).fill(0), fmt: () => '0 €', noSum: true, divider: true, bold: true,
+      formula: 'Sin hipoteca — no hay pagos obligatorios' },
+    { label: '  Hipoteca',               color: GREY,  values: Array(horizon).fill(0), fmt: () => '0 €', noSum: true,
+      formula: 'Casa comprada al contado → 0 €' },
+    { label: 'CF NETO ANUAL',            color: GREEN, values: ndRows.cfNet, fmt: fmtCF, noSum: false, divider: true, bold: true, fmtTotal: v => fmtCF(v),
+      formula: 'Alquiler neto + Rendim. cash neto + Capital extra',
+      formulaFn: i => fmtN(ndRows.alqNeto[i]) + ' + ' + fmtN(ndRows.cashRetNeto[i]) + (ndRows.inject[i]>0?' + '+fmtN(ndRows.inject[i]):'') + '\n= ' + fmtN(ndRows.cfNet[i]) + ' €' },
+    { label: 'CF acumulado',             color: GREEN, values: ndRows.cfAcum, fmt: fmtCF, noSum: true, isTotal: true,
+      formula: 'Σ CF neto hasta este año',
+      formulaFn: i => 'Σ años 1→' + (i+1) + '\n= ' + fmtN(ndRows.cfAcum[i]) + ' €' },
+    { label: 'BALANCE',                  color: BLUE,  values: ndRows.casaVal, fmt: fmtNeutral, noSum: true, divider: true, bold: true },
+    { label: '  Deuda pendiente',        color: GREY,  values: Array(horizon).fill(0), fmt: () => '0 €', noSum: true,
+      formula: 'Sin deuda → 0 €' },
+    { label: '  Valor casa',             color: TEXT,  values: ndRows.casaVal, fmt: fmtNeutral, noSum: true, isTotal: true,
+      formula: 'Valor compra × (1+Revalorización%)^año',
+      formulaFn: i => fmtN(casaND) + ' × (1+' + pct(revalor) + ')^' + (i+1) + '\n= ' + fmtN(ndRows.casaVal[i]) + ' €' },
+    { label: '  Cash acumulado (neto)',  color: GOLD,  values: ndRows.cashAcum, fmt: fmtNeutral, noSum: true, isTotal: true,
+      formula: 'Pool ant. × (1+RetNet%) + AlqNeto + CapitalExtra×(1+RetNet%×0.5)',
+      formulaFn: i => fmtN(ndRows.cashAcum[i]) + ' €' },
+    { label: 'PATRIMONIO NETO',          color: BLUE,  values: ndRows.patrim, fmt: fmtNeutral, noSum: true, isTotal: true, totalRow: true,
+      formula: 'Valor casa + Cash acumulado',
+      formulaFn: i => fmtN(ndRows.casaVal[i]) + ' + ' + fmtN(ndRows.cashAcum[i]) + '\n= ' + fmtN(ndRows.patrim[i]) + ' €' },
+  ], horizon);
+}
+
+// ---- OPTIMIZER — Genetic Algorithm ----
+let optMetric = 'cagr';
+let optTopResults = [];  // stored globally so apply buttons work by index
+
+function setMetric(btn) {
+  document.querySelectorAll('.opt-metric-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  optMetric = btn.dataset.metric;
+}
+
+function computeScore(vars) {
+  const capital   = parseFloat(document.getElementById('r-capital').value);
+  const taxRate   = parseFloat(document.getElementById('r-taxrate').value) / 100;
+  const alqTax    = parseFloat(document.getElementById('r-alqtax').value) / 100;
+
+  const nprop    = Math.round(vars.nprop);
+  const equityPct= vars.equity / 100;
+  const vprop    = vars.vprop;
+  const revalor  = vars.revalor / 100;
+  const alqPct   = vars.alquiler / 100;
+  const alqGrowth= vars.alqgrowth / 100;
+  const opexPct  = vars.opex / 100;
+  const hipTIN   = vars.hipoteca / 100;
+  const plazo    = Math.round(vars.plazo);
+  const cashRet  = vars.cashreturn / 100;
+  const horizon  = Math.round(vars.horizon);
+
+  const equityTotal = nprop * vprop * equityPct;
+  if (equityTotal > capital * 1.5) return { score: -9999, label: '—' }; // too much equity
+  const deudaTotal  = nprop * vprop * (1 - equityPct);
+  const cashRem     = capital - equityTotal;
+  const totalActivos= nprop * vprop;
+  const r = hipTIN / 12;
+  const n = plazo * 12;
+  const cuotaMes = deudaTotal > 0 && r > 0 ? deudaTotal * r * Math.pow(1+r,n) / (Math.pow(1+r,n) - 1) : 0;
+  const cashRetNet = cashRet * (1 - taxRate);
+
+  let cashAccAp2 = cashRem;
+  let totalInjected2 = 0;
+  const injYrs2 = [];
+  for (let yr = 1; yr <= horizon; yr++) {
+    const alqBruto = totalActivos * alqPct * Math.pow(1 + alqGrowth, yr - 1);
+    const alqNeto  = alqBruto * (1 - opexPct) * (1 - alqTax);
+    const retNeto  = Math.max(0, cashAccAp2) * cashRetNet;
+    cashAccAp2 = cashAccAp2 + retNeto + (alqNeto - cuotaMes * 12);
+    if (cashAccAp2 < 0) {
+      const inj = -cashAccAp2;
+      totalInjected2 += inj;
+      injYrs2.push({ yr, inj });
+      cashAccAp2 = 0;
+    }
+  }
+  const nHorizon = horizon * 12;
+  let deudaRes = 0;
+  if (r > 0 && nHorizon < n) {
+    deudaRes = Math.max(0, deudaTotal * Math.pow(1+r, nHorizon) - cuotaMes * (Math.pow(1+r, nHorizon) - 1) / r);
+  }
+  const inmFinal = totalActivos * Math.pow(1 + revalor, horizon);
+  const capitalComprometido = capital + totalInjected2;
+  const patrimonioNeto = Math.max(0, inmFinal - deudaRes) + cashAccAp2;
+  const cagr = capitalComprometido > 0 ? (Math.pow(Math.max(0.0001, patrimonioNeto / capitalComprometido), 1 / horizon) - 1) * 100 : -99;
+  const alqNetoYield = alqPct * (1 - opexPct) * (1 - alqTax);
+  const spread = (alqNetoYield + revalor - hipTIN) * 100;
+  let cfAcum = 0;
+  for (let yr = 1; yr <= horizon; yr++) {
+    const alqBruto = totalActivos * alqPct * Math.pow(1 + alqGrowth, yr - 1);  // fix 1
+    cfAcum += alqBruto * (1 - opexPct) * (1 - alqTax) - cuotaMes * 12;
+  }
+  const fmt2 = v => new Intl.NumberFormat('es-ES').format(Math.round(v));
+  if (optMetric === 'cagr')       return { score: cagr,          label: cagr.toFixed(2) + '% CAGR' };
+  if (optMetric === 'patrimonio') return { score: patrimonioNeto, label: fmt2(patrimonioNeto) + ' €' };
+  if (optMetric === 'spread')     return { score: spread,         label: spread.toFixed(2) + '% spread' };
+  if (optMetric === 'cf')         return { score: cfAcum,         label: fmt2(cfAcum) + ' € CF' };
+  return { score: 0, label: '—' };
+}
+
+// Genetic algorithm parameters
+const GA_POP    = 80;
+const GA_GENS   = 150;
+const GA_ELITE  = 10;
+const GA_MUTRATE= 0.15;
+
+function randomInRange(k, ranges) {
+  const [lo, hi] = ranges[k];
+  if (k === 'nprop' || k === 'plazo' || k === 'horizon') return Math.round(lo + Math.random() * (hi - lo));
+  return lo + Math.random() * (hi - lo);
+}
+
+function mutate(individual, free, ranges) {
+  const child = {...individual};
+  Object.keys(free).forEach(k => {
+    if (free[k] && Math.random() < GA_MUTRATE) {
+      const delta = (ranges[k][1] - ranges[k][0]) * (Math.random() * 0.3 - 0.15);
+      let v = child[k] + delta;
+      v = Math.max(ranges[k][0], Math.min(ranges[k][1], v));
+      if (k === 'nprop' || k === 'plazo' || k === 'horizon') v = Math.round(v);
+      child[k] = v;
+    }
+  });
+  return child;
+}
+
+function crossover(a, b, free) {
+  const child = {...a};
+  Object.keys(free).forEach(k => {
+    if (free[k] && Math.random() < 0.5) child[k] = b[k];
+  });
+  return child;
+}
+
+function runOptimizer() {
+  const btn = document.getElementById('opt-run-btn');
+  const status = document.getElementById('opt-status');
+  btn.disabled = true;
+  document.getElementById('opt-btn-text').textContent = '⏳ Calculando...';
+  status.textContent = '';
+
+  const free = {
+    nprop: document.getElementById('opt-nprop').checked, equity: document.getElementById('opt-equity').checked,
+    vprop: document.getElementById('opt-vprop').checked, revalor: document.getElementById('opt-revalor').checked,
+    alquiler: document.getElementById('opt-alquiler').checked, alqgrowth: document.getElementById('opt-alqgrowth').checked,
+    opex: document.getElementById('opt-opex').checked, hipoteca: document.getElementById('opt-hipoteca').checked,
+    plazo: document.getElementById('opt-plazo').checked, cashreturn: document.getElementById('opt-cashreturn').checked,
+    horizon: document.getElementById('opt-horizon').checked,
+  };
+
+  const fixed = {
+    nprop: parseInt(document.getElementById('r-nprop').value),
+    equity: parseFloat(document.getElementById('r-equity').value),
+    vprop: parseFloat(document.getElementById('r-vprop').value),
+    revalor: parseFloat(document.getElementById('r-revalor').value),
+    alquiler: parseFloat(document.getElementById('r-alquiler').value),
+    alqgrowth: parseFloat(document.getElementById('r-alqgrowth').value),
+    opex: parseFloat(document.getElementById('r-opex').value),
+    hipoteca: parseFloat(document.getElementById('r-hipoteca').value),
+    plazo: parseInt(document.getElementById('r-plazo').value),
+    cashreturn: parseFloat(document.getElementById('r-cashreturn').value),
+    horizon: parseInt(document.getElementById('r-horizon').value),
+  };
+
+  // Read custom ranges from inputs (or fall back to global limits)
+  const globalLimits = {
+    nprop:[1,6], equity:[10,80], vprop:[100000,3000000], revalor:[0,10],
+    alquiler:[0,12], alqgrowth:[0,8], opex:[0,50], hipoteca:[1.5,6],
+    plazo:[5,30], cashreturn:[0,20], horizon:[1,30]
+  };
+  const ranges = {};
+  Object.keys(globalLimits).forEach(k => {
+    const minEl = document.getElementById('opt-' + k + '-min');
+    const maxEl = document.getElementById('opt-' + k + '-max');
+    const lo = minEl ? parseFloat(minEl.value) : globalLimits[k][0];
+    const hi = maxEl ? parseFloat(maxEl.value) : globalLimits[k][1];
+    ranges[k] = [Math.min(lo, hi), Math.max(lo, hi)];
+  });
+
+  setTimeout(() => {
+    // Init population
+    let population = [];
+    for (let i = 0; i < GA_POP; i++) {
+      const ind = {...fixed};
+      Object.keys(free).forEach(k => { if (free[k]) ind[k] = randomInRange(k, ranges); });
+      population.push(ind);
+    }
+
+    // Evolve
+    for (let gen = 0; gen < GA_GENS; gen++) {
+      // Score all
+      const scored = population.map(ind => ({ ind, ...computeScore(ind) }));
+      scored.sort((a, b) => b.score - a.score);
+
+      // Keep elite
+      const nextPop = scored.slice(0, GA_ELITE).map(s => s.ind);
+
+      // Fill rest with crossover + mutation
+      while (nextPop.length < GA_POP) {
+        const pa = scored[Math.floor(Math.random() * GA_ELITE)].ind;
+        const pb = scored[Math.floor(Math.random() * GA_ELITE * 2)].ind;
+        const child = mutate(crossover(pa, pb, free), free, ranges);
+        nextPop.push(child);
+      }
+      population = nextPop;
+    }
+
+    // Final scoring
+    const finalScored = population.map(ind => ({ ind, ...computeScore(ind) }));
+    finalScored.sort((a, b) => b.score - a.score);
+
+    // Deduplicate top 5 (avoid near-identical results)
+    const top5 = [];
+    for (const r of finalScored) {
+      if (top5.length >= 5) break;
+      const isDup = top5.some(t => Math.abs(t.score - r.score) < 0.01);
+      if (!isDup) top5.push(r);
+    }
+
+    // Snap integer vars
+    top5.forEach(r => {
+      r.ind.nprop  = Math.round(r.ind.nprop);
+      r.ind.plazo  = Math.round(r.ind.plazo);
+      r.ind.horizon= Math.round(r.ind.horizon);
+    });
+
+    optTopResults = top5;
+    renderOptResults(top5, fixed, free);
+    status.textContent = GA_POP + ' individuos × ' + GA_GENS + ' generaciones = ' + (GA_POP * GA_GENS).toLocaleString('es-ES') + ' evaluaciones';
+    btn.disabled = false;
+    document.getElementById('opt-btn-text').textContent = '▶ Volver a ejecutar';
+  }, 50);
+}
+
+function renderOptResults(top5, fixed, free) {
+  const container = document.getElementById('opt-results-grid');
+  container.innerHTML = '';
+
+  const varLabels = {
+    nprop:'Nº prop.', equity:'Equity', vprop:'Valor/prop',
+    revalor:'Revalor.', alquiler:'Alquiler', alqgrowth:'Crec.alq',
+    opex:'Costes op.', hipoteca:'TIN', plazo:'Plazo',
+    cashreturn:'Retorno cash', horizon:'Horizonte'
+  };
+  const varFmt = {
+    nprop: v => Math.round(v), equity: v => v.toFixed(1)+'%',
+    vprop: v => new Intl.NumberFormat('es-ES').format(Math.round(v/1000))+'k€',
+    revalor: v => v.toFixed(1)+'%', alquiler: v => v.toFixed(1)+'%',
+    alqgrowth: v => v.toFixed(1)+'%', opex: v => v.toFixed(1)+'%',
+    hipoteca: v => v.toFixed(2)+'%', plazo: v => Math.round(v)+' años',
+    cashreturn: v => v.toFixed(1)+'%', horizon: v => Math.round(v)+' años'
+  };
+
+  top5.forEach((res, i) => {
+    const div = document.createElement('div');
+    div.className = 'opt-result-row' + (i === 0 ? ' rank-1' : '');
+
+    const rankDiv = document.createElement('div');
+    rankDiv.className = 'opt-rank' + (i === 0 ? ' opt-rank-1' : '');
+    rankDiv.textContent = '#' + (i+1);
+
+    const varsDiv = document.createElement('div');
+    varsDiv.className = 'opt-result-vars';
+    Object.keys(res.ind).forEach(k => {
+      const chip = document.createElement('span');
+      const isChanged = free[k] && Math.abs(res.ind[k] - fixed[k]) > 0.05;
+      chip.className = 'opt-chip' + (isChanged ? ' changed' : '');
+      chip.textContent = varLabels[k] + ': ' + varFmt[k](res.ind[k]);
+      varsDiv.appendChild(chip);
+    });
+
+    const metricDiv = document.createElement('div');
+    metricDiv.className = 'opt-result-metric';
+    const metricLabels = { cagr:'CAGR anual', patrimonio:'Patrimonio final', spread:'Spread', cf:'CF acumulado' };
+    metricDiv.innerHTML =
+      '<div class="opt-metric-val">' + res.label + '</div>' +
+      '<div class="opt-metric-label">' + metricLabels[optMetric] + '</div>';
+
+    // Apply button — uses index into global optTopResults
+    const applyBtn = document.createElement('button');
+    applyBtn.className = 'opt-apply-btn';
+    applyBtn.textContent = 'Aplicar →';
+    applyBtn.onclick = () => applyOptResult(i);
+    metricDiv.appendChild(applyBtn);
+
+    div.appendChild(rankDiv);
+    div.appendChild(varsDiv);
+    div.appendChild(metricDiv);
+    container.appendChild(div);
+  });
+
+  document.getElementById('opt-results').style.display = 'block';
+}
+
+function applyOptResult(idx) {
+  const vars = optTopResults[idx].ind;
+  const map = { nprop:'r-nprop', equity:'r-equity', vprop:'r-vprop', revalor:'r-revalor',
+    alquiler:'r-alquiler', alqgrowth:'r-alqgrowth', opex:'r-opex', hipoteca:'r-hipoteca',
+    plazo:'r-plazo', cashreturn:'r-cashreturn', horizon:'r-horizon' };
+  Object.keys(map).forEach(k => {
+    const el = document.getElementById(map[k]);
+    if (!el) return;
+    let v = vars[k];
+    if (k === 'nprop' || k === 'plazo' || k === 'horizon') v = Math.round(v);
+    el.value = v;
+  });
+  recalcular();
+  // Scroll to top of page so user sees the sliders update
+  document.getElementById('optimizer-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  setTimeout(() => window.scrollTo({ top: 0, behavior: 'smooth' }), 300);
+}
+
+// ---- SCENARIO ANALYSIS ----
+const SA_VARS = [
+  { key:'nprop',      label:'Nº propiedades',      unit:'',   slider:'r-nprop',      min:1,    max:6,    step:1,    isInt:true  },
+  { key:'equity',     label:'Equity %',             unit:'%',  slider:'r-equity',     min:10,   max:80,   step:5     },
+  { key:'vprop',      label:'Valor/propiedad',      unit:'€',  slider:'r-vprop',      min:100000,max:3000000,step:100000 },
+  { key:'revalor',    label:'Revalorización %',     unit:'%',  slider:'r-revalor',    min:0,    max:10,   step:0.5   },
+  { key:'alquiler',   label:'Alquiler bruto %',     unit:'%',  slider:'r-alquiler',   min:0,    max:12,   step:0.5   },
+  { key:'alqgrowth',  label:'Crec. alquiler %',     unit:'%',  slider:'r-alqgrowth',  min:0,    max:8,    step:0.5   },
+  { key:'opex',       label:'Costes operativos %',  unit:'%',  slider:'r-opex',       min:0,    max:50,   step:5     },
+  { key:'hipoteca',   label:'TIN hipoteca %',       unit:'%',  slider:'r-hipoteca',   min:1.5,  max:6,    step:0.25  },
+  { key:'plazo',      label:'Plazo hipoteca',        unit:' años',slider:'r-plazo',   min:5,    max:30,   step:1,    isInt:true  },
+  { key:'cashreturn', label:'Retorno cash %',        unit:'%',  slider:'r-cashreturn', min:0,    max:20,   step:0.5   },
+  { key:'horizon',    label:'Horizonte',             unit:' años',slider:'r-horizon', min:1,    max:30,   step:1,    isInt:true  },
+];
+
+let saSelectedX = null;
+let saSelectedY = null;
+
+function initScenarioVars() {
+  const container = document.getElementById('sa-var-selector');
+  container.innerHTML = '';
+  SA_VARS.forEach(v => {
+    const btn = document.createElement('button');
+    btn.className = 'sa-var-btn';
+    btn.id = 'sa-btn-' + v.key;
+    btn.dataset.key = v.key;
+    btn.innerHTML = v.label + ' <span class="sa-axis-badge" id="sa-badge-' + v.key + '"></span>';
+    btn.onclick = () => selectSaVar(v.key);
+    container.appendChild(btn);
+  });
+}
+
+function selectSaVar(key) {
+  const v = SA_VARS.find(v => v.key === key);
+  if (saSelectedX === key) {
+    // deselect X, promote Y to X if exists
+    saSelectedX = saSelectedY;
+    saSelectedY = null;
+  } else if (saSelectedY === key) {
+    saSelectedY = null;
+  } else if (!saSelectedX) {
+    saSelectedX = key;
+  } else if (!saSelectedY) {
+    saSelectedY = key;
+  } else {
+    // replace Y with new, old Y becomes deselected
+    saSelectedY = key;
+  }
+  updateSaUI();
+}
+
+function updateSaUI() {
+  SA_VARS.forEach(v => {
+    const btn = document.getElementById('sa-btn-' + v.key);
+    const badge = document.getElementById('sa-badge-' + v.key);
+    btn.className = 'sa-var-btn';
+    badge.textContent = '';
+    badge.className = 'sa-axis-badge';
+    if (saSelectedX === v.key) {
+      btn.classList.add('selected-x');
+      badge.textContent = 'X'; badge.classList.add('badge-x');
+    } else if (saSelectedY === v.key) {
+      btn.classList.add('selected-y');
+      badge.textContent = 'Y'; badge.classList.add('badge-y');
+    }
+  });
+
+  const vx = SA_VARS.find(v => v.key === saSelectedX);
+  const vy = SA_VARS.find(v => v.key === saSelectedY);
+
+  const cfgX = document.getElementById('sa-config-x');
+  const cfgY = document.getElementById('sa-config-y');
+
+  const prevKeyX = cfgX.dataset.varKey || '';
+  const prevKeyY = cfgY.dataset.varKey || '';
+
+  cfgX.style.display = vx ? 'block' : 'none';
+  cfgY.style.display = vy ? 'block' : 'none';
+
+  if (vx) {
+    document.getElementById('sa-label-x').textContent = vx.label;
+    document.getElementById('sa-xunit').textContent = vx.unit;
+    document.getElementById('sa-xunit2').textContent = vx.unit;
+    // Only reset min/max if this variable just changed
+    if (prevKeyX !== vx.key) {
+      const curX = parseFloat(document.getElementById(vx.slider).value);
+      const lo = Math.max(vx.min, curX - (vx.max - vx.min) * 0.3);
+      const hi = Math.min(vx.max, curX + (vx.max - vx.min) * 0.3);
+      document.getElementById('sa-xmin').value = vx.isInt ? Math.round(lo) : parseFloat(lo.toFixed(2));
+      document.getElementById('sa-xmax').value = vx.isInt ? Math.round(hi) : parseFloat(hi.toFixed(2));
+      cfgX.dataset.varKey = vx.key;
+    }
+  } else {
+    cfgX.dataset.varKey = '';
+  }
+
+  if (vy) {
+    document.getElementById('sa-label-y').textContent = vy.label;
+    document.getElementById('sa-yunit').textContent = vy.unit;
+    document.getElementById('sa-yunit2').textContent = vy.unit;
+    // Only reset min/max if this variable just changed
+    if (prevKeyY !== vy.key) {
+      const curY = parseFloat(document.getElementById(vy.slider).value);
+      const lo = Math.max(vy.min, curY - (vy.max - vy.min) * 0.3);
+      const hi = Math.min(vy.max, curY + (vy.max - vy.min) * 0.3);
+      document.getElementById('sa-ymin').value = vy.isInt ? Math.round(lo) : parseFloat(lo.toFixed(2));
+      document.getElementById('sa-ymax').value = vy.isInt ? Math.round(hi) : parseFloat(hi.toFixed(2));
+      cfgY.dataset.varKey = vy.key;
+    }
+  } else {
+    cfgY.dataset.varKey = '';
+  }
+}
+
+function linspace(lo, hi, steps) {
+  const arr = [];
+  for (let i = 0; i < steps; i++) arr.push(lo + (hi - lo) * i / (steps - 1));
+  return arr;
+}
+
+function getBaseVars() {
+  return {
+    nprop:      parseInt(document.getElementById('r-nprop').value),
+    equity:     parseFloat(document.getElementById('r-equity').value),
+    vprop:      parseFloat(document.getElementById('r-vprop').value),
+    revalor:    parseFloat(document.getElementById('r-revalor').value),
+    alquiler:   parseFloat(document.getElementById('r-alquiler').value),
+    alqgrowth:  parseFloat(document.getElementById('r-alqgrowth').value),
+    opex:       parseFloat(document.getElementById('r-opex').value),
+    hipoteca:   parseFloat(document.getElementById('r-hipoteca').value),
+    plazo:      parseInt(document.getElementById('r-plazo').value),
+    cashreturn: parseFloat(document.getElementById('r-cashreturn').value),
+    horizon:    parseInt(document.getElementById('r-horizon').value),
+  };
+}
+
+function runScenario() {
+  if (!saSelectedX) { alert('Selecciona al menos una variable para el eje X.'); return; }
+  const vx = SA_VARS.find(v => v.key === saSelectedX);
+  const vy = saSelectedY ? SA_VARS.find(v => v.key === saSelectedY) : null;
+
+  const xmin = parseFloat(document.getElementById('sa-xmin').value);
+  const xmax = parseFloat(document.getElementById('sa-xmax').value);
+  const xsteps = parseInt(document.getElementById('sa-xsteps').value);
+  const xvals = linspace(xmin, xmax, xsteps).map(v => vx.isInt ? Math.round(v) : parseFloat(v.toFixed(2)));
+
+  let yvals = [null];
+  if (vy) {
+    const ymin = parseFloat(document.getElementById('sa-ymin').value);
+    const ymax = parseFloat(document.getElementById('sa-ymax').value);
+    const ysteps = parseInt(document.getElementById('sa-ysteps').value);
+    yvals = linspace(ymin, ymax, ysteps).map(v => vy.isInt ? Math.round(v) : parseFloat(v.toFixed(2)));
+  }
+
+  const base = getBaseVars();
+  // Build result matrix [yidx][xidx] = cagr
+  const matrix = yvals.map(yv => xvals.map(xv => {
+    const vars = { ...base, [vx.key]: xv };
+    if (vy && yv !== null) vars[vy.key] = yv;
+    const s = computeScore(vars);
+    return s.score; // CAGR value
+  }));
+
+  document.getElementById('sa-status').textContent =
+    (xsteps * yvals.length) + ' combinaciones calculadas';
+  renderScenarioResults(xvals, yvals, matrix, vx, vy);
+}
+
+function clearScenarios() {
+  const container = document.getElementById('sa-results');
+  container.innerHTML = '';
+  document.getElementById('sa-status').textContent = '';
+}
+
+function scenarioColor(cagr, minV, maxV) {
+  // Green = high CAGR, Red = low/negative
+  const t = maxV === minV ? 0.5 : Math.max(0, Math.min(1, (cagr - minV) / (maxV - minV)));
+  const r = Math.round(192 + (26 - 192) * t);
+  const g = Math.round(57 + (122 - 57) * t);
+  const b = Math.round(43 + (60 - 43) * t);
+  return `rgb(${r},${g},${b})`;
+}
+
+function renderScenarioResults(xvals, yvals, matrix, vx, vy) {
+  const resultsContainer = document.getElementById('sa-results');
+
+  // Create a new card for this analysis
+  const card = document.createElement('div');
+  card.className = 'flow-card';
+  card.style.position = 'relative';
+
+  // Close button
+  const closeBtn = document.createElement('button');
+  closeBtn.textContent = '✕';
+  closeBtn.style.cssText = 'position:absolute;top:12px;right:12px;background:none;border:none;cursor:pointer;font-size:14px;color:var(--text-dim);padding:4px 8px;border-radius:6px;';
+  closeBtn.onmouseenter = () => closeBtn.style.background = 'var(--surface3)';
+  closeBtn.onmouseleave = () => closeBtn.style.background = 'none';
+  closeBtn.onclick = () => card.remove();
+  card.appendChild(closeBtn);
+
+  // Snapshot of current slider values for label
+  const base = getBaseVars();
+  const snapshotParts = Object.entries(base)
+    .filter(([k]) => k !== vx.key && (!vy || k !== vy.key))
+    .slice(0, 4)
+    .map(([k, v]) => {
+      const def = SA_VARS.find(d => d.key === k);
+      return def.label.split(' ')[0] + ': ' + v + (def.unit || '');
+    }).join(' · ');
+  const snapshotEl = document.createElement('div');
+  snapshotEl.style.cssText = 'font-size:10px;font-family:"DM Mono",monospace;color:var(--text-dim);margin-bottom:1rem;line-height:1.6;';
+  snapshotEl.textContent = 'Fijos: ' + snapshotParts + ' ...';
+  card.appendChild(snapshotEl);
+
+  // Content container
+  const container = document.createElement('div');
+  card.appendChild(container);
+
+  // Flatten to find min/max
+  const allVals = matrix.flat();
+  const minV = Math.min(...allVals);
+  const maxV = Math.max(...allVals);
+
+  const fmtV = v => (v >= 0 ? '+' : '') + v.toFixed(1) + '%';
+  const fmtAxis = (v, unit) => unit === '%' ? v.toFixed(1) + '%' : unit === '€'
+    ? new Intl.NumberFormat('es-ES', {maximumFractionDigits:0}).format(v) + '€'
+    : v + (unit || '');
+
+  if (!vy || yvals[0] === null) {
+    // 1D bar chart
+    const title = document.createElement('div');
+    title.className = 'card-title';
+    title.style.marginBottom = '1rem';
+    title.textContent = '// CAGR según ' + vx.label;
+    container.appendChild(title);
+
+    const maxAbs = Math.max(...matrix[0].map(Math.abs), 0.1);
+    matrix[0].forEach((cagr, i) => {
+      const row = document.createElement('div');
+      row.className = 'sa-bar-row';
+      const lbl = document.createElement('div');
+      lbl.className = 'sa-bar-label';
+      lbl.textContent = fmtAxis(xvals[i], vx.unit);
+      const track = document.createElement('div');
+      track.className = 'sa-bar-track';
+      const fill = document.createElement('div');
+      fill.className = 'sa-bar-fill';
+      fill.style.width = Math.max(5, Math.abs(cagr) / maxAbs * 100) + '%';
+      fill.style.background = scenarioColor(cagr, minV, maxV);
+      const txt = document.createElement('span');
+      txt.className = 'sa-bar-text';
+      txt.textContent = fmtV(cagr);
+      fill.appendChild(txt);
+      track.appendChild(fill);
+      row.appendChild(lbl);
+      row.appendChild(track);
+      container.appendChild(row);
+    });
+
+    const axisLbl = document.createElement('div');
+    axisLbl.className = 'sa-axis-labels';
+    axisLbl.innerHTML = '<span>' + fmtAxis(xvals[0], vx.unit) + '</span><span style="color:var(--accent);font-weight:600">' + vx.label + '</span><span>' + fmtAxis(xvals[xvals.length-1], vx.unit) + '</span>';
+    container.appendChild(axisLbl);
+
+  } else {
+    // 2D heatmap
+    const title = document.createElement('div');
+    title.className = 'card-title';
+    title.style.marginBottom = '1rem';
+    title.textContent = '// CAGR: ' + vx.label + ' (X) × ' + vy.label + ' (Y)';
+    container.appendChild(title);
+
+    const wrap = document.createElement('div');
+    wrap.className = 'sa-heatmap-wrap';
+    const table = document.createElement('table');
+    table.className = 'sa-heatmap';
+
+    const thead = document.createElement('thead');
+
+    // Row 1: X axis name spanning all value columns
+    const xNameRow = document.createElement('tr');
+    const xNameBlank = document.createElement('th');
+    xNameBlank.className = 'row-label';
+    xNameRow.appendChild(xNameBlank);
+    const xNameCell = document.createElement('th');
+    xNameCell.colSpan = xvals.length;
+    xNameCell.style.cssText = 'text-align:center;padding:6px 10px 3px;font-size:11px;font-weight:700;letter-spacing:0.08em;color:var(--accent);border-bottom:2px solid rgba(26,122,60,0.25);background:rgba(26,122,60,0.04);';
+    xNameCell.textContent = '▶ ' + vx.label.toUpperCase();
+    xNameRow.appendChild(xNameCell);
+    thead.appendChild(xNameRow);
+
+    // Row 2: corner cell + X values
+    const hrow = document.createElement('tr');
+    const corner = document.createElement('th');
+    corner.className = 'row-label';
+    corner.style.cssText = 'vertical-align:bottom;padding-bottom:6px;';
+    corner.innerHTML =
+      '<div style="color:var(--blue);font-size:10px;font-weight:700;letter-spacing:0.08em;">▼ ' + vy.label.toUpperCase() + '</div>';
+    hrow.appendChild(corner);
+
+    xvals.forEach(xv => {
+      const th = document.createElement('th');
+      th.textContent = fmtAxis(xv, vx.unit);
+      th.style.color = 'var(--accent)';
+      hrow.appendChild(th);
+    });
+    thead.appendChild(hrow);
+    table.appendChild(thead);
+
+    const tbodyWrap = document.createElement('tbody');
+    yvals.forEach((yv, yi) => {
+      const tr = document.createElement('tr');
+      const th = document.createElement('th');
+      th.className = 'row-label';
+      th.style.color = 'var(--blue)';
+      th.textContent = fmtAxis(yv, vy.unit);
+      tr.appendChild(th);
+      xvals.forEach((xv, xi) => {
+        const cagr = matrix[yi][xi];
+        const td = document.createElement('td');
+        td.textContent = fmtV(cagr);
+        td.style.background = scenarioColor(cagr, minV, maxV);
+        td.style.color = 'rgba(255,255,255,0.95)';
+        td.title = vx.label + ': ' + fmtAxis(xv, vx.unit) + '  |  ' + vy.label + ': ' + fmtAxis(yv, vy.unit) + '  →  CAGR: ' + fmtV(cagr);
+        tr.appendChild(td);
+      });
+      tbodyWrap.appendChild(tr);
+    });
+    table.appendChild(tbodyWrap);
+    wrap.appendChild(table);
+    container.appendChild(wrap);
+  }
+
+  // Legend with explanation
+  const legend = document.createElement('div');
+  legend.className = 'sa-legend';
+  legend.style.flexDirection = 'column';
+  legend.style.gap = '6px';
+
+  const legendColors = document.createElement('div');
+  legendColors.style.cssText = 'display:flex;gap:12px;flex-wrap:wrap;align-items:center;';
+  legendColors.innerHTML =
+    '<span class="sa-legend-swatch" style="background:rgb(192,57,43)"></span> CAGR mín: <strong>' + fmtV(minV) + '</strong>' +
+    '&nbsp;&nbsp;<span class="sa-legend-swatch" style="background:rgb(110,90,51)"></span> Medio: <strong>' + fmtV((minV+maxV)/2) + '</strong>' +
+    '&nbsp;&nbsp;<span class="sa-legend-swatch" style="background:rgb(26,122,60)"></span> CAGR máx: <strong>' + fmtV(maxV) + '</strong>' +
+    '&nbsp;&nbsp;<span style="color:var(--accent);font-weight:700;">Δ rango: ' + fmtV(maxV - minV) + '</span>';
+
+  const legendDesc = document.createElement('div');
+  legendDesc.style.cssText = 'font-size:10px;color:var(--text-dim);line-height:1.6;font-family:"DM Mono",monospace;border-top:1px solid var(--border);padding-top:6px;margin-top:2px;';
+  legendDesc.innerHTML =
+    '<strong style="color:var(--text-muted)">Cómo se calcula cada celda:</strong> ' +
+    'Para cada combinación (' + vx.label + ', ' + (vy ? vy.label : '—') + ') se ejecuta el modelo completo — ' +
+    'hipoteca sistema francés, flujos anuales de alquiler neto, rendimiento del cash, inyecciones de capital y patrimonio final. ' +
+    'El CAGR = (Patrimonio final / Capital comprometido)^(1/horizonte) − 1. ' +
+    'Resto de variables fijas: valores actuales de los sliders.';
+
+  legend.appendChild(legendColors);
+  legend.appendChild(legendDesc);
+  container.appendChild(legend);
+
+  resultsContainer.appendChild(card);
+}
+
+// Init on load
+document.addEventListener('DOMContentLoaded', initScenarioVars);
+
+function cagrLine(label, val) {
+  return '<div class="cf-line"><span class="cf-label">' + label + '</span><span class="cf-val">' + val + '</span></div>';
+}
+
+function toggleCagr(which) {
+  const breakdown = document.getElementById('cagr-breakdown-' + which);
+  const toggle    = document.getElementById('cagr-toggle-' + which);
+  const isOpen = breakdown.classList.contains('open');
+  breakdown.classList.toggle('open', !isOpen);
+  toggle.classList.toggle('open', !isOpen);
+}
+
+function td(val, cls) {
+  return '<td' + (cls ? ' class="' + cls + '"' : '') + '>' + val + '</td>';
+}
+function tdNum(val) {
+  const cls = val >= 0 ? 'td-net-pos' : 'td-net-neg';
+  return '<td class="' + cls + '">' + (val >= 0 ? '+' : '−') + fmtEur(Math.abs(val)) + '</td>';
+}
+
+function switchTable(which, btn) {
+  document.querySelectorAll('.table-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('tbl-ap').style.display = which === 'ap' ? 'block' : 'none';
+  document.getElementById('tbl-nd').style.display = which === 'nd' ? 'block' : 'none';
+}
+
+recalcular();
+</script>
+</body>
+</html>
