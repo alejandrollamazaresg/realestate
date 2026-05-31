@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Multiplicado RE</title>
+<title>Multiplied RE</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -864,17 +864,17 @@
 <body>
 
 <div class="lang-toggle">
-  <span class="lang-btn active">ES</span>
-  <a class="lang-btn" href="index_en.html">EN</a>
+  <a class="lang-btn" href="index.html">ES</a>
+  <span class="lang-btn active">EN</span>
 </div>
 
 <div class="container">
 
   <!-- Header -->
   <div class="header animate-in">
-    <div class="header-tag">// calculadora de apalancamiento</div>
-    <h1>RE<br><span>Multiplicado</span></h1>
-    <p>Simula cómo el apalancamiento inmobiliario y el rendimiento de tu efectivo remanente afectan a tu retorno total.</p>
+    <div class="header-tag">// leverage calculator</div>
+    <h1>Multiplied<br><span>RE</span></h1>
+    <p>Simulate how real estate leverage and the return on your remaining cash affect your total return.</p>
   </div>
 
   <div class="layout">
@@ -884,9 +884,9 @@
 
       <!-- Capital -->
       <div class="card animate-in" style="animation-delay:0.05s">
-        <div class="card-title">// 01 — tu capital total</div>
+        <div class="card-title">// 01 — your total capital</div>
         <div class="field">
-          <label>Capital disponible <span class="value" id="lbl-capital">1.000.000 €</span></label>
+          <label>Available capital <span class="value" id="lbl-capital">1.000.000 €</span></label>
           <input type="range" id="r-capital" min="200000" max="5000000" step="50000" value="1000000" oninput="recalcular()">
           <div class="track-labels"><span>200k</span><span>5M</span></div>
         </div>
@@ -894,113 +894,113 @@
 
       <!-- Propiedades -->
       <div class="card animate-in" style="animation-delay:0.1s">
-        <div class="card-title">// 02 — propiedades</div>
+        <div class="card-title">// 02 — properties</div>
 
-        <div class="section-label"><span class="dot dot-green"></span>Número de propiedades</div>
+        <div class="section-label"><span class="dot dot-green"></span>Number of properties</div>
         <div class="field">
-          <label>Propiedades a comprar <span class="value" id="lbl-nprop">2</span></label>
+          <label>Properties to buy <span class="value" id="lbl-nprop">2</span></label>
           <input type="range" id="r-nprop" min="1" max="6" step="1" value="2" oninput="recalcular()">
           <div class="track-labels"><span>1</span><span>6</span></div>
         </div>
 
         <div class="field">
-          <label>Valor por propiedad <span class="value" id="lbl-vprop">1.000.000 €</span></label>
+          <label>Property value <span class="value" id="lbl-vprop">1.000.000 €</span></label>
           <input type="range" id="r-vprop" min="100000" max="3000000" step="50000" value="1000000" oninput="recalcular()">
           <div class="track-labels"><span>100k</span><span>3M</span></div>
         </div>
 
         <div class="field">
-          <label>Equity aportado por piso <span class="value" id="lbl-equity">30%</span></label>
+          <label>Equity contributed per unit <span class="value" id="lbl-equity">30%</span></label>
           <input type="range" id="r-equity" min="10" max="80" step="1" value="30" oninput="recalcular()">
           <div class="track-labels"><span>10%</span><span>80%</span></div>
         </div>
 
         <div id="warning-equity" class="warning-box hidden">
           <span>⚠</span>
-          <span id="warning-text">El equity total supera tu capital disponible.</span>
+          <span id="warning-text">Total equity exceeds your available capital.</span>
         </div>
 
         <div class="divider"></div>
 
-        <div class="section-label"><span class="dot dot-blue"></span>Hipoteca sobre deuda</div>
+        <div class="section-label"><span class="dot dot-blue"></span>Mortgage on debt</div>
         <div class="field">
-          <label>Tipo de interés hipotecario <span class="value" id="lbl-hipoteca">3.05%</span></label>
+          <label>Mortgage interest rate <span class="value" id="lbl-hipoteca">3.05%</span></label>
           <input type="range" id="r-hipoteca" min="1.5" max="6" step="0.05" value="3.05" oninput="recalcular()">
           <div class="track-labels"><span>1.5%</span><span>6%</span></div>
         </div>
 
         <div class="field">
-          <label>Plazo hipoteca (años) <span class="value" id="lbl-plazo">20</span></label>
+          <label>Mortgage term (years) <span class="value" id="lbl-plazo">20</span></label>
           <input type="range" id="r-plazo" min="5" max="30" step="1" value="20" oninput="recalcular()">
           <div class="track-labels"><span>5</span><span>30</span></div>
         </div>
 
         <div class="field">
-          <label>Revalorización inmuebles/año <span class="value" id="lbl-revalor">3.0%</span></label>
+          <label>Property appreciation/year <span class="value" id="lbl-revalor">3.0%</span></label>
           <input type="range" id="r-revalor" min="-2" max="10" step="0.5" value="3.0" oninput="recalcular()">
           <div class="track-labels"><span>-2%</span><span>+10%</span></div>
         </div>
 
         <div class="field">
-          <label>Rentabilidad alquiler bruta/año <span class="value" id="lbl-alquiler">5.0%</span></label>
+          <label>Gross rental yield/year <span class="value" id="lbl-alquiler">5.0%</span></label>
           <input type="range" id="r-alquiler" min="0" max="12" step="0.25" value="5.0" oninput="recalcular()">
           <div class="track-labels"><span>0%</span><span>12%</span></div>
         </div>
 
         <div class="field">
-          <label>Crecimiento alquiler/año <span class="value" id="lbl-alqgrowth">2.0%</span></label>
+          <label>Rental growth/year <span class="value" id="lbl-alqgrowth">2.0%</span></label>
           <input type="range" id="r-alqgrowth" min="0" max="8" step="0.25" value="2.0" oninput="recalcular()">
           <div class="track-labels"><span>0%</span><span>8%</span></div>
         </div>
         <div style="font-size:11px;color:var(--text-dim);font-family:'DM Mono',monospace;line-height:1.5;margin-top:-0.75rem;margin-bottom:0.75rem;">
-          Independiente de la revalorización. España: IPC ≈ 2–3% · Ley de vivienda limita subidas en zonas tensionadas.
+          Independent of appreciation. Spain: CPI ≈ 2–3% · Housing law caps increases in stressed areas.
         </div>
 
         <div class="field">
-          <label>Costes operativos + vacancia <span class="value" id="lbl-opex">25%</span></label>
+          <label>Operating costs + vacancy <span class="value" id="lbl-opex">25%</span></label>
           <input type="range" id="r-opex" min="0" max="50" step="1" value="25" oninput="recalcular()">
           <div class="track-labels"><span>0%</span><span>50%</span></div>
         </div>
         <div style="font-size:11px;color:var(--text-dim);font-family:'DM Mono',monospace;line-height:1.5;margin-top:-0.75rem;margin-bottom:0.75rem;">
-          % del alquiler bruto que se pierde en: IBI, comunidad, seguros, reparaciones, gestoría, meses sin inquilino.
+          % of gross rent lost to: property tax, HOA, insurance, repairs, management, vacant months.
         </div>
 
         <div class="field">
-          <label>IRPF sobre alquiler neto <span class="value" id="lbl-alqtax">19%</span></label>
+          <label>Income tax on net rent <span class="value" id="lbl-alqtax">19%</span></label>
           <input type="range" id="r-alqtax" min="0" max="50" step="1" value="19" oninput="recalcular()">
           <div class="track-labels"><span>0%</span><span>50%</span></div>
         </div>
         <div style="font-size:11px;color:var(--text-dim);font-family:'DM Mono',monospace;line-height:1.5;margin-top:-0.75rem;margin-bottom:0.5rem;">
-          Rendimiento capital inmobiliario. España 2026: 19–28% según tramo. Vivienda habitual tiene reducción del 50%.
+          Property income tax. Spain 2026: 19–28% depending on bracket. Primary residence gets a 50% reduction.
         </div>
       </div>
 
       <!-- Cash remanente -->
       <div class="card animate-in" style="animation-delay:0.15s">
-        <div class="card-title">// 03 — efectivo remanente</div>
-        <div class="section-label"><span class="dot dot-gold"></span>Inversión del cash sobrante</div>
+        <div class="card-title">// 03 — remaining cash</div>
+        <div class="section-label"><span class="dot dot-gold"></span>Investment of surplus cash</div>
         <div class="field">
-          <label>Retorno anual del cash <span class="value" id="lbl-cashreturn">7.0%</span></label>
+          <label>Annual cash return <span class="value" id="lbl-cashreturn">7.0%</span></label>
           <input type="range" id="r-cashreturn" min="0" max="20" step="0.25" value="7.0" oninput="recalcular()">
           <div class="track-labels"><span>0%</span><span>20%</span></div>
         </div>
 
         <div class="divider"></div>
-        <div class="section-label"><span class="dot dot-red"></span>Fiscalidad sobre ganancias</div>
+        <div class="section-label"><span class="dot dot-red"></span>Tax on gains</div>
         <div class="field">
           <label>
-            Tipo impositivo sobre rendimientos
+            Tax rate on returns
             <span class="value" id="lbl-taxrate">19%</span>
           </label>
           <input type="range" id="r-taxrate" min="0" max="50" step="1" value="19" oninput="recalcular()">
           <div class="track-labels"><span>0%</span><span>50%</span></div>
         </div>
         <div style="font-size:11px; color:var(--text-dim); font-family:'DM Mono',monospace; line-height:1.6; margin-top:-0.5rem; margin-bottom:0.75rem;">
-          España 2026: 19% hasta 6k€ · 21% de 6–50k€ · 23% de 50–200k€ · 27% de 200–300k€ · 28% &gt;300k€
+          Spain 2026: 19% up to €6k · 21% on €6–50k · 23% on €50–200k · 27% on €200–300k · 28% &gt;€300k
         </div>
 
         <div class="field">
-          <label>Horizonte temporal <span class="value" id="lbl-horizon">10 años</span></label>
+          <label>Time horizon <span class="value" id="lbl-horizon">10 años</span></label>
           <input type="range" id="r-horizon" min="1" max="30" step="1" value="10" oninput="recalcular()">
           <div class="track-labels"><span>1</span><span>30 años</span></div>
         </div>
@@ -1014,22 +1014,22 @@
       <!-- Summary metrics -->
       <div class="summary-bar animate-in" style="animation-delay:0.2s">
         <div class="metric">
-          <div class="metric-label">Capital invertido</div>
+          <div class="metric-label">Invested capital</div>
           <div class="metric-value white" id="m-equity">600.000 €</div>
-          <div class="metric-sub" id="m-equity-sub">en propiedades</div>
+          <div class="metric-sub" id="m-equity-sub">in properties</div>
         </div>
         <div class="metric">
-          <div class="metric-label">Cash remanente</div>
+          <div class="metric-label">Remaining cash</div>
           <div class="metric-value gold" id="m-cash">400.000 €</div>
-          <div class="metric-sub" id="m-cash-sub">disponible</div>
+          <div class="metric-sub" id="m-cash-sub">available</div>
         </div>
         <div class="metric">
-          <div class="metric-label">Deuda total</div>
+          <div class="metric-label">Total debt</div>
           <div class="metric-value red" id="m-deuda">1.400.000 €</div>
-          <div class="metric-sub" id="m-deuda-sub">hipotecas</div>
+          <div class="metric-sub" id="m-deuda-sub">mortgages</div>
         </div>
         <div class="metric">
-          <div class="metric-label">LTV medio</div>
+          <div class="metric-label">Average LTV</div>
           <div class="metric-value blue" id="m-ltv">70%</div>
           <div class="metric-sub" id="m-ltv-sub">loan-to-value</div>
         </div>
@@ -1037,21 +1037,21 @@
 
       <!-- Spread indicator -->
       <div class="spread-card animate-in" style="animation-delay:0.22s">
-        <div class="card-title" style="margin-bottom:1rem;">// arbitraje — ¿tiene sentido usar deuda?</div>
+        <div class="card-title" style="margin-bottom:1rem;">// arbitrage — does debt make sense?</div>
 
         <div id="spread-verdict" class="spread-verdict spread-neutral">
-          <div class="spread-verdict-label">Spread neto (rendimiento − coste deuda)</div>
+          <div class="spread-verdict-label">Net spread (return − cost of debt)</div>
           <div class="spread-verdict-value" id="spread-value">—</div>
           <div class="spread-verdict-sub" id="spread-sub">—</div>
         </div>
 
         <div class="spread-bar-row">
-          <div class="spread-bar-label">Rendim. activo neto</div>
+          <div class="spread-bar-label">Net asset return</div>
           <div class="spread-bar-track"><div class="spread-bar-fill" id="sb-asset" style="background:#1a7a3c;width:0%"></div></div>
           <div class="spread-bar-val green" id="sbv-asset">—</div>
         </div>
         <div class="spread-bar-row">
-          <div class="spread-bar-label">Coste deuda (TIN)</div>
+          <div class="spread-bar-label">Cost of debt (rate)</div>
           <div class="spread-bar-track"><div class="spread-bar-fill" id="sb-debt" style="background:#c0392b;width:0%"></div></div>
           <div class="spread-bar-val red" id="sbv-debt">—</div>
         </div>
@@ -1062,11 +1062,11 @@
         </div>
 
         <div class="spread-equation">
-          <span>Rendim. activo neto</span>
+          <span>Net asset return</span>
           <span class="spread-op">=</span>
-          <span class="spread-chip" style="background:rgba(26,122,60,0.1);color:var(--accent)" id="seq-alq">alquiler neto %</span>
+          <span class="spread-chip" style="background:rgba(26,122,60,0.1);color:var(--accent)" id="seq-alq">net rent %</span>
           <span class="spread-op">+</span>
-          <span class="spread-chip" style="background:rgba(26,122,60,0.08);color:var(--accent)" id="seq-reval">revalor. %</span>
+          <span class="spread-chip" style="background:rgba(26,122,60,0.08);color:var(--accent)" id="seq-reval">appreci. %</span>
           <span class="spread-op">−</span>
           <span class="spread-chip" style="background:rgba(192,57,43,0.08);color:var(--red)" id="seq-tin">TIN %</span>
           <span class="spread-op">=</span>
@@ -1076,40 +1076,40 @@
 
       <!-- Flow card -->
       <div class="flow-card animate-in" style="animation-delay:0.25s">
-        <div class="card-title">// distribución de tu capital</div>
+        <div class="card-title">// your capital distribution</div>
         <div class="flow">
           <div class="flow-row">
-            <div class="flow-left">Capital total disponible</div>
+            <div class="flow-left">Total available capital</div>
             <div class="flow-arrow">→</div>
             <div class="flow-right white" id="f-capital">1.000.000 €</div>
           </div>
           <div class="flow-row">
-            <div class="flow-left">Equity en <span id="f-nprop2">2</span> propiedades</div>
+            <div class="flow-left">Equity in <span id="f-nprop2">2</span> properties</div>
             <div class="flow-arrow">→</div>
             <div class="flow-right red" id="f-equity">−600.000 €</div>
           </div>
           <div class="flow-row">
-            <div class="flow-left">Cash remanente invertido</div>
+            <div class="flow-left">Invested remaining cash</div>
             <div class="flow-arrow">→</div>
             <div class="flow-right gold" id="f-cash">400.000 €</div>
           </div>
           <div class="flow-row">
-            <div class="flow-left">Valor total de activos (inicio)</div>
+            <div class="flow-left">Total asset value (start)</div>
             <div class="flow-arrow">→</div>
             <div class="flow-right white" id="f-activos">2.000.000 €</div>
           </div>
           <div class="flow-row">
-            <div class="flow-left">Coste hipotecas / mes</div>
+            <div class="flow-left">Mortgage cost / month</div>
             <div class="flow-arrow">→</div>
             <div class="flow-right red" id="f-cuota">−7.780 €/mes</div>
           </div>
           <div class="flow-row">
-            <div class="flow-left">Ingresos alquiler brutos / mes</div>
+            <div class="flow-left">Gross rental income / month</div>
             <div class="flow-arrow">→</div>
             <div class="flow-right green" id="f-alquiler">+8.333 €/mes</div>
           </div>
           <div class="flow-row">
-            <div class="flow-left">Cash flow neto / mes</div>
+            <div class="flow-left">Net cash flow / month</div>
             <div class="flow-arrow">→</div>
             <div class="flow-right" id="f-cashflow">+553 €/mes</div>
           </div>
@@ -1119,28 +1119,28 @@
       <!-- Breakdown at horizon -->
       <div class="flow-card animate-in" style="animation-delay:0.3s">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem;">
-          <div class="card-title" style="margin:0;">// proyección a <span id="bc-horizon">10</span> años</div>
-          <div id="pill-cf" class="tag-pill pill-green">CF positivo</div>
+          <div class="card-title" style="margin:0;">// projection at <span id="bc-horizon">10</span> years</div>
+          <div id="pill-cf" class="tag-pill pill-green">Positive CF</div>
         </div>
 
         <div class="breakdown-grid">
           <div class="breakdown-card bc-green">
-            <div class="bc-label">Valor inmuebles</div>
+            <div class="bc-label">Property value</div>
             <div class="bc-value green" id="bc-inmuebles">2.687.833 €</div>
             <div class="bc-detail" id="bc-inmuebles-sub">+687.833 € plusvalía</div>
           </div>
           <div class="breakdown-card bc-gold">
-            <div class="bc-label">Cash invertido</div>
+            <div class="bc-label">Invested cash</div>
             <div class="bc-value gold" id="bc-cash">786.860 €</div>
             <div class="bc-detail" id="bc-cash-sub">+386.860 € rentabilidad</div>
           </div>
           <div class="breakdown-card bc-blue">
-            <div class="bc-label">Deuda residual</div>
+            <div class="bc-label">Residual debt</div>
             <div class="bc-value blue" id="bc-deuda-res">1.067.042 €</div>
             <div class="bc-detail" id="bc-deuda-sub">amortizada parcialmente</div>
           </div>
           <div class="breakdown-card bc-total">
-            <div class="bc-label">Patrimonio neto total</div>
+            <div class="bc-label">Total net worth</div>
             <div class="bc-value white" id="bc-neto">2.407.651 €</div>
             <div class="bc-detail" id="bc-neto-sub">vs 1.000.000 € inicial</div>
           </div>
@@ -1149,10 +1149,10 @@
 
       <!-- Return bars -->
       <div class="return-bar-wrap animate-in" style="animation-delay:0.35s">
-        <div class="card-title">// retorno anualizado sobre capital inicial</div>
+        <div class="card-title">// annualized return on initial capital</div>
 
         <div class="bar-row">
-          <div class="bar-label">Inmuebles (equity)</div>
+          <div class="bar-label">Properties (equity)</div>
           <div class="bar-track">
             <div class="bar-fill" id="bar-inm" style="background: #1a7a3c; width:60%;"></div>
           </div>
@@ -1160,7 +1160,7 @@
         </div>
 
         <div class="bar-row">
-          <div class="bar-label">Cash remanente</div>
+          <div class="bar-label">Remaining cash</div>
           <div class="bar-track">
             <div class="bar-fill" id="bar-cash" style="background: #b07d1a; width:40%;"></div>
           </div>
@@ -1168,7 +1168,7 @@
         </div>
 
         <div class="bar-row" style="margin-bottom:0;">
-          <div class="bar-label">Total combinado</div>
+          <div class="bar-label">Combined total</div>
           <div class="bar-track">
             <div class="bar-fill" id="bar-total" style="background: #1a5fa8; width:55%;"></div>
           </div>
@@ -1179,11 +1179,11 @@
 
         <div style="display:flex; justify-content: space-between; align-items: center;">
           <div>
-            <div style="font-size:12px; color: var(--text-dim); font-family:'DM Mono',monospace; margin-bottom:4px;">Multiplicador de patrimonio</div>
+            <div style="font-size:12px; color: var(--text-dim); font-family:'DM Mono',monospace; margin-bottom:4px;">Wealth multiplier</div>
             <div style="font-size:28px; font-weight:800; letter-spacing:-0.04em;" id="multiplicador">×2.41</div>
           </div>
           <div style="text-align:right;">
-            <div style="font-size:12px; color: var(--text-dim); font-family:'DM Mono',monospace; margin-bottom:4px;">ROE sobre capital inicial</div>
+            <div style="font-size:12px; color: var(--text-dim); font-family:'DM Mono',monospace; margin-bottom:4px;">ROE on initial capital</div>
             <div style="font-size:28px; font-weight:800; letter-spacing:-0.04em; color: var(--accent);" id="roe-total">+140.8%</div>
           </div>
         </div>
@@ -1195,21 +1195,21 @@
   <!-- COMPARISON SECTION -->
   <div class="comparison-section animate-in" style="animation-delay:0.4s">
     <div class="comparison-header">
-      <h2>Comparativa de escenarios</h2>
-      <span class="vs-badge">CON DEUDA vs SIN DEUDA</span>
+      <h2>Scenario Comparison</h2>
+      <span class="vs-badge">WITH DEBT vs WITHOUT DEBT</span>
     </div>
 
     <div class="comparison-grid">
       <div class="scenario-card sc-apalancado">
-        <div class="sc-title">// con apalancamiento</div>
+        <div class="sc-title">// with leverage</div>
         <div class="sc-main green" id="cmp-ap-neto">—</div>
-        <div class="sc-sub" id="cmp-ap-sub">patrimonio neto al final</div>
+        <div class="sc-sub" id="cmp-ap-sub">net worth at end</div>
         <div class="sc-rows">
-          <div class="sc-row"><span class="sc-row-label">Valor inmuebles</span><span class="sc-row-val white" id="cmp-ap-activos">—</span></div>
-          <div class="sc-row"><span class="sc-row-label">Deuda residual</span><span class="sc-row-val red" id="cmp-ap-deuda">—</span></div>
-          <div class="sc-row"><span class="sc-row-label">Cash invertido</span><span class="sc-row-val gold" id="cmp-ap-cash">—</span></div>
+          <div class="sc-row"><span class="sc-row-label">Property value</span><span class="sc-row-val white" id="cmp-ap-activos">—</span></div>
+          <div class="sc-row"><span class="sc-row-label">Residual debt</span><span class="sc-row-val red" id="cmp-ap-deuda">—</span></div>
+          <div class="sc-row"><span class="sc-row-label">Invested cash</span><span class="sc-row-val gold" id="cmp-ap-cash">—</span></div>
           <div class="sc-row cagr-row" onclick="toggleCagr('ap')">
-            <span class="sc-row-label">CAGR sobre capital <span class="cagr-toggle" id="cagr-toggle-ap">▸</span></span>
+            <span class="sc-row-label">CAGR on capital <span class="cagr-toggle" id="cagr-toggle-ap">▸</span></span>
             <span class="sc-row-val" id="cmp-ap-cagr">—</span>
           </div>
           <div class="cagr-breakdown" id="cagr-breakdown-ap">
@@ -1217,20 +1217,20 @@
           </div>
           <div class="sc-row"><span class="sc-row-label">Multiplicador</span><span class="sc-row-val" id="cmp-ap-mult">—</span></div>
           <div class="sc-row"><span class="sc-row-label">Cash flow / mes</span><span class="sc-row-val" id="cmp-ap-cf">—</span></div>
-          <div class="sc-row"><span class="sc-row-label">Nº propiedades</span><span class="sc-row-val white" id="cmp-ap-props">—</span></div>
+          <div class="sc-row"><span class="sc-row-label">No. properties</span><span class="sc-row-val white" id="cmp-ap-props">—</span></div>
         </div>
       </div>
 
       <div class="scenario-card sc-sindeuda">
-        <div class="sc-title">// sin apalancamiento — 1 casa al contado</div>
+        <div class="sc-title">// without leverage — 1 house cash purchase</div>
         <div class="sc-main" style="color:var(--text-muted)" id="cmp-nd-neto">—</div>
-        <div class="sc-sub" id="cmp-nd-sub">patrimonio neto al final</div>
+        <div class="sc-sub" id="cmp-nd-sub">net worth at end</div>
         <div class="sc-rows">
-          <div class="sc-row"><span class="sc-row-label">Valor de la casa</span><span class="sc-row-val white" id="cmp-nd-casa">—</span></div>
-          <div class="sc-row"><span class="sc-row-label">Deuda residual</span><span class="sc-row-val" style="color:var(--text-dim)">0 €</span></div>
-          <div class="sc-row"><span class="sc-row-label">Cash sobrante invertido</span><span class="sc-row-val gold" id="cmp-nd-cash">—</span></div>
+          <div class="sc-row"><span class="sc-row-label">House value</span><span class="sc-row-val white" id="cmp-nd-casa">—</span></div>
+          <div class="sc-row"><span class="sc-row-label">Residual debt</span><span class="sc-row-val" style="color:var(--text-dim)">0 €</span></div>
+          <div class="sc-row"><span class="sc-row-label">Surplus cash invested</span><span class="sc-row-val gold" id="cmp-nd-cash">—</span></div>
           <div class="sc-row cagr-row" onclick="toggleCagr('nd')">
-            <span class="sc-row-label">CAGR sobre capital <span class="cagr-toggle" id="cagr-toggle-nd">▸</span></span>
+            <span class="sc-row-label">CAGR on capital <span class="cagr-toggle" id="cagr-toggle-nd">▸</span></span>
             <span class="sc-row-val" id="cmp-nd-cagr">—</span>
           </div>
           <div class="cagr-breakdown" id="cagr-breakdown-nd">
@@ -1238,57 +1238,57 @@
           </div>
           <div class="sc-row"><span class="sc-row-label">Multiplicador</span><span class="sc-row-val" id="cmp-nd-mult">—</span></div>
           <div class="sc-row"><span class="sc-row-label">Cash flow / mes</span><span class="sc-row-val" id="cmp-nd-cf">—</span></div>
-          <div class="sc-row"><span class="sc-row-label">Nº propiedades</span><span class="sc-row-val white">1 (al contado)</span></div>
+          <div class="sc-row"><span class="sc-row-label">No. properties</span><span class="sc-row-val white">1 (cash purchase)</span></div>
         </div>
       </div>
 
       <div class="scenario-card sc-financiero">
-        <div class="sc-title">// solo inversión financiera — sin inmuebles</div>
+        <div class="sc-title">// financial investment only — no properties</div>
         <div class="sc-main gold" id="cmp-fi-neto">—</div>
-        <div class="sc-sub" id="cmp-fi-sub">patrimonio neto al final</div>
+        <div class="sc-sub" id="cmp-fi-sub">net worth at end</div>
         <div class="sc-rows">
-          <div class="sc-row"><span class="sc-row-label">Capital inicial</span><span class="sc-row-val white" id="cmp-fi-capital">—</span></div>
+          <div class="sc-row"><span class="sc-row-label">Initial capital</span><span class="sc-row-val white" id="cmp-fi-capital">—</span></div>
           <div class="sc-row"><span class="sc-row-label">Deuda</span><span class="sc-row-val" style="color:var(--text-dim)">0 €</span></div>
-          <div class="sc-row"><span class="sc-row-label">Valor final inversión</span><span class="sc-row-val gold" id="cmp-fi-valor">—</span></div>
+          <div class="sc-row"><span class="sc-row-label">Final investment value</span><span class="sc-row-val gold" id="cmp-fi-valor">—</span></div>
           <div class="sc-row cagr-row" onclick="toggleCagr('fi')">
-            <span class="sc-row-label">CAGR sobre capital <span class="cagr-toggle" id="cagr-toggle-fi">▸</span></span>
+            <span class="sc-row-label">CAGR on capital <span class="cagr-toggle" id="cagr-toggle-fi">▸</span></span>
             <span class="sc-row-val" id="cmp-fi-cagr">—</span>
           </div>
           <div class="cagr-breakdown" id="cagr-breakdown-fi">
             <div class="cagr-formula" id="cagr-formula-fi">—</div>
           </div>
           <div class="sc-row"><span class="sc-row-label">Multiplicador</span><span class="sc-row-val" id="cmp-fi-mult">—</span></div>
-          <div class="sc-row"><span class="sc-row-label">Rendim. anual (bruto)</span><span class="sc-row-val gold" id="cmp-fi-rendim">—</span></div>
-          <div class="sc-row"><span class="sc-row-label">Tipo usado</span><span class="sc-row-val white" id="cmp-fi-tipo">retorno cash %</span></div>
+          <div class="sc-row"><span class="sc-row-label">Annual return (gross)</span><span class="sc-row-val gold" id="cmp-fi-rendim">—</span></div>
+          <div class="sc-row"><span class="sc-row-label">Rate used</span><span class="sc-row-val white" id="cmp-fi-tipo">cash return %</span></div>
         </div>
       </div>
     </div>
 
     <div class="winner-banner">
       <div>
-        <div class="winner-label">Mejor resultado a <span id="wb-horizon">10</span> años</div>
+        <div class="winner-label">Best result at <span id="wb-horizon">10</span> years</div>
         <div class="winner-text" id="wb-winner">—</div>
       </div>
       <div style="text-align:right">
         <div class="winner-diff-val" id="wb-diff">—</div>
-        <div class="winner-diff-label" id="wb-diff-label">más patrimonio que la segunda mejor opción</div>
+        <div class="winner-diff-label" id="wb-diff-label">more wealth than the second-best option</div>
       </div>
     </div>
 
     <div class="flow-card" style="margin-top:1.25rem;">
-      <div class="card-title">// retorno anualizado comparado (CAGR)</div>
+      <div class="card-title">// annualized return comparison (CAGR)</div>
       <div class="cmp-bar-row">
-        <div class="cmp-bar-label">Con apalancamiento</div>
+        <div class="cmp-bar-label">With leverage</div>
         <div class="cmp-bar-track"><div class="cmp-bar-fill" id="cb-ap" style="background:#1a7a3c;width:0%"></div></div>
         <div class="cmp-bar-val green" id="cbv-ap">—</div>
       </div>
       <div class="cmp-bar-row">
-        <div class="cmp-bar-label">Sin apalancamiento</div>
+        <div class="cmp-bar-label">Without leverage</div>
         <div class="cmp-bar-track"><div class="cmp-bar-fill" id="cb-nd" style="background:#999;width:0%"></div></div>
         <div class="cmp-bar-val" style="color:var(--text-muted)" id="cbv-nd">—</div>
       </div>
       <div class="cmp-bar-row" style="margin-bottom:0">
-        <div class="cmp-bar-label">Solo financiero</div>
+        <div class="cmp-bar-label">Financial only</div>
         <div class="cmp-bar-track"><div class="cmp-bar-fill" id="cb-fi" style="background:#b07d1a;width:0%"></div></div>
         <div class="cmp-bar-val gold" id="cbv-fi">—</div>
       </div>
@@ -1298,30 +1298,30 @@
   <!-- OPTIMIZER -->
   <div class="comparison-section animate-in" style="animation-delay:0.42s; margin-top:2.5rem;" id="optimizer-section">
     <div class="comparison-header">
-      <h2>Optimizador</h2>
-      <span class="vs-badge">BÚSQUEDA DE LA MEJOR COMBINACIÓN</span>
+      <h2>Optimizer</h2>
+      <span class="vs-badge">SEARCH FOR THE BEST COMBINATION</span>
     </div>
 
     <div class="card" style="margin-bottom:1.25rem;">
-      <div class="card-title">// 01 — métrica a maximizar</div>
+      <div class="card-title">// 01 — metric to maximize</div>
       <div style="display:flex;gap:8px;flex-wrap:wrap;">
-        <button class="opt-metric-btn active" data-metric="cagr" onclick="setMetric(this)">CAGR total</button>
-        <button class="opt-metric-btn" data-metric="patrimonio" onclick="setMetric(this)">Patrimonio neto final</button>
-        <button class="opt-metric-btn" data-metric="spread" onclick="setMetric(this)">Spread arbitraje</button>
-        <button class="opt-metric-btn" data-metric="cf" onclick="setMetric(this)">CF neto acumulado</button>
+        <button class="opt-metric-btn active" data-metric="cagr" onclick="setMetric(this)">Total CAGR</button>
+        <button class="opt-metric-btn" data-metric="patrimonio" onclick="setMetric(this)">Final net worth</button>
+        <button class="opt-metric-btn" data-metric="spread" onclick="setMetric(this)">Arbitrage spread</button>
+        <button class="opt-metric-btn" data-metric="cf" onclick="setMetric(this)">Cumulative net CF</button>
       </div>
     </div>
 
     <div class="card" style="margin-bottom:1.25rem;">
-      <div class="card-title">// 02 — variables a optimizar — desmarca para fijar, ajusta rango</div>
+      <div class="card-title">// 02 — variables to optimize — uncheck to fix, adjust range</div>
       <div class="opt-vars-grid">
 
         <div class="opt-var-row">
           <input type="checkbox" id="opt-nprop" checked>
-          <span class="opt-var-name">Nº propiedades</span>
+          <span class="opt-var-name">No. properties</span>
           <div class="opt-range-inputs">
-            <label>mín <input type="number" id="opt-nprop-min" value="1" min="1" max="6" step="1" class="opt-num"></label>
-            <label>máx <input type="number" id="opt-nprop-max" value="6" min="1" max="6" step="1" class="opt-num"></label>
+            <label>min <input type="number" id="opt-nprop-min" value="1" min="1" max="6" step="1" class="opt-num"></label>
+            <label>max <input type="number" id="opt-nprop-max" value="6" min="1" max="6" step="1" class="opt-num"></label>
           </div>
         </div>
 
@@ -1329,89 +1329,89 @@
           <input type="checkbox" id="opt-equity" checked>
           <span class="opt-var-name">Equity %</span>
           <div class="opt-range-inputs">
-            <label>mín <input type="number" id="opt-equity-min" value="10" min="10" max="80" step="5" class="opt-num"></label>
-            <label>máx <input type="number" id="opt-equity-max" value="80" min="10" max="80" step="5" class="opt-num"></label>
+            <label>min <input type="number" id="opt-equity-min" value="10" min="10" max="80" step="5" class="opt-num"></label>
+            <label>max <input type="number" id="opt-equity-max" value="80" min="10" max="80" step="5" class="opt-num"></label>
           </div>
         </div>
 
         <div class="opt-var-row">
           <input type="checkbox" id="opt-vprop" checked>
-          <span class="opt-var-name">Valor/propiedad €</span>
+          <span class="opt-var-name">Value/property €</span>
           <div class="opt-range-inputs">
-            <label>mín <input type="number" id="opt-vprop-min" value="100000" min="100000" max="3000000" step="50000" class="opt-num"></label>
-            <label>máx <input type="number" id="opt-vprop-max" value="3000000" min="100000" max="3000000" step="50000" class="opt-num"></label>
+            <label>min <input type="number" id="opt-vprop-min" value="100000" min="100000" max="3000000" step="50000" class="opt-num"></label>
+            <label>max <input type="number" id="opt-vprop-max" value="3000000" min="100000" max="3000000" step="50000" class="opt-num"></label>
           </div>
         </div>
 
         <div class="opt-var-row">
           <input type="checkbox" id="opt-revalor">
-          <span class="opt-var-name">Revalorización %</span>
+          <span class="opt-var-name">Appreciation %</span>
           <div class="opt-range-inputs">
-            <label>mín <input type="number" id="opt-revalor-min" value="0" min="0" max="10" step="0.5" class="opt-num"></label>
-            <label>máx <input type="number" id="opt-revalor-max" value="10" min="0" max="10" step="0.5" class="opt-num"></label>
+            <label>min <input type="number" id="opt-revalor-min" value="0" min="0" max="10" step="0.5" class="opt-num"></label>
+            <label>max <input type="number" id="opt-revalor-max" value="10" min="0" max="10" step="0.5" class="opt-num"></label>
           </div>
         </div>
 
         <div class="opt-var-row">
           <input type="checkbox" id="opt-alquiler">
-          <span class="opt-var-name">Alquiler bruto %</span>
+          <span class="opt-var-name">Gross rental %</span>
           <div class="opt-range-inputs">
-            <label>mín <input type="number" id="opt-alquiler-min" value="0" min="0" max="12" step="0.5" class="opt-num"></label>
-            <label>máx <input type="number" id="opt-alquiler-max" value="12" min="0" max="12" step="0.5" class="opt-num"></label>
+            <label>min <input type="number" id="opt-alquiler-min" value="0" min="0" max="12" step="0.5" class="opt-num"></label>
+            <label>max <input type="number" id="opt-alquiler-max" value="12" min="0" max="12" step="0.5" class="opt-num"></label>
           </div>
         </div>
 
         <div class="opt-var-row">
           <input type="checkbox" id="opt-alqgrowth">
-          <span class="opt-var-name">Crec. alquiler %</span>
+          <span class="opt-var-name">Rental growth %</span>
           <div class="opt-range-inputs">
-            <label>mín <input type="number" id="opt-alqgrowth-min" value="0" min="0" max="8" step="0.5" class="opt-num"></label>
-            <label>máx <input type="number" id="opt-alqgrowth-max" value="8" min="0" max="8" step="0.5" class="opt-num"></label>
+            <label>min <input type="number" id="opt-alqgrowth-min" value="0" min="0" max="8" step="0.5" class="opt-num"></label>
+            <label>max <input type="number" id="opt-alqgrowth-max" value="8" min="0" max="8" step="0.5" class="opt-num"></label>
           </div>
         </div>
 
         <div class="opt-var-row">
           <input type="checkbox" id="opt-opex">
-          <span class="opt-var-name">Costes operativos %</span>
+          <span class="opt-var-name">Operating costs %</span>
           <div class="opt-range-inputs">
-            <label>mín <input type="number" id="opt-opex-min" value="0" min="0" max="50" step="5" class="opt-num"></label>
-            <label>máx <input type="number" id="opt-opex-max" value="50" min="0" max="50" step="5" class="opt-num"></label>
+            <label>min <input type="number" id="opt-opex-min" value="0" min="0" max="50" step="5" class="opt-num"></label>
+            <label>max <input type="number" id="opt-opex-max" value="50" min="0" max="50" step="5" class="opt-num"></label>
           </div>
         </div>
 
         <div class="opt-var-row">
           <input type="checkbox" id="opt-hipoteca">
-          <span class="opt-var-name">TIN hipoteca %</span>
+          <span class="opt-var-name">Mortgage rate %</span>
           <div class="opt-range-inputs">
-            <label>mín <input type="number" id="opt-hipoteca-min" value="1.5" min="1.5" max="6" step="0.25" class="opt-num"></label>
-            <label>máx <input type="number" id="opt-hipoteca-max" value="6" min="1.5" max="6" step="0.25" class="opt-num"></label>
+            <label>min <input type="number" id="opt-hipoteca-min" value="1.5" min="1.5" max="6" step="0.25" class="opt-num"></label>
+            <label>max <input type="number" id="opt-hipoteca-max" value="6" min="1.5" max="6" step="0.25" class="opt-num"></label>
           </div>
         </div>
 
         <div class="opt-var-row">
           <input type="checkbox" id="opt-plazo">
-          <span class="opt-var-name">Plazo hipoteca años</span>
+          <span class="opt-var-name">Mortgage term years</span>
           <div class="opt-range-inputs">
-            <label>mín <input type="number" id="opt-plazo-min" value="5" min="5" max="30" step="1" class="opt-num"></label>
-            <label>máx <input type="number" id="opt-plazo-max" value="30" min="5" max="30" step="1" class="opt-num"></label>
+            <label>min <input type="number" id="opt-plazo-min" value="5" min="5" max="30" step="1" class="opt-num"></label>
+            <label>max <input type="number" id="opt-plazo-max" value="30" min="5" max="30" step="1" class="opt-num"></label>
           </div>
         </div>
 
         <div class="opt-var-row">
           <input type="checkbox" id="opt-cashreturn" checked>
-          <span class="opt-var-name">Retorno cash %</span>
+          <span class="opt-var-name">Cash return %</span>
           <div class="opt-range-inputs">
-            <label>mín <input type="number" id="opt-cashreturn-min" value="0" min="0" max="20" step="0.5" class="opt-num"></label>
-            <label>máx <input type="number" id="opt-cashreturn-max" value="20" min="0" max="20" step="0.5" class="opt-num"></label>
+            <label>min <input type="number" id="opt-cashreturn-min" value="0" min="0" max="20" step="0.5" class="opt-num"></label>
+            <label>max <input type="number" id="opt-cashreturn-max" value="20" min="0" max="20" step="0.5" class="opt-num"></label>
           </div>
         </div>
 
         <div class="opt-var-row">
           <input type="checkbox" id="opt-horizon">
-          <span class="opt-var-name">Horizonte años</span>
+          <span class="opt-var-name">Horizon years</span>
           <div class="opt-range-inputs">
-            <label>mín <input type="number" id="opt-horizon-min" value="1" min="1" max="30" step="1" class="opt-num"></label>
-            <label>máx <input type="number" id="opt-horizon-max" value="30" min="1" max="30" step="1" class="opt-num"></label>
+            <label>min <input type="number" id="opt-horizon-min" value="1" min="1" max="30" step="1" class="opt-num"></label>
+            <label>max <input type="number" id="opt-horizon-max" value="30" min="1" max="30" step="1" class="opt-num"></label>
           </div>
         </div>
 
@@ -1420,7 +1420,7 @@
 
     <div style="display:flex;align-items:center;gap:12px;margin-bottom:1.25rem;flex-wrap:wrap;">
       <button class="opt-run-btn" id="opt-run-btn" onclick="runOptimizer()">
-        <span id="opt-btn-text">▶ Ejecutar optimizador</span>
+        <span id="opt-btn-text">▶ Run optimizer</span>
       </button>
       <div id="opt-status" style="font-size:12px;font-family:'DM Mono',monospace;color:var(--text-dim)"></div>
     </div>
@@ -1434,36 +1434,36 @@
   <!-- SCENARIO ANALYSIS -->
   <div class="comparison-section animate-in" style="animation-delay:0.43s; margin-top:2.5rem;" id="scenario-section">
     <div class="comparison-header">
-      <h2>Análisis de escenarios</h2>
-      <span class="vs-badge">SENSIBILIDAD DEL CAGR</span>
+      <h2>Scenario Analysis</h2>
+      <span class="vs-badge">CAGR SENSITIVITY</span>
     </div>
 
     <div class="card" style="margin-bottom:1.25rem;">
-      <div class="card-title" style="margin-bottom:0.75rem;">// 01 — elige 1 o 2 variables a analizar</div>
+      <div class="card-title" style="margin-bottom:0.75rem;">// 01 — choose 1 or 2 variables to analyze</div>
       <p style="font-size:12px;color:var(--text-dim);font-family:'DM Mono',monospace;margin-bottom:1rem;">
-        Selecciona hasta 2 variables. Con 1 → gráfico de barras. Con 2 → mapa de calor (X = primera, Y = segunda).
+        Select up to 2 variables. With 1 → bar chart. With 2 → heat map (X = first, Y = second).
       </p>
       <div class="sa-var-selector" id="sa-var-selector"></div>
     </div>
 
     <div class="sa-config" id="sa-config">
       <div class="sa-config-box" id="sa-config-x" style="display:none">
-        <h4 style="color:var(--accent)">Eje X — <span id="sa-label-x">—</span></h4>
-        <div class="sa-config-row"><label>desde</label><input type="number" class="sa-input" id="sa-xmin"> <span id="sa-xunit" style="font-size:11px;color:var(--text-dim);font-family:'DM Mono',monospace"></span></div>
-        <div class="sa-config-row"><label>hasta</label><input type="number" class="sa-input" id="sa-xmax"> <span style="font-size:11px;color:var(--text-dim);font-family:'DM Mono',monospace" id="sa-xunit2"></span></div>
-        <div class="sa-config-row"><label>pasos</label><input type="number" class="sa-input" id="sa-xsteps" value="6" min="2" max="20"></div>
+        <h4 style="color:var(--accent)">X Axis — <span id="sa-label-x">—</span></h4>
+        <div class="sa-config-row"><label>from</label><input type="number" class="sa-input" id="sa-xmin"> <span id="sa-xunit" style="font-size:11px;color:var(--text-dim);font-family:'DM Mono',monospace"></span></div>
+        <div class="sa-config-row"><label>to</label><input type="number" class="sa-input" id="sa-xmax"> <span style="font-size:11px;color:var(--text-dim);font-family:'DM Mono',monospace" id="sa-xunit2"></span></div>
+        <div class="sa-config-row"><label>steps</label><input type="number" class="sa-input" id="sa-xsteps" value="6" min="2" max="20"></div>
       </div>
       <div class="sa-config-box" id="sa-config-y" style="display:none">
-        <h4 style="color:var(--blue)">Eje Y — <span id="sa-label-y">—</span></h4>
-        <div class="sa-config-row"><label>desde</label><input type="number" class="sa-input" id="sa-ymin"> <span id="sa-yunit" style="font-size:11px;color:var(--text-dim);font-family:'DM Mono',monospace"></span></div>
-        <div class="sa-config-row"><label>hasta</label><input type="number" class="sa-input" id="sa-ymax"> <span style="font-size:11px;color:var(--text-dim);font-family:'DM Mono',monospace" id="sa-yunit2"></span></div>
-        <div class="sa-config-row"><label>pasos</label><input type="number" class="sa-input" id="sa-ysteps" value="5" min="2" max="15"></div>
+        <h4 style="color:var(--blue)">Y Axis — <span id="sa-label-y">—</span></h4>
+        <div class="sa-config-row"><label>from</label><input type="number" class="sa-input" id="sa-ymin"> <span id="sa-yunit" style="font-size:11px;color:var(--text-dim);font-family:'DM Mono',monospace"></span></div>
+        <div class="sa-config-row"><label>to</label><input type="number" class="sa-input" id="sa-ymax"> <span style="font-size:11px;color:var(--text-dim);font-family:'DM Mono',monospace" id="sa-yunit2"></span></div>
+        <div class="sa-config-row"><label>steps</label><input type="number" class="sa-input" id="sa-ysteps" value="5" min="2" max="15"></div>
       </div>
     </div>
 
     <div style="display:flex;align-items:center;gap:12px;margin-bottom:1.25rem;flex-wrap:wrap;">
-      <button class="sa-run-btn" onclick="runScenario()">▶ Añadir análisis</button>
-      <button class="sa-run-btn" onclick="clearScenarios()" style="background:var(--surface3);color:var(--text-muted);border:1px solid var(--border);">✕ Limpiar todo</button>
+      <button class="sa-run-btn" onclick="runScenario()">▶ Add analysis</button>
+      <button class="sa-run-btn" onclick="clearScenarios()" style="background:var(--surface3);color:var(--text-muted);border:1px solid var(--border);">✕ Clear all</button>
       <div style="font-size:12px;font-family:'DM Mono',monospace;color:var(--text-dim)" id="sa-status"></div>
     </div>
 
@@ -1473,13 +1473,13 @@
   <!-- YEAR BY YEAR TABLES -->
   <div class="table-section animate-in" style="animation-delay:0.45s">
     <div class="comparison-header">
-      <h2>Flujos año a año</h2>
+      <h2>Year-by-Year Cash Flows</h2>
       <span class="vs-badge">CASH IN / CASH OUT</span>
     </div>
 
     <div class="table-tabs">
-      <button class="table-tab active" onclick="switchTable('ap', this)">Con apalancamiento</button>
-      <button class="table-tab" onclick="switchTable('nd', this)">Sin apalancamiento</button>
+      <button class="table-tab active" onclick="switchTable('ap', this)">With leverage</button>
+      <button class="table-tab" onclick="switchTable('nd', this)">Without leverage</button>
     </div>
 
     <!-- Apalancado table -->
@@ -1488,61 +1488,61 @@
       <div class="glossary-grid" id="glos-ap">
         <div class="glos-card glos-in">
           <div class="glos-icon">↑</div>
-          <div class="glos-name">Alquiler bruto</div>
-          <div class="glos-desc">Ingresos totales por arrendamiento antes de cualquier gasto. Se calcula como valor de los inmuebles × rentabilidad bruta configurada.</div>
+          <div class="glos-name">Gross rent</div>
+          <div class="glos-desc">Total rental income before any expenses. Calculated as property value × configured gross yield.</div>
         </div>
         <div class="glos-card glos-in">
           <div class="glos-icon">↑</div>
-          <div class="glos-name">Rendim. cash</div>
-          <div class="glos-desc">Intereses o plusvalías generados por el dinero que no pusiste en las casas y tienes invertido en otro activo (bolsa, fondo, etc.).</div>
+          <div class="glos-name">Cash return</div>
+          <div class="glos-desc">Interest or gains generated by money you didn't put into properties, invested in another asset (stocks, fund, etc.).</div>
         </div>
         <div class="glos-card glos-out">
           <div class="glos-icon">↓</div>
-          <div class="glos-name">Cuota hipoteca (total)</div>
-          <div class="glos-desc">Lo que pagas al banco cada año. Calculada con el sistema francés: <strong>Cuota = Deuda × [r×(1+r)^n] / [(1+r)^n−1]</strong>, donde r = TIN/12 y n = meses. La cuota es fija, pero por dentro cambia: al principio casi todo son intereses, al final casi todo es capital.</div>
+          <div class="glos-name">Mortgage payment (total)</div>
+          <div class="glos-desc">What you pay the bank each year. Calculated with the French amortization system: <strong>Payment = Debt × [r×(1+r)^n] / [(1+r)^n−1]</strong>, where r = rate/12 and n = months. The payment is fixed, but internally it shifts: at first almost all is interest, at the end almost all is principal.</div>
         </div>
         <div class="glos-card glos-out">
           <div class="glos-icon">↓</div>
-          <div class="glos-name">Intereses hipoteca</div>
-          <div class="glos-desc">La parte de la cuota que se queda el banco. Cada mes = Deuda viva × (TIN/12). Baja progresivamente conforme reduces la deuda.</div>
+          <div class="glos-name">Mortgage interest</div>
+          <div class="glos-desc">The portion of the payment kept by the bank. Each month = outstanding debt × (rate/12). Decreases progressively as you reduce the debt.</div>
         </div>
         <div class="glos-card glos-neutral">
           <div class="glos-icon">⇄</div>
-          <div class="glos-name">Capital amortizado</div>
-          <div class="glos-desc">La parte de la cuota que reduce tu deuda: Cuota − Intereses del mes. No es un gasto perdido — aumenta tu equity en el inmueble. Sube cada año progresivamente.</div>
+          <div class="glos-name">Principal repaid</div>
+          <div class="glos-desc">The portion of the payment that reduces your debt: Payment − Monthly interest. Not a lost expense — it builds your equity in the property. Grows progressively each year.</div>
         </div>
         <div class="glos-card glos-out">
           <div class="glos-icon">↓</div>
-          <div class="glos-name">Impuestos rendim. cash</div>
-          <div class="glos-desc">Lo que pagas a Hacienda sobre las ganancias del cash invertido. En España: 19% hasta 6k€, 21% de 6–50k€, 23% de 50–200k€, 27% de 200–300k€, 28% &gt;300k€. El rendimiento neto es lo que realmente te queda y se reinvierte.</div>
+          <div class="glos-name">Cash return taxes</div>
+          <div class="glos-desc">Tax paid on gains from invested cash. In Spain: 19% up to €6k, 21% on €6–50k, 23% on €50–200k, 27% on €200–300k, 28% &gt;€300k. The net return is what you actually keep and reinvest.</div>
         </div>
         <div class="glos-card glos-out">
           <div class="glos-icon">↓</div>
-          <div class="glos-name">Inyección de capital ⚠</div>
-          <div class="glos-desc">Dinero extra que tienes que poner de tu bolsillo ese año porque el cash acumulado no cubre el déficit entre hipoteca y alquiler. Como la hipoteca se paga mensualmente, el déficit se acumula a lo largo del año — se modela como si llegara a <strong>mitad del año</strong>. En los escenarios alternativos, ese mismo importe se invierte desde ese momento generando medio año de rendimiento en el año de llegada.</div>
+          <div class="glos-name">Capital injection ⚠</div>
+          <div class="glos-desc">Extra money you must inject that year because the accumulated cash pool doesn't cover the gap between mortgage and rent. Since the mortgage is paid monthly, the deficit builds throughout the year — modeled as arriving at <strong>mid-year</strong>. In alternative scenarios, that same amount is invested from that point, generating half a year of return in the arrival year.</div>
         </div>
         <div class="glos-card glos-neutral">
           <div class="glos-icon">⇄</div>
-          <div class="glos-name">CF neto anual</div>
-          <div class="glos-desc">Cash flow neto del año: alquiler + rendimiento neto del cash − cuota hipoteca total. Si es positivo, el año genera liquidez; si es negativo, necesitas aportarla.</div>
+          <div class="glos-name">Annual net CF</div>
+          <div class="glos-desc">Net cash flow for the year: rent + net cash return − total mortgage payment. If positive, the year generates liquidity; if negative, you need to provide it.</div>
         </div>
         <div class="glos-card glos-balance">
           <div class="glos-icon">=</div>
-          <div class="glos-name">Deuda pendiente</div>
-          <div class="glos-desc">Capital vivo de las hipotecas al final de ese año. Va bajando cada año según el sistema francés de amortización.</div>
+          <div class="glos-name">Outstanding debt</div>
+          <div class="glos-desc">Outstanding mortgage balance at the end of that year. Decreases each year according to the French amortization schedule.</div>
         </div>
         <div class="glos-card glos-balance">
           <div class="glos-icon">=</div>
-          <div class="glos-name">Patrimonio neto</div>
-          <div class="glos-desc">Valor total de lo que posees (inmuebles + cash acumulado) menos la deuda que aún debes. Es tu riqueza real en ese momento.</div>
+          <div class="glos-name">Net worth</div>
+          <div class="glos-desc">Total value of what you own (properties + accumulated cash) minus the debt you still owe. This is your real wealth at that point.</div>
         </div>
       </div>
       <div class="table-wrap" style="margin-top:1rem">
         <div class="table-legend">
           <div class="tleg"><div class="tleg-dot" style="background:var(--accent)"></div>Cash in</div>
           <div class="tleg"><div class="tleg-dot" style="background:var(--red)"></div>Cash out</div>
-          <div class="tleg"><div class="tleg-dot" style="background:#888"></div>Neutro / balance</div>
-          <div class="tleg"><div class="tleg-dot" style="background:var(--blue)"></div>Patrimonio</div>
+          <div class="tleg"><div class="tleg-dot" style="background:#888"></div>Neutral / balance</div>
+          <div class="tleg"><div class="tleg-dot" style="background:var(--blue)"></div>Net worth</div>
         </div>
         <div style="overflow-x:auto">
           <table id="table-ap" style="width:100%;border-collapse:collapse;font-size:12px;font-family:'DM Mono',monospace;"></table>
@@ -1556,50 +1556,50 @@
       <div class="glossary-grid">
         <div class="glos-card glos-in">
           <div class="glos-icon">↑</div>
-          <div class="glos-name">Alquiler bruto</div>
-          <div class="glos-desc">Ingresos por arrendamiento de la única casa comprada al contado. Al no tener hipoteca, todo este dinero queda libre.</div>
+          <div class="glos-name">Gross rent</div>
+          <div class="glos-desc">Rental income from the single house bought outright. With no mortgage, all this money is free.</div>
         </div>
         <div class="glos-card glos-in">
           <div class="glos-icon">↑</div>
-          <div class="glos-name">Rendim. cash</div>
-          <div class="glos-desc">Lo que genera el dinero sobrante (capital − precio casa) invertido en otro activo. Si compraste la casa por menos que tu capital, el resto trabaja aquí.</div>
+          <div class="glos-name">Cash return</div>
+          <div class="glos-desc">What the surplus money (capital − house price) invested in another asset generates. If you bought the house for less than your capital, the rest works here.</div>
         </div>
         <div class="glos-card glos-out">
           <div class="glos-icon">↓</div>
-          <div class="glos-name">Impuestos rendim. cash</div>
-          <div class="glos-desc">Impuesto sobre las ganancias del capital invertido. Se aplica sobre el rendimiento bruto de cada año. El importe restante (neto) es el que se reinvierte y acumula.</div>
+          <div class="glos-name">Cash return taxes</div>
+          <div class="glos-desc">Tax on gains from invested capital. Applied to the gross return each year. The remaining amount (net) is what is reinvested and compounded.</div>
         </div>
         <div class="glos-card glos-neutral">
           <div class="glos-icon">⇄</div>
-          <div class="glos-name">CF neto anual</div>
-          <div class="glos-desc">Alquiler + rendimiento neto del cash (ya descontados impuestos). Sin hipoteca no hay outflow fijo, así que este número siempre es positivo o cero.</div>
+          <div class="glos-name">Annual net CF</div>
+          <div class="glos-desc">Rent + net cash return (taxes already deducted). With no mortgage there's no fixed outflow, so this number is always positive or zero.</div>
         </div>
         <div class="glos-card glos-balance">
           <div class="glos-icon">=</div>
-          <div class="glos-name">Valor de la casa</div>
-          <div class="glos-desc">Precio de mercado estimado de la propiedad cada año, aplicando la tasa de revalorización configurada sobre el precio de compra original.</div>
+          <div class="glos-name">House value</div>
+          <div class="glos-desc">Estimated market price of the property each year, applying the configured appreciation rate to the original purchase price.</div>
         </div>
         <div class="glos-card glos-balance">
           <div class="glos-icon">=</div>
-          <div class="glos-name">Cash acumulado</div>
-          <div class="glos-desc">Valor final del dinero que no metiste en la casa, con todos los rendimientos compuestos acumulados hasta ese año.</div>
+          <div class="glos-name">Accumulated cash</div>
+          <div class="glos-desc">Final value of the money you didn't put into the house, with all compound returns accumulated up to that year.</div>
         </div>
         <div class="glos-card glos-balance">
           <div class="glos-icon">=</div>
-          <div class="glos-name">Patrimonio neto</div>
-          <div class="glos-desc">Valor casa + cash acumulado. Sin deuda, todo el activo es patrimonio puro. No hay deuda que restar.</div>
+          <div class="glos-name">Net worth</div>
+          <div class="glos-desc">House value + accumulated cash. With no debt, all assets are pure net worth. No debt to subtract.</div>
         </div>
         <div class="glos-card glos-balance" style="border-left-color: var(--blue)">
           <div class="glos-icon" style="color:var(--blue)">↓</div>
-          <div class="glos-name">Capital extra (AP→ND)</div>
-          <div class="glos-desc">El mismo dinero que en el escenario apalancado se inyectó para cubrir el déficit mensual, aquí se invierte en su lugar. Como el déficit se acumula mes a mes, se asume que el dinero llega a <strong>mitad del año</strong> — generando medio año de rendimiento en el año de llegada y rendimiento completo en los años siguientes.</div>
+          <div class="glos-name">Extra capital (AP→ND)</div>
+          <div class="glos-desc">The same money injected in the leveraged scenario to cover the monthly deficit, here invested instead. Since the deficit accumulates month by month, the money is assumed to arrive at <strong>mid-year</strong> — generating half a year of return in the arrival year and full return in subsequent years.</div>
         </div>
       </div>
       <div class="table-wrap" style="margin-top:1rem">
         <div class="table-legend">
           <div class="tleg"><div class="tleg-dot" style="background:var(--accent)"></div>Cash in</div>
-          <div class="tleg"><div class="tleg-dot" style="background:#888"></div>Neutro / balance</div>
-          <div class="tleg"><div class="tleg-dot" style="background:var(--blue)"></div>Patrimonio</div>
+          <div class="tleg"><div class="tleg-dot" style="background:#888"></div>Neutral / balance</div>
+          <div class="tleg"><div class="tleg-dot" style="background:var(--blue)"></div>Net worth</div>
         </div>
         <div style="overflow-x:auto">
           <table id="table-nd" style="width:100%;border-collapse:collapse;font-size:12px;font-family:'DM Mono',monospace;"></table>
@@ -1612,7 +1612,7 @@
 
 <script>
 function fmt(n, decimals=0) {
-  return new Intl.NumberFormat('es-ES', {
+  return new Intl.NumberFormat('en-US', {
     minimumFractionDigits: decimals,
     maximumFractionDigits: decimals
   }).format(Math.round(n * Math.pow(10, decimals)) / Math.pow(10, decimals));
@@ -1650,7 +1650,7 @@ function recalcular() {
   document.getElementById('lbl-alqtax').textContent = fmt(alqTax * 100, 0) + '%';
   document.getElementById('lbl-cashreturn').textContent = fmt(cashRet * 100, 2) + '%';
   document.getElementById('lbl-taxrate').textContent = fmt(taxRate * 100, 0) + '%';
-  document.getElementById('lbl-horizon').textContent = horizon + ' años';
+  document.getElementById('lbl-horizon').textContent = horizon + ' years';
 
   // Core calcs
   const equityTotal = nprop * vprop * equityPct;
@@ -1675,18 +1675,18 @@ function recalcular() {
   if (equityTotal > capital) {
     warningEl.classList.remove('hidden');
     document.getElementById('warning-text').textContent =
-      'El equity total (' + fmtEur(equityTotal) + ') supera tu capital disponible (' + fmtEur(capital) + '). Reduce el número de propiedades o el porcentaje de equity.';
+      'Total equity (' + fmtEur(equityTotal) + ') exceeds your available capital (' + fmtEur(capital) + '). Reduce the number of properties or the equity percentage.';
   } else {
     warningEl.classList.add('hidden');
   }
 
   // --- Summary metrics ---
   document.getElementById('m-equity').textContent = fmtEur(equityTotal);
-  document.getElementById('m-equity-sub').textContent = 'en ' + nprop + ' propiedad' + (nprop > 1 ? 'es' : '');
+  document.getElementById('m-equity-sub').textContent = 'in ' + nprop + ' propert' + (nprop > 1 ? 'ies' : 'y');
   document.getElementById('m-cash').textContent = cashRem >= 0 ? fmtEur(cashRem) : '−' + fmtEur(-cashRem);
-  document.getElementById('m-cash-sub').textContent = cashRem >= 0 ? 'disponible' : 'déficit';
+  document.getElementById('m-cash-sub').textContent = cashRem >= 0 ? 'available' : 'deficit';
   document.getElementById('m-deuda').textContent = fmtEur(deudaTotal);
-  document.getElementById('m-deuda-sub').textContent = nprop + ' hipoteca' + (nprop > 1 ? 's' : '');
+  document.getElementById('m-deuda-sub').textContent = nprop + ' mortgage' + (nprop > 1 ? 's' : '');
   document.getElementById('m-ltv').textContent = fmt(ltv, 0) + '%';
 
   // --- Spread indicator ---
@@ -1710,15 +1710,15 @@ function recalcular() {
   if (spreadPct > 1) {
     verdictEl.className = 'spread-verdict spread-positive';
     spreadValEl.style.color = 'var(--accent)';
-    spreadSubEl.textContent = 'La deuda crea valor — el activo rinde más de lo que cuesta financiarlo.';
+    spreadSubEl.textContent = 'Debt creates value — the asset yields more than it costs to finance.';
   } else if (spreadPct > 0) {
     verdictEl.className = 'spread-verdict spread-neutral';
     spreadValEl.style.color = 'var(--gold)';
-    spreadSubEl.textContent = 'Spread positivo pero ajustado — cualquier bajada de rentas o subida de tipos lo anula.';
+    spreadSubEl.textContent = 'Positive but thin spread — any drop in rents or rate rise wipes it out.';
   } else {
     verdictEl.className = 'spread-verdict spread-negative';
     spreadValEl.style.color = 'var(--red)';
-    spreadSubEl.textContent = 'La deuda destruye valor — el coste de financiación supera el rendimiento del activo.';
+    spreadSubEl.textContent = 'Debt destroys value — the financing cost exceeds the asset return.';
   }
 
   const maxBar2 = Math.max(assetPct, debtPct, 0.1);
@@ -1734,8 +1734,8 @@ function recalcular() {
   document.getElementById('sbv-spread').textContent = (spreadPct >= 0 ? '+' : '') + fmt(spreadPct, 2) + '%';
   document.getElementById('sbv-spread').style.color = spreadPct >= 0 ? 'var(--blue)' : 'var(--red)';
 
-  document.getElementById('seq-alq').textContent   = fmt(alqNetoYield * 100, 2) + '% alq. neto';
-  document.getElementById('seq-reval').textContent = fmt(revalor * 100, 1) + '% revalor.';
+  document.getElementById('seq-alq').textContent   = fmt(alqNetoYield * 100, 2) + '% net rent';
+  document.getElementById('seq-reval').textContent = fmt(revalor * 100, 1) + '% appreci.';
   document.getElementById('seq-tin').textContent   = fmt(hipTIN * 100, 2) + '% TIN';
   document.getElementById('seq-result').textContent = (spreadPct >= 0 ? '+' : '') + fmt(spreadPct, 2) + '%';
   document.getElementById('seq-result').style.background = spreadPct > 1 ? 'rgba(26,122,60,0.1)' : spreadPct > 0 ? 'rgba(176,125,26,0.1)' : 'rgba(192,57,43,0.1)';
@@ -1747,22 +1747,22 @@ function recalcular() {
   document.getElementById('f-equity').textContent = '−' + fmtEur(equityTotal);
   document.getElementById('f-cash').textContent = cashRem >= 0 ? fmtEur(cashRem) : '−' + fmtEur(-cashRem);
   document.getElementById('f-activos').textContent = fmtEur(totalActivos);
-  document.getElementById('f-cuota').textContent = '−' + fmtEur(cuotaMes) + '/mes';
+  document.getElementById('f-cuota').textContent = '−' + fmtEur(cuotaMes) + '/mo';
   // Year-1 rent for display in flow card (fix 1: yr-1 so year 1 = base alqPct, no prior growth)
   const alqBrutoAnio1 = totalActivos * alqPct * Math.pow(1 + alqGrowth, 0);  // yr-1 = 0
   const alqNetoAnio1  = alqBrutoAnio1 * (1 - opexPct) * (1 - alqTax);
   const alqMesAnio1   = alqNetoAnio1 / 12;
   const cashflowMesAnio1 = alqMesAnio1 - cuotaMes;
 
-  document.getElementById('f-alquiler').textContent = '+' + fmtEur(alqMesAnio1) + '/mes';
-  document.getElementById('f-alquiler').title = 'Crece cada año con la revalorización del inmueble';
+  document.getElementById('f-alquiler').textContent = '+' + fmtEur(alqMesAnio1) + '/mo';
+  document.getElementById('f-alquiler').title = 'Grows each year with property appreciation';
 
   const cfEl = document.getElementById('f-cashflow');
-  cfEl.textContent = (cashflowMesAnio1 >= 0 ? '+' : '−') + fmtEur(Math.abs(cashflowMesAnio1)) + '/mes';
+  cfEl.textContent = (cashflowMesAnio1 >= 0 ? '+' : '−') + fmtEur(Math.abs(cashflowMesAnio1)) + '/mo';
   cfEl.style.color = cashflowMesAnio1 >= 0 ? 'var(--accent)' : 'var(--red)';
 
   const pillCf = document.getElementById('pill-cf');
-  pillCf.textContent = cashflowMesAnio1 >= 0 ? 'CF positivo' : 'CF negativo';
+  pillCf.textContent = cashflowMesAnio1 >= 0 ? 'Positive CF' : 'Negative CF';
   pillCf.className = 'tag-pill ' + (cashflowMesAnio1 >= 0 ? 'pill-green' : 'pill-red');
 
   // --- Horizon projection ---
@@ -1830,18 +1830,18 @@ function recalcular() {
 
   document.getElementById('bc-horizon').textContent = horizon;
   document.getElementById('bc-inmuebles').textContent = fmtEur(inmFinal);
-  document.getElementById('bc-inmuebles-sub').textContent = (plusvalia >= 0 ? '+' : '') + fmtEur(plusvalia) + ' plusvalía';
+  document.getElementById('bc-inmuebles-sub').textContent = (plusvalia >= 0 ? '+' : '') + fmtEur(plusvalia) + ' appreciation gain';
 
   document.getElementById('bc-cash').textContent = fmtEur(cashFinal);
-  document.getElementById('bc-cash-sub').textContent = (cashGain >= 0 ? '+' : '') + fmtEur(cashGain) + ' rentabilidad';
+  document.getElementById('bc-cash-sub').textContent = (cashGain >= 0 ? '+' : '') + fmtEur(cashGain) + ' return';
 
   document.getElementById('bc-deuda-res').textContent = fmtEur(deudaRes);
-  document.getElementById('bc-deuda-sub').textContent = 'de ' + fmtEur(deudaTotal) + ' original';
+  document.getElementById('bc-deuda-sub').textContent = 'of ' + fmtEur(deudaTotal) + ' original';
 
   document.getElementById('bc-neto').textContent = fmtEur(patrimonioNeto);
   document.getElementById('bc-neto-sub').textContent = totalInjectedAp > 0
-    ? 'capital comprometido: ' + fmtEur(capitalComprometido) + ' (incl. ' + fmtEur(totalInjectedAp) + ' inyectado)'
-    : 'vs ' + fmtEur(capital) + ' inicial';
+    ? 'committed capital: ' + fmtEur(capitalComprometido) + ' (incl. ' + fmtEur(totalInjectedAp) + ' injected)'
+    : 'vs ' + fmtEur(capital) + ' initial';
 
   // ROE
   document.getElementById('multiplicador').textContent = '×' + fmt(multiplicador, 2);
@@ -1863,10 +1863,10 @@ function recalcular() {
   document.getElementById('bar-cash').style.background = 'var(--gold)';
   document.getElementById('bar-total').style.background = 'var(--blue)';
 
-  document.getElementById('bv-inm').textContent = fmtPct(inmCagr, 1) + ' / año';
+  document.getElementById('bv-inm').textContent = fmtPct(inmCagr, 1) + ' / yr';
   document.getElementById('bv-inm').style.color = inmCagr >= 0 ? 'var(--accent)' : 'var(--red)';
-  document.getElementById('bv-cash').textContent = fmtPct(cashCagr, 1) + ' / año';
-  document.getElementById('bv-total').textContent = fmtPct(cagr, 1) + ' / año';
+  document.getElementById('bv-cash').textContent = fmtPct(cashCagr, 1) + ' / yr';
+  document.getElementById('bv-total').textContent = fmtPct(cagr, 1) + ' / yr';
   document.getElementById('bv-total').style.color = cagr >= 0 ? 'var(--blue)' : 'var(--red)';
 
   // ---- COMPARISON: Sin apalancamiento ----
@@ -1900,50 +1900,50 @@ function recalcular() {
   // Populate sin-deuda card
   document.getElementById('cmp-nd-neto').textContent = fmtEur(patrimonioND);
   document.getElementById('cmp-nd-sub').textContent = totalInjectedAp > 0
-    ? 'mismo capital comprometido: ' + fmtEur(capitalComprometido)
-    : 'patrimonio neto a ' + horizon + ' años';
+    ? 'same committed capital: ' + fmtEur(capitalComprometido)
+    : 'net worth at ' + horizon + ' years';
   document.getElementById('cmp-nd-casa').textContent = fmtEur(casaFinalND);
   document.getElementById('cmp-nd-cash').textContent = fmtEur(cashFinalND)
     + (cashRemND > 0 ? ' (' + fmtEur(cashRemND) + ' inicial)' : '');
-  document.getElementById('cmp-nd-cagr').textContent = fmtPct(cagrND, 1) + ' / año';
+  document.getElementById('cmp-nd-cagr').textContent = fmtPct(cagrND, 1) + ' / yr';
   document.getElementById('cmp-nd-cagr').style.color = cagrND >= 0 ? 'var(--accent)' : 'var(--red)';
   document.getElementById('cagr-formula-nd').innerHTML =
-    cagrLine('Patrimonio final', fmtEur(patrimonioND)) +
-    cagrLine('Capital comprometido', fmtEur(capitalComprometido)) +
-    cagrLine('Horizonte', horizon + ' años') +
+    cagrLine('Final wealth', fmtEur(patrimonioND)) +
+    cagrLine('Committed capital', fmtEur(capitalComprometido)) +
+    cagrLine('Horizon', horizon + ' years') +
     '<hr class="cf-divider">' +
-    cagrLine('Multiplicador (P/C)', '×' + fmt(multND, 2)) +
+    cagrLine('Multiplier (W/C)', '×' + fmt(multND, 2)) +
     '<div class="cf-formula-line">CAGR = (Patrimonio ÷ Capital)<sup>1/n</sup> − 1<br>' +
     '= (' + fmtEur(patrimonioND) + ' ÷ ' + fmtEur(capitalComprometido) + ')<sup>1/' + horizon + '</sup> − 1<br>' +
     '= ' + fmtPct(cagrND, 2) + ' / año</div>';
   document.getElementById('cmp-nd-mult').textContent = '×' + fmt(multND, 2);
-  document.getElementById('cmp-nd-cf').textContent = '+' + fmtEur(cfMesND) + '/mes (neto)';
+  document.getElementById('cmp-nd-cf').textContent = '+' + fmtEur(cfMesND) + '/mo (net)';
   document.getElementById('cmp-nd-cf').style.color = 'var(--accent)';
 
   // Populate apalancado card (mirrors main results)
   document.getElementById('cmp-ap-neto').textContent = fmtEur(patrimonioNeto);
   document.getElementById('cmp-ap-sub').textContent = totalInjectedAp > 0
-    ? 'capital comprometido: ' + fmtEur(capitalComprometido)
-    : 'patrimonio neto a ' + horizon + ' años';
+    ? 'committed capital: ' + fmtEur(capitalComprometido)
+    : 'net worth at ' + horizon + ' years';
   document.getElementById('cmp-ap-activos').textContent = fmtEur(inmFinal);
   document.getElementById('cmp-ap-deuda').textContent = fmtEur(deudaRes);
   document.getElementById('cmp-ap-cash').textContent = fmtEur(cashFinal);
-  document.getElementById('cmp-ap-cagr').textContent = fmtPct(cagr, 1) + ' / año';
+  document.getElementById('cmp-ap-cagr').textContent = fmtPct(cagr, 1) + ' / yr';
   document.getElementById('cmp-ap-cagr').style.color = cagr >= 0 ? 'var(--accent)' : 'var(--red)';
   document.getElementById('cagr-formula-ap').innerHTML =
-    cagrLine('Patrimonio final', fmtEur(patrimonioNeto)) +
-    cagrLine('Capital comprometido', fmtEur(capitalComprometido) + (totalInjectedAp > 0 ? ' (incl. ' + fmtEur(totalInjectedAp) + ' inyectado)' : '')) +
-    cagrLine('Horizonte', horizon + ' años') +
+    cagrLine('Final wealth', fmtEur(patrimonioNeto)) +
+    cagrLine('Committed capital', fmtEur(capitalComprometido) + (totalInjectedAp > 0 ? ' (incl. ' + fmtEur(totalInjectedAp) + ' inyectado)' : '')) +
+    cagrLine('Horizon', horizon + ' years') +
     '<hr class="cf-divider">' +
-    cagrLine('Multiplicador (P/C)', '×' + fmt(multiplicador, 2)) +
+    cagrLine('Multiplier (W/C)', '×' + fmt(multiplicador, 2)) +
     '<div class="cf-formula-line">CAGR = (Patrimonio ÷ Capital)<sup>1/n</sup> − 1<br>' +
     '= (' + fmtEur(patrimonioNeto) + ' ÷ ' + fmtEur(capitalComprometido) + ')<sup>1/' + horizon + '</sup> − 1<br>' +
     '= ' + fmtPct(cagr, 2) + ' / año</div>';
   document.getElementById('cmp-ap-mult').textContent = '×' + fmt(multiplicador, 2);
-  document.getElementById('cmp-ap-cf').textContent = (cashflowMes >= 0 ? '+' : '') + fmtEur(Math.abs(cashflowMes)) + '/mes';
+  document.getElementById('cmp-ap-cf').textContent = (cashflowMes >= 0 ? '+' : '') + fmtEur(Math.abs(cashflowMes)) + '/mo';
   document.getElementById('cmp-ap-cf').style.color = cashflowMes >= 0 ? 'var(--accent)' : 'var(--red)';
-  document.getElementById('cmp-ap-props').textContent = nprop + ' propiedad' + (nprop > 1 ? 'es' : '')
-    + (totalInjectedAp > 0 ? ' · inyectado: ' + fmtEur(totalInjectedAp) : '');
+  document.getElementById('cmp-ap-props').textContent = nprop + ' propert' + (nprop > 1 ? 'ies' : 'y')
+    + (totalInjectedAp > 0 ? ' · injected: ' + fmtEur(totalInjectedAp) : '');
 
   // ---- Escenario 3: Solo inversión financiera ----
   // FI: invest initial capital from year 0, add each injection at mid-year (half-year return that year)
@@ -1962,22 +1962,22 @@ function recalcular() {
 
   document.getElementById('cmp-fi-neto').textContent = fmtEur(patrimonioFI);
   document.getElementById('cmp-fi-sub').textContent = totalInjectedAp > 0
-    ? 'mismo capital comprometido: ' + fmtEur(capitalComprometido)
-    : 'patrimonio neto a ' + horizon + ' años';
+    ? 'same committed capital: ' + fmtEur(capitalComprometido)
+    : 'net worth at ' + horizon + ' years';
   document.getElementById('cmp-fi-capital').textContent = fmtEur(capitalComprometido);
   document.getElementById('cmp-fi-valor').textContent = fmtEur(patrimonioFI);
-  document.getElementById('cmp-fi-cagr').textContent = fmtPct(cagrFI, 1) + ' / año';
+  document.getElementById('cmp-fi-cagr').textContent = fmtPct(cagrFI, 1) + ' / yr';
   document.getElementById('cmp-fi-cagr').style.color = cagrFI >= 0 ? 'var(--gold)' : 'var(--red)';
   document.getElementById('cagr-formula-fi').innerHTML =
-    cagrLine('Patrimonio final', fmtEur(patrimonioFI)) +
-    cagrLine('Capital comprometido', fmtEur(capitalComprometido)) +
-    cagrLine('Retorno neto anual', fmt(cashRetNet * 100, 2) + '%') +
-    cagrLine('Horizonte', horizon + ' años') +
+    cagrLine('Final wealth', fmtEur(patrimonioFI)) +
+    cagrLine('Committed capital', fmtEur(capitalComprometido)) +
+    cagrLine('Annual net return', fmt(cashRetNet * 100, 2) + '%') +
+    cagrLine('Horizon', horizon + ' years') +
     '<hr class="cf-divider">' +
-    cagrLine('Multiplicador (P/C)', '×' + fmt(multFI, 2)) +
+    cagrLine('Multiplier (W/C)', '×' + fmt(multFI, 2)) +
     '<div class="cf-formula-line">CAGR = retorno neto (tipo fijo compuesto)<br>' +
     '= ' + fmtEur(capitalComprometido) + ' × (1 + ' + fmt(cashRetNet*100,2) + '%)<sup>' + horizon + '</sup><br>' +
-    '= ' + fmtEur(patrimonioFI) + ' → ' + fmtPct(cagrFI, 2) + ' / año</div>';
+    '= ' + fmtEur(patrimonioFI) + ' → ' + fmtPct(cagrFI, 2) + ' / yr</div>';
   document.getElementById('cmp-fi-mult').textContent = '×' + fmt(multFI, 2);
   document.getElementById('cmp-fi-rendim').textContent = '+' + fmtEur(rendimAnualFI) + '/año';
   document.getElementById('cmp-fi-tipo').textContent = fmt(cashRet * 100, 2) + '% bruto · ' + fmt(cashRetNet * 100, 2) + '% neto';
@@ -1985,9 +1985,9 @@ function recalcular() {
   // Winner banner — pick best of 3
   document.getElementById('wb-horizon').textContent = horizon;
   const patrimonios = [
-    { name: 'Con apalancamiento', val: patrimonioNeto, color: 'var(--accent)' },
-    { name: 'Sin apalancamiento', val: patrimonioND,   color: 'var(--text-muted)' },
-    { name: 'Solo financiero',    val: patrimonioFI,   color: 'var(--gold)' },
+    { name: 'With leverage', val: patrimonioNeto, color: 'var(--accent)' },
+    { name: 'Without leverage', val: patrimonioND,   color: 'var(--text-muted)' },
+    { name: 'Financial only',    val: patrimonioFI,   color: 'var(--gold)' },
   ];
   patrimonios.sort((a, b) => b.val - a.val);
   const winner = patrimonios[0];
@@ -2004,11 +2004,11 @@ function recalcular() {
   document.getElementById('cb-ap').style.width = Math.max(0, cagr   / maxCagr * 100) + '%';
   document.getElementById('cb-nd').style.width = Math.max(0, cagrND / maxCagr * 100) + '%';
   document.getElementById('cb-fi').style.width = Math.max(0, cagrFI / maxCagr * 100) + '%';
-  document.getElementById('cbv-ap').textContent = fmtPct(cagr,   1) + ' / año';
+  document.getElementById('cbv-ap').textContent = fmtPct(cagr,   1) + ' / yr';
   document.getElementById('cbv-ap').style.color = cagr   >= 0 ? 'var(--accent)'     : 'var(--red)';
-  document.getElementById('cbv-nd').textContent = fmtPct(cagrND, 1) + ' / año';
+  document.getElementById('cbv-nd').textContent = fmtPct(cagrND, 1) + ' / yr';
   document.getElementById('cbv-nd').style.color = cagrND >= 0 ? 'var(--text-muted)' : 'var(--red)';
-  document.getElementById('cbv-fi').textContent = fmtPct(cagrFI, 1) + ' / año';
+  document.getElementById('cbv-fi').textContent = fmtPct(cagrFI, 1) + ' / yr';
   document.getElementById('cbv-fi').style.color = cagrFI >= 0 ? 'var(--gold)'       : 'var(--red)';
 
   // ---- YEAR BY YEAR TABLES (transposed: rows = metrics, cols = years) ----
@@ -2126,7 +2126,7 @@ function recalcular() {
     for (let yr = 1; yr <= horizon; yr++) {
       const td2 = document.createElement('td');
       td2.className = 'year-header';
-      td2.textContent = 'Año ' + yr;
+      td2.textContent = 'Year ' + yr;
       headRow.appendChild(td2);
     }
     const tdTot = document.createElement('td');
@@ -2218,116 +2218,116 @@ function recalcular() {
   const fmtCF = v => (v >= 0 ? '+' : '−') + fmtEur(Math.abs(v));
   const GREEN = 'var(--accent)', RED = 'var(--red)', GREY = '#888', BLUE = 'var(--blue)', GOLD = 'var(--gold)', TEXT = 'var(--text)';
 
-  const fmtN = v => new Intl.NumberFormat('es-ES', {maximumFractionDigits:0}).format(Math.round(v));
+  const fmtN = v => new Intl.NumberFormat('en-US', {maximumFractionDigits:0}).format(Math.round(v));
   const pct = v => (v*100).toFixed(2) + '%';
 
   buildTransposedTable(document.getElementById('table-ap'), [
     { label: 'CASH IN (total)',          color: GREEN, values: apRows.alqNeto.map((v,i) => v + apRows.cashRetNeto[i]), fmt: fmtIn, noSum: false, bold: true,
-      formula: 'Alquiler neto + Rendim. cash neto',
+      formula: 'Net rent + Net cash return',
       formulaFn: i => fmtN(apRows.alqNeto[i]) + ' + ' + fmtN(apRows.cashRetNeto[i]) + '\n= ' + fmtN(apRows.alqNeto[i]+apRows.cashRetNeto[i]) + ' €' },
-    { label: '  Alquiler bruto',         color: GREEN, values: apRows.alq, fmt: fmtIn, noSum: false,
-      formula: 'Valor inmuebles × Alquiler% × (1+CrecAlq%)^(año−1)',
+    { label: '  Gross rent',         color: GREEN, values: apRows.alq, fmt: fmtIn, noSum: false,
+      formula: 'Property value × Rental% × (1+RentGrowth%)^(year−1)',
       formulaFn: i => fmtN(totalActivos) + ' × ' + pct(alqPct) + ' × (1+' + pct(alqGrowth) + ')^' + i + '\n= ' + fmtN(apRows.alq[i]) + ' €' },
-    { label: '  › Costes + vacancia',    color: RED,   values: apRows.alqOpex, fmt: fmtOut, noSum: false,
-      formula: 'Alquiler bruto × Costes operativos%',
+    { label: '  › Costs + vacancy',    color: RED,   values: apRows.alqOpex, fmt: fmtOut, noSum: false,
+      formula: 'Gross rent × Operating costs%',
       formulaFn: i => fmtN(apRows.alq[i]) + ' × ' + pct(opexPct) + '\n= ' + fmtN(apRows.alqOpex[i]) + ' €' },
-    { label: '  › IRPF alquiler',        color: RED,   values: apRows.alqTaxRow, fmt: fmtOut, noSum: false,
-      formula: '(Alquiler bruto − Costes) × IRPF%',
+    { label: '  › Rental tax',        color: RED,   values: apRows.alqTaxRow, fmt: fmtOut, noSum: false,
+      formula: '(Gross rent − Costs) × Income tax%',
       formulaFn: i => '(' + fmtN(apRows.alq[i]) + ' − ' + fmtN(apRows.alqOpex[i]) + ') × ' + pct(alqTax) + '\n= ' + fmtN(apRows.alqTaxRow[i]) + ' €' },
-    { label: '  › Alquiler neto',        color: GREEN, values: apRows.alqNeto, fmt: fmtIn, noSum: false,
-      formula: 'Alquiler bruto × (1−Costes%) × (1−IRPF%)',
+    { label: '  › Net rent',        color: GREEN, values: apRows.alqNeto, fmt: fmtIn, noSum: false,
+      formula: 'Gross rent × (1−Costs%) × (1−Tax%)',
       formulaFn: i => fmtN(apRows.alq[i]) + ' × ' + (1-opexPct).toFixed(2) + ' × ' + (1-alqTax).toFixed(2) + '\n= ' + fmtN(apRows.alqNeto[i]) + ' €' },
-    { label: '  Rendim. cash bruto',     color: GOLD,  values: apRows.cashRetBruto, fmt: fmtIn, noSum: false,
-      formula: 'Cash pool (inicio año) × Retorno cash%',
+    { label: '  Gross cash return',     color: GOLD,  values: apRows.cashRetBruto, fmt: fmtIn, noSum: false,
+      formula: 'Cash pool (start of year) × Cash return%',
       formulaFn: i => fmtN(apRows.cashAcum[i] - apRows.cashRetNeto[i] - (apRows.alqNeto[i] - apRows.hip[i])) + ' × ' + pct(cashRet) + '\n= ' + fmtN(apRows.cashRetBruto[i]) + ' €' },
-    { label: '  › Impuestos rendim.',    color: RED,   values: apRows.taxCash, fmt: fmtOut, noSum: false,
-      formula: 'Rendim. bruto × Tipo impositivo%',
+    { label: '  › Return taxes',    color: RED,   values: apRows.taxCash, fmt: fmtOut, noSum: false,
+      formula: 'Gross return × Tax rate%',
       formulaFn: i => fmtN(apRows.cashRetBruto[i]) + ' × ' + pct(taxRate) + '\n= ' + fmtN(apRows.taxCash[i]) + ' €' },
-    { label: '  › Rendim. cash neto',    color: GOLD,  values: apRows.cashRetNeto, fmt: fmtIn, noSum: false,
-      formula: 'Rendim. bruto × (1−Tipo impositivo%)',
+    { label: '  › Net cash return',    color: GOLD,  values: apRows.cashRetNeto, fmt: fmtIn, noSum: false,
+      formula: 'Gross return × (1−Tax rate%)',
       formulaFn: i => fmtN(apRows.cashRetBruto[i]) + ' × ' + (1-taxRate).toFixed(2) + '\n= ' + fmtN(apRows.cashRetNeto[i]) + ' €' },
     { label: 'CASH OUT (total)',          color: RED,   values: apRows.hip, fmt: fmtOut, noSum: false, divider: true, bold: true,
-      formula: 'Cuota mensual × 12  [Deuda × r×(1+r)^n / ((1+r)^n−1), r=TIN/12]',
+      formula: 'Monthly payment × 12  [Debt × r×(1+r)^n / ((1+r)^n−1), r=rate/12]',
       formulaFn: i => fmtN(cuotaMes) + ' €/mes × 12\n= ' + fmtN(apRows.hip[i]) + ' €' },
-    { label: '  › Intereses (coste)',    color: RED,   values: apRows.int, fmt: fmtOut, noSum: false,
-      formula: 'Σ 12 meses: Deuda viva × (TIN/12)',
+    { label: '  › Interest (cost)',    color: RED,   values: apRows.int, fmt: fmtOut, noSum: false,
+      formula: 'Σ 12 months: Outstanding debt × (rate/12)',
       formulaFn: i => 'Deuda viva año ' + (i+1) + ' × ' + (hipTIN/12*100).toFixed(3) + '%/mes\n= ' + fmtN(apRows.int[i]) + ' €' },
-    { label: '  › Capital amortizado',   color: GREY,  values: apRows.cap, fmt: fmtNeutral, noSum: false,
-      formula: 'Σ 12 meses: Cuota − Intereses del mes',
+    { label: '  › Principal repaid',   color: GREY,  values: apRows.cap, fmt: fmtNeutral, noSum: false,
+      formula: 'Σ 12 months: Payment − Monthly interest',
       formulaFn: i => fmtN(apRows.hip[i]) + ' − ' + fmtN(apRows.int[i]) + '\n= ' + fmtN(apRows.cap[i]) + ' €' },
-    { label: '  › Inyección de capital', color: RED,   values: apRows.inject, fmt: v => v > 0 ? '−'+fmtEur(v)+' ⚠' : '0 €', noSum: false,
-      formula: 'Max(0, −Cash pool) — cuando alquiler neto < hipoteca y pool agotado',
-      formulaFn: i => apRows.inject[i] > 0 ? 'Déficit cubierto:\n' + fmtN(apRows.inject[i]) + ' €' : '0 € (pool suficiente)' },
-    { label: 'CF NETO ANUAL',            color: GREEN, values: apRows.cfNet, fmt: fmtCF, noSum: false, divider: true, bold: true, fmtTotal: v => fmtCF(v),
-      formula: 'Alquiler neto + Rendim. cash neto − Hipoteca anual',
+    { label: '  › Capital injection', color: RED,   values: apRows.inject, fmt: v => v > 0 ? '−'+fmtEur(v)+' ⚠' : '0 €', noSum: false,
+      formula: 'Max(0, −Cash pool) — when net rent < mortgage and pool exhausted',
+      formulaFn: i => apRows.inject[i] > 0 ? 'Deficit covered:\n' + fmtN(apRows.inject[i]) + ' €' : '0 € (pool suficiente)' },
+    { label: 'ANNUAL NET CF',            color: GREEN, values: apRows.cfNet, fmt: fmtCF, noSum: false, divider: true, bold: true, fmtTotal: v => fmtCF(v),
+      formula: 'Net rent + Net cash return − Annual mortgage',
       formulaFn: i => fmtN(apRows.alqNeto[i]) + ' + ' + fmtN(apRows.cashRetNeto[i]) + '\n− ' + fmtN(apRows.hip[i]) + '\n= ' + fmtN(apRows.cfNet[i]) + ' €' },
-    { label: 'CF acumulado',             color: GREEN, values: apRows.cfAcum, fmt: fmtCF, noSum: true, isTotal: true,
-      formula: 'Σ CF neto hasta este año',
+    { label: 'Cumul. CF',             color: GREEN, values: apRows.cfAcum, fmt: fmtCF, noSum: true, isTotal: true,
+      formula: 'Σ Net CF up to this year',
       formulaFn: i => 'Σ años 1→' + (i+1) + '\n= ' + fmtN(apRows.cfAcum[i]) + ' €' },
     { label: 'BALANCE',                  color: BLUE,  values: apRows.deudaViv, fmt: fmtNeutral, noSum: true, divider: true, bold: true },
-    { label: '  Deuda pendiente',        color: RED,   values: apRows.deudaViv, fmt: v => '−'+fmtEur(v), noSum: true, isTotal: true,
-      formula: 'Deuda × (1+r)^m − Cuota×((1+r)^m−1)/r',
+    { label: '  Outstanding debt',        color: RED,   values: apRows.deudaViv, fmt: v => '−'+fmtEur(v), noSum: true, isTotal: true,
+      formula: 'Debt × (1+r)^m − Payment×((1+r)^m−1)/r',
       formulaFn: i => 'Tras ' + ((i+1)*12) + ' meses\n= ' + fmtN(apRows.deudaViv[i]) + ' €' },
-    { label: '  Valor inmuebles',        color: TEXT,  values: apRows.inmVal, fmt: fmtNeutral, noSum: true, isTotal: true,
-      formula: 'Valor compra × (1+Revalorización%)^año',
+    { label: '  Property value',        color: TEXT,  values: apRows.inmVal, fmt: fmtNeutral, noSum: true, isTotal: true,
+      formula: 'Purchase value × (1+Appreciation%)^year',
       formulaFn: i => fmtN(totalActivos) + ' × (1+' + pct(revalor) + ')^' + (i+1) + '\n= ' + fmtN(apRows.inmVal[i]) + ' €' },
-    { label: '  Cash acumulado (neto)',  color: GOLD,  values: apRows.cashAcum, fmt: fmtNeutral, noSum: true, isTotal: true,
-      formula: 'Pool ant. × (1+RetNet%) + AlqNeto − Hipoteca  [si <0 → inyección]',
+    { label: '  Accum. cash (net)',  color: GOLD,  values: apRows.cashAcum, fmt: fmtNeutral, noSum: true, isTotal: true,
+      formula: 'Prev pool × (1+NetRet%) + NetRent − Mortgage  [if <0 → injection]',
       formulaFn: i => fmtN(apRows.cashAcum[i]) + ' €' },
-    { label: 'PATRIMONIO NETO',          color: BLUE,  values: apRows.patrim, fmt: fmtNeutral, noSum: true, isTotal: true, totalRow: true,
-      formula: 'Valor inmuebles − Deuda pendiente + Cash acumulado',
+    { label: 'NET WORTH',          color: BLUE,  values: apRows.patrim, fmt: fmtNeutral, noSum: true, isTotal: true, totalRow: true,
+      formula: 'Property value − Outstanding debt + Accum. cash',
       formulaFn: i => fmtN(apRows.inmVal[i]) + ' − ' + fmtN(apRows.deudaViv[i]) + '\n+ ' + fmtN(apRows.cashAcum[i]) + '\n= ' + fmtN(apRows.patrim[i]) + ' €' },
   ], horizon);
 
   buildTransposedTable(document.getElementById('table-nd'), [
     { label: 'CASH IN (total)',          color: GREEN, values: ndRows.alqNeto.map((v,i) => v + ndRows.cashRetNeto[i] + (ndRows.inject[i]||0)), fmt: fmtIn, noSum: false, bold: true,
-      formula: 'Alquiler neto + Rendim. cash neto + Capital extra',
+      formula: 'Net rent + Net cash return + Extra capital',
       formulaFn: i => fmtN(ndRows.alqNeto[i]) + ' + ' + fmtN(ndRows.cashRetNeto[i]) + (ndRows.inject[i]>0 ? ' + ' + fmtN(ndRows.inject[i]) : '') + '\n= ' + fmtN(ndRows.alqNeto[i]+ndRows.cashRetNeto[i]+(ndRows.inject[i]||0)) + ' €' },
-    { label: '  Alquiler bruto',         color: GREEN, values: ndRows.alq, fmt: fmtIn, noSum: false,
-      formula: 'Valor casa × Alquiler% × (1+CrecAlq%)^(año−1)',
+    { label: '  Gross rent',         color: GREEN, values: ndRows.alq, fmt: fmtIn, noSum: false,
+      formula: 'House value × Rental% × (1+RentGrowth%)^(year−1)',
       formulaFn: i => fmtN(casaND) + ' × ' + pct(alqPct) + ' × (1+' + pct(alqGrowth) + ')^' + i + '\n= ' + fmtN(ndRows.alq[i]) + ' €' },
-    { label: '  › Costes + vacancia',    color: RED,   values: ndRows.alqOpex, fmt: fmtOut, noSum: false,
-      formula: 'Alquiler bruto × Costes operativos%',
+    { label: '  › Costs + vacancy',    color: RED,   values: ndRows.alqOpex, fmt: fmtOut, noSum: false,
+      formula: 'Gross rent × Operating costs%',
       formulaFn: i => fmtN(ndRows.alq[i]) + ' × ' + pct(opexPct) + '\n= ' + fmtN(ndRows.alqOpex[i]) + ' €' },
-    { label: '  › IRPF alquiler',        color: RED,   values: ndRows.alqTaxRow, fmt: fmtOut, noSum: false,
-      formula: '(Alquiler bruto − Costes) × IRPF%',
+    { label: '  › Rental tax',        color: RED,   values: ndRows.alqTaxRow, fmt: fmtOut, noSum: false,
+      formula: '(Gross rent − Costs) × Income tax%',
       formulaFn: i => '(' + fmtN(ndRows.alq[i]) + ' − ' + fmtN(ndRows.alqOpex[i]) + ') × ' + pct(alqTax) + '\n= ' + fmtN(ndRows.alqTaxRow[i]) + ' €' },
-    { label: '  › Alquiler neto',        color: GREEN, values: ndRows.alqNeto, fmt: fmtIn, noSum: false,
-      formula: 'Alquiler bruto × (1−Costes%) × (1−IRPF%)',
+    { label: '  › Net rent',        color: GREEN, values: ndRows.alqNeto, fmt: fmtIn, noSum: false,
+      formula: 'Gross rent × (1−Costs%) × (1−Tax%)',
       formulaFn: i => fmtN(ndRows.alq[i]) + ' × ' + (1-opexPct).toFixed(2) + ' × ' + (1-alqTax).toFixed(2) + '\n= ' + fmtN(ndRows.alqNeto[i]) + ' €' },
-    { label: '  Rendim. cash bruto',     color: GOLD,  values: ndRows.cashRetBruto, fmt: fmtIn, noSum: false,
-      formula: 'Cash pool (inicio año) × Retorno cash%',
+    { label: '  Gross cash return',     color: GOLD,  values: ndRows.cashRetBruto, fmt: fmtIn, noSum: false,
+      formula: 'Cash pool (start of year) × Cash return%',
       formulaFn: i => fmtN(ndRows.cashRetBruto[i] / cashRet) + ' × ' + pct(cashRet) + '\n= ' + fmtN(ndRows.cashRetBruto[i]) + ' €' },
-    { label: '  › Impuestos rendim.',    color: RED,   values: ndRows.taxCash, fmt: fmtOut, noSum: false,
-      formula: 'Rendim. bruto × Tipo impositivo%',
+    { label: '  › Return taxes',    color: RED,   values: ndRows.taxCash, fmt: fmtOut, noSum: false,
+      formula: 'Gross return × Tax rate%',
       formulaFn: i => fmtN(ndRows.cashRetBruto[i]) + ' × ' + pct(taxRate) + '\n= ' + fmtN(ndRows.taxCash[i]) + ' €' },
-    { label: '  › Rendim. cash neto',    color: GOLD,  values: ndRows.cashRetNeto, fmt: fmtIn, noSum: false,
-      formula: 'Rendim. bruto × (1−Tipo impositivo%)',
+    { label: '  › Net cash return',    color: GOLD,  values: ndRows.cashRetNeto, fmt: fmtIn, noSum: false,
+      formula: 'Gross return × (1−Tax rate%)',
       formulaFn: i => fmtN(ndRows.cashRetBruto[i]) + ' × ' + (1-taxRate).toFixed(2) + '\n= ' + fmtN(ndRows.cashRetNeto[i]) + ' €' },
-    { label: '  + Capital extra (AP→ND)',color: BLUE,  values: ndRows.inject, fmt: v => v > 0 ? '+'+fmtEur(v)+' ↓' : '—', noSum: false,
-      formula: 'Inyección del escenario AP ese año. Llega a mitad de año → RetNet%×0.5 ese año.',
+    { label: '  + Extra capital (AP→ND)',color: BLUE,  values: ndRows.inject, fmt: v => v > 0 ? '+'+fmtEur(v)+' ↓' : '—', noSum: false,
+      formula: 'Injection from AP scenario that year. Arrives mid-year → NetRet%×0.5 that year.',
       formulaFn: i => ndRows.inject[i] > 0 ? fmtN(ndRows.inject[i]) + ' × (1 + ' + pct(cashRetNet) + '×0.5)\n= ' + fmtN(ndRows.inject[i]*(1+cashRetNet*0.5)) + ' €' : '—' },
     { label: 'CASH OUT (total)',          color: RED,   values: Array(horizon).fill(0), fmt: () => '0 €', noSum: true, divider: true, bold: true,
-      formula: 'Sin hipoteca — no hay pagos obligatorios' },
-    { label: '  Hipoteca',               color: GREY,  values: Array(horizon).fill(0), fmt: () => '0 €', noSum: true,
-      formula: 'Casa comprada al contado → 0 €' },
-    { label: 'CF NETO ANUAL',            color: GREEN, values: ndRows.cfNet, fmt: fmtCF, noSum: false, divider: true, bold: true, fmtTotal: v => fmtCF(v),
-      formula: 'Alquiler neto + Rendim. cash neto + Capital extra',
+      formula: 'No mortgage — no mandatory payments' },
+    { label: '  Mortgage',               color: GREY,  values: Array(horizon).fill(0), fmt: () => '0 €', noSum: true,
+      formula: 'House bought outright → €0' },
+    { label: 'ANNUAL NET CF',            color: GREEN, values: ndRows.cfNet, fmt: fmtCF, noSum: false, divider: true, bold: true, fmtTotal: v => fmtCF(v),
+      formula: 'Net rent + Net cash return + Extra capital',
       formulaFn: i => fmtN(ndRows.alqNeto[i]) + ' + ' + fmtN(ndRows.cashRetNeto[i]) + (ndRows.inject[i]>0?' + '+fmtN(ndRows.inject[i]):'') + '\n= ' + fmtN(ndRows.cfNet[i]) + ' €' },
-    { label: 'CF acumulado',             color: GREEN, values: ndRows.cfAcum, fmt: fmtCF, noSum: true, isTotal: true,
-      formula: 'Σ CF neto hasta este año',
+    { label: 'Cumul. CF',             color: GREEN, values: ndRows.cfAcum, fmt: fmtCF, noSum: true, isTotal: true,
+      formula: 'Σ Net CF up to this year',
       formulaFn: i => 'Σ años 1→' + (i+1) + '\n= ' + fmtN(ndRows.cfAcum[i]) + ' €' },
     { label: 'BALANCE',                  color: BLUE,  values: ndRows.casaVal, fmt: fmtNeutral, noSum: true, divider: true, bold: true },
-    { label: '  Deuda pendiente',        color: GREY,  values: Array(horizon).fill(0), fmt: () => '0 €', noSum: true,
-      formula: 'Sin deuda → 0 €' },
-    { label: '  Valor casa',             color: TEXT,  values: ndRows.casaVal, fmt: fmtNeutral, noSum: true, isTotal: true,
-      formula: 'Valor compra × (1+Revalorización%)^año',
+    { label: '  Outstanding debt',        color: GREY,  values: Array(horizon).fill(0), fmt: () => '0 €', noSum: true,
+      formula: 'No debt → €0' },
+    { label: '  House value',             color: TEXT,  values: ndRows.casaVal, fmt: fmtNeutral, noSum: true, isTotal: true,
+      formula: 'Purchase value × (1+Appreciation%)^year',
       formulaFn: i => fmtN(casaND) + ' × (1+' + pct(revalor) + ')^' + (i+1) + '\n= ' + fmtN(ndRows.casaVal[i]) + ' €' },
-    { label: '  Cash acumulado (neto)',  color: GOLD,  values: ndRows.cashAcum, fmt: fmtNeutral, noSum: true, isTotal: true,
-      formula: 'Pool ant. × (1+RetNet%) + AlqNeto + CapitalExtra×(1+RetNet%×0.5)',
+    { label: '  Accum. cash (net)',  color: GOLD,  values: ndRows.cashAcum, fmt: fmtNeutral, noSum: true, isTotal: true,
+      formula: 'Prev pool × (1+NetRet%) + NetRent + ExtraCapital×(1+NetRet%×0.5)',
       formulaFn: i => fmtN(ndRows.cashAcum[i]) + ' €' },
-    { label: 'PATRIMONIO NETO',          color: BLUE,  values: ndRows.patrim, fmt: fmtNeutral, noSum: true, isTotal: true, totalRow: true,
-      formula: 'Valor casa + Cash acumulado',
+    { label: 'NET WORTH',          color: BLUE,  values: ndRows.patrim, fmt: fmtNeutral, noSum: true, isTotal: true, totalRow: true,
+      formula: 'House value + Accum. cash',
       formulaFn: i => fmtN(ndRows.casaVal[i]) + ' + ' + fmtN(ndRows.cashAcum[i]) + '\n= ' + fmtN(ndRows.patrim[i]) + ' €' },
   ], horizon);
 }
@@ -2400,7 +2400,7 @@ function computeScore(vars) {
     const alqBruto = totalActivos * alqPct * Math.pow(1 + alqGrowth, yr - 1);  // fix 1
     cfAcum += alqBruto * (1 - opexPct) * (1 - alqTax) - cuotaMes * 12;
   }
-  const fmt2 = v => new Intl.NumberFormat('es-ES').format(Math.round(v));
+  const fmt2 = v => new Intl.NumberFormat('en-US').format(Math.round(v));
   if (optMetric === 'cagr')       return { score: cagr,          label: cagr.toFixed(2) + '% CAGR' };
   if (optMetric === 'patrimonio') return { score: patrimonioNeto, label: fmt2(patrimonioNeto) + ' €' };
   if (optMetric === 'spread')     return { score: spread,         label: spread.toFixed(2) + '% spread' };
@@ -2446,7 +2446,7 @@ function runOptimizer() {
   const btn = document.getElementById('opt-run-btn');
   const status = document.getElementById('opt-status');
   btn.disabled = true;
-  document.getElementById('opt-btn-text').textContent = '⏳ Calculando...';
+  document.getElementById('opt-btn-text').textContent = '⏳ Calculating...';
   status.textContent = '';
 
   const free = {
@@ -2536,9 +2536,9 @@ function runOptimizer() {
 
     optTopResults = top5;
     renderOptResults(top5, fixed, free);
-    status.textContent = GA_POP + ' individuos × ' + GA_GENS + ' generaciones = ' + (GA_POP * GA_GENS).toLocaleString('es-ES') + ' evaluaciones';
+    status.textContent = GA_POP + ' individuos × ' + GA_GENS + ' generaciones = ' + (GA_POP * GA_GENS).toLocaleString('en-US') + ' evaluations';
     btn.disabled = false;
-    document.getElementById('opt-btn-text').textContent = '▶ Volver a ejecutar';
+    document.getElementById('opt-btn-text').textContent = '▶ Run again';
   }, 50);
 }
 
@@ -2547,18 +2547,18 @@ function renderOptResults(top5, fixed, free) {
   container.innerHTML = '';
 
   const varLabels = {
-    nprop:'Nº prop.', equity:'Equity', vprop:'Valor/prop',
-    revalor:'Revalor.', alquiler:'Alquiler', alqgrowth:'Crec.alq',
-    opex:'Costes op.', hipoteca:'TIN', plazo:'Plazo',
-    cashreturn:'Retorno cash', horizon:'Horizonte'
+    nprop:'No. props.', equity:'Equity', vprop:'Valor/prop',
+    revalor:'Appreciat.', alquiler:'Rental', alqgrowth:'Rent growth',
+    opex:'Op. costs', hipoteca:'Rate', plazo:'Term',
+    cashreturn:'Cash return', horizon:'Horizonte'
   };
   const varFmt = {
     nprop: v => Math.round(v), equity: v => v.toFixed(1)+'%',
-    vprop: v => new Intl.NumberFormat('es-ES').format(Math.round(v/1000))+'k€',
+    vprop: v => new Intl.NumberFormat('en-US').format(Math.round(v/1000))+'k€',
     revalor: v => v.toFixed(1)+'%', alquiler: v => v.toFixed(1)+'%',
     alqgrowth: v => v.toFixed(1)+'%', opex: v => v.toFixed(1)+'%',
-    hipoteca: v => v.toFixed(2)+'%', plazo: v => Math.round(v)+' años',
-    cashreturn: v => v.toFixed(1)+'%', horizon: v => Math.round(v)+' años'
+    hipoteca: v => v.toFixed(2)+'%', plazo: v => Math.round(v)+' yrs',
+    cashreturn: v => v.toFixed(1)+'%', horizon: v => Math.round(v)+' yrs'
   };
 
   top5.forEach((res, i) => {
@@ -2581,7 +2581,7 @@ function renderOptResults(top5, fixed, free) {
 
     const metricDiv = document.createElement('div');
     metricDiv.className = 'opt-result-metric';
-    const metricLabels = { cagr:'CAGR anual', patrimonio:'Patrimonio final', spread:'Spread', cf:'CF acumulado' };
+    const metricLabels = { cagr:'Annual CAGR', patrimonio:'Final net worth', spread:'Spread', cf:'Cumul. CF' };
     metricDiv.innerHTML =
       '<div class="opt-metric-val">' + res.label + '</div>' +
       '<div class="opt-metric-label">' + metricLabels[optMetric] + '</div>';
@@ -2589,7 +2589,7 @@ function renderOptResults(top5, fixed, free) {
     // Apply button — uses index into global optTopResults
     const applyBtn = document.createElement('button');
     applyBtn.className = 'opt-apply-btn';
-    applyBtn.textContent = 'Aplicar →';
+    applyBtn.textContent = 'Apply →';
     applyBtn.onclick = () => applyOptResult(i);
     metricDiv.appendChild(applyBtn);
 
@@ -2622,17 +2622,17 @@ function applyOptResult(idx) {
 
 // ---- SCENARIO ANALYSIS ----
 const SA_VARS = [
-  { key:'nprop',      label:'Nº propiedades',      unit:'',   slider:'r-nprop',      min:1,    max:6,    step:1,    isInt:true  },
+  { key:'nprop',      label:'No. properties',      unit:'',   slider:'r-nprop',      min:1,    max:6,    step:1,    isInt:true  },
   { key:'equity',     label:'Equity %',             unit:'%',  slider:'r-equity',     min:10,   max:80,   step:5     },
-  { key:'vprop',      label:'Valor/propiedad',      unit:'€',  slider:'r-vprop',      min:100000,max:3000000,step:100000 },
-  { key:'revalor',    label:'Revalorización %',     unit:'%',  slider:'r-revalor',    min:0,    max:10,   step:0.5   },
-  { key:'alquiler',   label:'Alquiler bruto %',     unit:'%',  slider:'r-alquiler',   min:0,    max:12,   step:0.5   },
-  { key:'alqgrowth',  label:'Crec. alquiler %',     unit:'%',  slider:'r-alqgrowth',  min:0,    max:8,    step:0.5   },
-  { key:'opex',       label:'Costes operativos %',  unit:'%',  slider:'r-opex',       min:0,    max:50,   step:5     },
-  { key:'hipoteca',   label:'TIN hipoteca %',       unit:'%',  slider:'r-hipoteca',   min:1.5,  max:6,    step:0.25  },
-  { key:'plazo',      label:'Plazo hipoteca',        unit:' años',slider:'r-plazo',   min:5,    max:30,   step:1,    isInt:true  },
-  { key:'cashreturn', label:'Retorno cash %',        unit:'%',  slider:'r-cashreturn', min:0,    max:20,   step:0.5   },
-  { key:'horizon',    label:'Horizonte',             unit:' años',slider:'r-horizon', min:1,    max:30,   step:1,    isInt:true  },
+  { key:'vprop',      label:'Value/property',      unit:'€',  slider:'r-vprop',      min:100000,max:3000000,step:100000 },
+  { key:'revalor',    label:'Appreciation %',     unit:'%',  slider:'r-revalor',    min:0,    max:10,   step:0.5   },
+  { key:'alquiler',   label:'Gross rental %',     unit:'%',  slider:'r-alquiler',   min:0,    max:12,   step:0.5   },
+  { key:'alqgrowth',  label:'Rental growth %',     unit:'%',  slider:'r-alqgrowth',  min:0,    max:8,    step:0.5   },
+  { key:'opex',       label:'Operating costs %',  unit:'%',  slider:'r-opex',       min:0,    max:50,   step:5     },
+  { key:'hipoteca',   label:'Mortgage rate %',       unit:'%',  slider:'r-hipoteca',   min:1.5,  max:6,    step:0.25  },
+  { key:'plazo',      label:'Mortgage term',        unit:' yrs',slider:'r-plazo',   min:5,    max:30,   step:1,    isInt:true  },
+  { key:'cashreturn', label:'Cash return %',        unit:'%',  slider:'r-cashreturn', min:0,    max:20,   step:0.5   },
+  { key:'horizon',    label:'Horizon',             unit:' yrs',slider:'r-horizon', min:1,    max:30,   step:1,    isInt:true  },
 ];
 
 let saSelectedX = null;
@@ -2757,7 +2757,7 @@ function getBaseVars() {
 }
 
 function runScenario() {
-  if (!saSelectedX) { alert('Selecciona al menos una variable para el eje X.'); return; }
+  if (!saSelectedX) { alert('Please select at least one variable for the X axis.'); return; }
   const vx = SA_VARS.find(v => v.key === saSelectedX);
   const vy = saSelectedY ? SA_VARS.find(v => v.key === saSelectedY) : null;
 
@@ -2784,7 +2784,7 @@ function runScenario() {
   }));
 
   document.getElementById('sa-status').textContent =
-    (xsteps * yvals.length) + ' combinaciones calculadas';
+    (xsteps * yvals.length) + ' combinations calculated';
   renderScenarioResults(xvals, yvals, matrix, vx, vy);
 }
 
@@ -2831,7 +2831,7 @@ function renderScenarioResults(xvals, yvals, matrix, vx, vy) {
     }).join(' · ');
   const snapshotEl = document.createElement('div');
   snapshotEl.style.cssText = 'font-size:10px;font-family:"DM Mono",monospace;color:var(--text-dim);margin-bottom:1rem;line-height:1.6;';
-  snapshotEl.textContent = 'Fijos: ' + snapshotParts + ' ...';
+  snapshotEl.textContent = 'Fixed: ' + snapshotParts + ' ...';
   card.appendChild(snapshotEl);
 
   // Content container
@@ -2845,7 +2845,7 @@ function renderScenarioResults(xvals, yvals, matrix, vx, vy) {
 
   const fmtV = v => (v >= 0 ? '+' : '') + v.toFixed(1) + '%';
   const fmtAxis = (v, unit) => unit === '%' ? v.toFixed(1) + '%' : unit === '€'
-    ? new Intl.NumberFormat('es-ES', {maximumFractionDigits:0}).format(v) + '€'
+    ? new Intl.NumberFormat('en-US', {maximumFractionDigits:0}).format(v) + '€'
     : v + (unit || '');
 
   if (!vy || yvals[0] === null) {
@@ -2853,7 +2853,7 @@ function renderScenarioResults(xvals, yvals, matrix, vx, vy) {
     const title = document.createElement('div');
     title.className = 'card-title';
     title.style.marginBottom = '1rem';
-    title.textContent = '// CAGR según ' + vx.label;
+    title.textContent = '// CAGR by ' + vx.label;
     container.appendChild(title);
 
     const maxAbs = Math.max(...matrix[0].map(Math.abs), 0.1);
@@ -2962,19 +2962,19 @@ function renderScenarioResults(xvals, yvals, matrix, vx, vy) {
   const legendColors = document.createElement('div');
   legendColors.style.cssText = 'display:flex;gap:12px;flex-wrap:wrap;align-items:center;';
   legendColors.innerHTML =
-    '<span class="sa-legend-swatch" style="background:rgb(192,57,43)"></span> CAGR mín: <strong>' + fmtV(minV) + '</strong>' +
-    '&nbsp;&nbsp;<span class="sa-legend-swatch" style="background:rgb(110,90,51)"></span> Medio: <strong>' + fmtV((minV+maxV)/2) + '</strong>' +
-    '&nbsp;&nbsp;<span class="sa-legend-swatch" style="background:rgb(26,122,60)"></span> CAGR máx: <strong>' + fmtV(maxV) + '</strong>' +
-    '&nbsp;&nbsp;<span style="color:var(--accent);font-weight:700;">Δ rango: ' + fmtV(maxV - minV) + '</span>';
+    '<span class="sa-legend-swatch" style="background:rgb(192,57,43)"></span> Min CAGR: <strong>' + fmtV(minV) + '</strong>' +
+    '&nbsp;&nbsp;<span class="sa-legend-swatch" style="background:rgb(110,90,51)"></span> Mid: <strong>' + fmtV((minV+maxV)/2) + '</strong>' +
+    '&nbsp;&nbsp;<span class="sa-legend-swatch" style="background:rgb(26,122,60)"></span> Max CAGR: <strong>' + fmtV(maxV) + '</strong>' +
+    '&nbsp;&nbsp;<span style="color:var(--accent);font-weight:700;">Δ range: ' + fmtV(maxV - minV) + '</span>';
 
   const legendDesc = document.createElement('div');
   legendDesc.style.cssText = 'font-size:10px;color:var(--text-dim);line-height:1.6;font-family:"DM Mono",monospace;border-top:1px solid var(--border);padding-top:6px;margin-top:2px;';
   legendDesc.innerHTML =
-    '<strong style="color:var(--text-muted)">Cómo se calcula cada celda:</strong> ' +
-    'Para cada combinación (' + vx.label + ', ' + (vy ? vy.label : '—') + ') se ejecuta el modelo completo — ' +
-    'hipoteca sistema francés, flujos anuales de alquiler neto, rendimiento del cash, inyecciones de capital y patrimonio final. ' +
-    'El CAGR = (Patrimonio final / Capital comprometido)^(1/horizonte) − 1. ' +
-    'Resto de variables fijas: valores actuales de los sliders.';
+    '<strong style="color:var(--text-muted)">How each cell is calculated:</strong> ' +
+    'For each combination (' + vx.label + ', ' + (vy ? vy.label : '—') + ') the full model is run — ' +
+    'French amortization mortgage, annual net rental flows, cash return, capital injections and final net worth. ' +
+    'CAGR = (Final wealth / Committed capital)^(1/horizon) − 1. ' +
+    'Remaining variables fixed: current slider values.';
 
   legend.appendChild(legendColors);
   legend.appendChild(legendDesc);
